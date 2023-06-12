@@ -1,0 +1,94 @@
+<script lang="ts" setup>
+import type { FormInstance, FormRules } from 'element-plus'
+import { ElMessage } from 'element-plus'
+import api from '@/api'
+
+const props = defineProps({
+  id: {
+    type: [Number, String],
+    default: '',
+  },
+})
+
+const loading = ref(false)
+const formRef = ref<FormInstance>()
+const form = ref({
+  id: props.id,
+  title: '',
+})
+const formRules = ref<FormRules>({
+  title: [
+    { required: true, message: '请输入标题', trigger: 'blur' },
+  ],
+})
+
+onMounted(() => {
+  if (form.value.id !== '') {
+    getInfo()
+  }
+})
+
+function getInfo() {
+  loading.value = true
+  api.get('{{#if relativePath}}{{ relativePath }}/{{/if}}{{ snakeCase moduleName }}/detail', {
+    baseURL: '/mock/',
+    params: {
+      id: form.value.id,
+    },
+  }).then((res: any) => {
+    loading.value = false
+    form.value.title = res.data.title
+  })
+}
+
+defineExpose({
+  submit() {
+    return new Promise<void>((resolve) => {
+      if (form.value.id === '') {
+        formRef.value && formRef.value.validate((valid) => {
+          if (valid) {
+            api.post('{{#if relativePath}}{{ relativePath }}/{{/if}}{{ snakeCase moduleName }}/create', form.value, {
+              baseURL: '/mock/',
+            }).then(() => {
+              ElMessage.success({
+                message: '模拟新增成功',
+                center: true,
+              })
+              resolve()
+            })
+          }
+        })
+      }
+      else {
+        formRef.value && formRef.value.validate((valid) => {
+          if (valid) {
+            api.post('{{#if relativePath}}{{ relativePath }}/{{/if}}{{ snakeCase moduleName }}/edit', form.value, {
+              baseURL: '/mock/',
+            }).then(() => {
+              ElMessage.success({
+                message: '模拟编辑成功',
+                center: true,
+              })
+              resolve()
+            })
+          }
+        })
+      }
+    })
+  },
+})
+</script>
+
+<template>
+  <div v-loading="loading">
+    <el-form ref="formRef" :model="form" :rules="formRules" label-width="120px" label-suffix="：">
+      <el-form-item label="标题" prop="title">
+        <el-input v-model="form.title" placeholder="请输入标题" />
+      </el-form-item>
+    </el-form>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+// scss
+</style>

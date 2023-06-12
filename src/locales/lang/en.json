@@ -1,0 +1,47 @@
+{
+  "app": {
+    "account": "account",
+    "captcha": "captcha",
+    "check": "Submit",
+    "goLogin": "go login",
+    "login": "Login",
+    "logout": "Logout",
+    "newPassword": "new password",
+    "password": "password",
+    "profile": "Profile",
+    "hotkeys": "Hotkeys Introduction",
+    "sendCaptcha": "send captcha",
+    "search": {
+      "type": {
+        "menu": "Search menus",
+        "tab": "Search tabs"
+      },
+      "input": "Search page, support title, URL fuzzy query",
+      "alt_s": "Wake up search panel",
+      "up_down": "Switch search results",
+      "enter": "Visit page",
+      "esc": "Exit"
+    },
+    "tabbar": {
+      "reload": "Reload",
+      "close": "Close",
+      "pin": "Pin",
+      "unpin": "Unpin",
+      "maximize": "Maximize",
+      "searchTabs": "Search Tabs",
+      "closeOtherSide": "Close Otherside Tabs",
+      "closeLeftSide": "Close Leftside Tabs",
+      "closeRightSide": "Close Rightside Tabs"
+    }
+  },
+  "route": {
+    "undefined": "[ No title ]",
+    "home": "Home",
+    "login": "Login",
+    "personal": {
+      "editpassword": "Edit Password",
+      "setting": "Personal Setting",
+      "notification": "Notification"
+    }
+  }
+}

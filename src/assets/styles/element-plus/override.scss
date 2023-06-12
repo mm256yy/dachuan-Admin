@@ -1,0 +1,45 @@
+@use "./override.system.scss";
+
+// 列表页全局样式
+.el-table.list-table {
+  margin: 20px 0;
+
+  .el-button + .el-dropdown {
+    margin-left: 10px;
+  }
+}
+
+.el-dialog {
+  border-radius: 10px;
+
+  .el-dialog__header {
+    padding: var(--el-dialog-padding-primary);
+    padding-bottom: 16px;
+    border-bottom: 1px solid #e8eaec;
+    margin-right: 0;
+  }
+}
+
+.el-dialog__body{
+  padding: 10px 20px 10px 0;
+}
+
+.el-dialog__footer {
+  text-align: center;
+  border-top: 1px solid #e8eaec;
+}
+
+ .el-form-item__label {
+  margin-bottom: 8px;
+  line-height: 22px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #333;
+}
+
+.el-form-item--default .el-form-item__content {
+  line-height: 32px;
+  width: 60%;
+}
+
+
