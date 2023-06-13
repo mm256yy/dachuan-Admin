@@ -199,6 +199,7 @@ meta:
                 filterable
                 placeholder="选择模板"
               >
+                <el-option :key="0" label="默认" :value="0" />
                 <el-option
                   v-for="item in templateList"
                   :key="item.id"
@@ -241,11 +242,11 @@ meta:
               />
             </el-form-item>
 
-            <el-form-item label="商品重量(克)" prop="goodsWeight">
+            <el-form-item label="商品重量(kg)" prop="goodsWeight">
               <el-input
                 style="width: 240px"
                 v-model="form.goodsWeight"
-                placeholder="商品重量(克)"
+                placeholder="商品重量kg)"
                 type="number"
                 class="input-with-select"
               >
@@ -597,7 +598,7 @@ const form: any = ref({
   memberPrice: "",
   packingFee: "",
   businessName: "",
-  expressfeeTemplateId: "",
+  expressfeeTemplateId: 0,
 });
 const formRef = ref();
 const formRules = ref({

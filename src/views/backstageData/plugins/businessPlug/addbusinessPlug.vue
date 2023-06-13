@@ -19,57 +19,105 @@
           <el-scrollbar height="65vh">
             <el-form-item label="店铺名字" prop="businessName">
               <el-input
-                style="width: 650px;"
+                style="width: 650px"
                 v-model="info.businessName"
                 placeholder="请输入"
                 clearable
               />
             </el-form-item>
 
-            <el-form-item label="店铺logo" prop=""
-              >
-
-
-                <img v-if="imageUrl" style="width:60px;height: 60px;border-radius: 8px;border: 1px solid #eee;" :src="imageUrl" class="avatar" @click="upload_image('imageUrl')"/>
-                <el-icon  style="width:60px;height: 60px;border-radius: 8px;border: 1px solid #eee;" @click="upload_image('imageUrl')" v-else class="avatar-uploader-icon"><Plus /></el-icon>
+            <el-form-item label="店铺logo" prop="">
+              <img
+                v-if="imageUrl"
+                style="
+                  width: 60px;
+                  height: 60px;
+                  border-radius: 8px;
+                  border: 1px solid #eee;
+                "
+                :src="imageUrl"
+                class="avatar"
+                @click="upload_image('imageUrl')"
+              />
+              <el-icon
+                style="
+                  width: 60px;
+                  height: 60px;
+                  border-radius: 8px;
+                  border: 1px solid #eee;
+                "
+                @click="upload_image('imageUrl')"
+                v-else
+                class="avatar-uploader-icon"
+                ><Plus
+              /></el-icon>
               <!-- </el-upload> -->
             </el-form-item>
             <el-form-item label="店铺详情轮播图" prop="rotationImgsJson">
-              <div style="display:flex;flex-direction: column">
-                <div style="display: flex; ">
-                <el-alert
-                  title="双击图片进行删除！"
-                  style="height: 30px; margin-bottom: 5px; width: 400px"
-                  type="success"
-                  show-icon
-                />
+              <div style="display: flex; flex-direction: column">
+                <div style="display: flex">
+                  <el-alert
+                    title="双击图片进行删除！"
+                    style="height: 30px; margin-bottom: 5px; width: 400px"
+                    type="success"
+                    show-icon
+                  />
+                </div>
+                <div style="display: flex">
+                  <el-icon
+                    @click="upload_image('imageUrl2')"
+                    class="avatar-uploader-icon"
+                    style="border: 1px solid #eee; border-radius: 8px"
+                    ><Plus
+                  /></el-icon>
+                  <img
+                    style="
+                      width: 60px;
+                      height: 60px;
+                      margin-right: 10px;
+                      border: 1px solid #eee;
+                      border-radius: 8px;
+                    "
+                    v-if="imageUrl2"
+                    v-for="(item, index) in imageUrl2"
+                    @dblclick="delimg(index)"
+                    :src="item"
+                    class="avatar"
+                  />
+                </div>
               </div>
-              <div style="display: flex">
-                <el-icon @click="upload_image('imageUrl2')" class="avatar-uploader-icon" style="border:1px solid #eee;border-radius:8px"><Plus /></el-icon>
-                <img
-                  style="width: 60px; height: 60px; margin-right: 10px;border:1px solid #eee;border-radius:8px"
-                  v-if="imageUrl2"
-                  v-for="(item, index) in imageUrl2"
-                  @dblclick="delimg(index)"
-                  :src="item"
-                  class="avatar"
-                />
-
-              </div>
-              </div>
-
             </el-form-item>
 
-            <el-form-item label="店铺微信" prop=""
-              >
-
-                <img style="width:60px;height: 60px;border-radius: 8px;border: 1px solid #eee;"  @click="upload_image('imageUrl3')" v-if="imageUrl3" :src="imageUrl3" class="avatar" />
-                <el-icon style="width:60px;height: 60px;border-radius: 8px;border: 1px solid #eee;"  @click="upload_image('imageUrl3')" v-else class="avatar-uploader-icon"><Plus /></el-icon>
+            <el-form-item label="店铺微信" prop="">
+              <img
+                style="
+                  width: 60px;
+                  height: 60px;
+                  border-radius: 8px;
+                  border: 1px solid #eee;
+                "
+                @click="upload_image('imageUrl3')"
+                v-if="imageUrl3"
+                :src="imageUrl3"
+                class="avatar"
+              />
+              <el-icon
+                style="
+                  width: 60px;
+                  height: 60px;
+                  border-radius: 8px;
+                  border: 1px solid #eee;
+                "
+                @click="upload_image('imageUrl3')"
+                v-else
+                class="avatar-uploader-icon"
+                ><Plus
+              /></el-icon>
               <!-- </el-upload> -->
             </el-form-item>
             <el-form-item label="店铺手机" prop="businessMobile">
               <el-input
-              style="width: 650px;"
+                style="width: 650px"
                 v-model="info.businessMobile"
                 placeholder="请输入"
                 clearable
@@ -88,7 +136,7 @@
                 <el-input
                   v-model="info.businessAddress.address"
                   placeholder="请输入"
-                  style="width: 650px;"
+                  style="width: 650px"
                   clearable
                 />
                 <div style="margin-left: 10px">
@@ -104,7 +152,7 @@
                 placeholder="请输入"
                 disabled
                 clearable
-                style="width: 650px;"
+                style="width: 650px"
               />
             </el-form-item>
             <el-form-item label="经度" prop="">
@@ -113,7 +161,7 @@
                 placeholder="请输入"
                 disabled
                 clearable
-                style="width: 650px;"
+                style="width: 650px"
               />
             </el-form-item>
           </el-scrollbar>
@@ -245,7 +293,23 @@
               <el-input
                 v-model="info.shopExpressFee.allShopExpressFee"
                 placeholder="请输入"
-                style="width: 650px;"
+                style="width: 650px"
+                clearable
+              />
+            </el-form-item>
+            <el-form-item label="起送金额(元)" prop="">
+              <el-input
+                v-model="info.shopExpressFee.orderStartMoney"
+                placeholder="请输入"
+                style="width: 650px"
+                clearable
+              />
+            </el-form-item>
+            <el-form-item label="最大配送距离(米)" prop="">
+              <el-input
+                v-model="info.shopExpressFee.maxDeliveryDistance"
+                placeholder="请输入"
+                style="width: 650px"
                 clearable
               />
             </el-form-item>
@@ -254,7 +318,7 @@
                 v-model="info.shopExpressFee.packingFee"
                 placeholder="请输入"
                 clearable
-                style="width: 650px;"
+                style="width: 650px"
               />
             </el-form-item>
 
@@ -263,7 +327,7 @@
                 v-model="info.automaticReceiptDay"
                 placeholder="请输入"
                 clearable
-                style="width: 650px;"
+                style="width: 650px"
               />
             </el-form-item>
             <el-form-item label="订单结束退款天数" prop="">
@@ -271,7 +335,7 @@
                 v-model="info.refundInfo.applyRefundDay"
                 placeholder="请输入"
                 clearable
-                style="width: 650px;"
+                style="width: 650px"
               />
             </el-form-item>
             <el-form-item label="退款是否审核" prop="">
@@ -289,12 +353,34 @@
                 v-model="info.shareTitle"
                 placeholder="请输入"
                 clearable
-                style="width: 650px;"
+                style="width: 650px"
               />
             </el-form-item>
             <el-form-item label="分享图片" prop="">
-                <img style="width:60px;height: 60px;border-radius: 8px;border: 1px solid #eee;"  @click="upload_image('imageUrl1')" v-if="imageUrl1" :src="imageUrl1" class="avatar" />
-                <el-icon style="width:60px;height: 60px;border-radius: 8px;border: 1px solid #eee;" @click="upload_image('imageUrl1')" v-else class="avatar-uploader-icon"><Plus /></el-icon>
+              <img
+                style="
+                  width: 60px;
+                  height: 60px;
+                  border-radius: 8px;
+                  border: 1px solid #eee;
+                "
+                @click="upload_image('imageUrl1')"
+                v-if="imageUrl1"
+                :src="imageUrl1"
+                class="avatar"
+              />
+              <el-icon
+                style="
+                  width: 60px;
+                  height: 60px;
+                  border-radius: 8px;
+                  border: 1px solid #eee;
+                "
+                @click="upload_image('imageUrl1')"
+                v-else
+                class="avatar-uploader-icon"
+                ><Plus
+              /></el-icon>
               <!-- </el-upload> -->
             </el-form-item>
             <div
@@ -358,17 +444,17 @@
     </div>
 
     <dialogWindows
-          v-if="dialogPluginList.dialogVisible"
-          v-model="dialogPluginList.dialogVisible"
-          :title="dialogPluginList.title"
-          :width="dialogPluginList.width"
-          :button_title="dialogPluginList.button_title"
-          :height="dialogPluginList.heigth"
-          :dialogVisible="dialogPluginList.dialogVisible"
-          :close_title="dialogPluginList.close_title"
-          :data="dialogPluginList.data"
-          @success="Return"
-      />
+      v-if="dialogPluginList.dialogVisible"
+      v-model="dialogPluginList.dialogVisible"
+      :title="dialogPluginList.title"
+      :width="dialogPluginList.width"
+      :button_title="dialogPluginList.button_title"
+      :height="dialogPluginList.heigth"
+      :dialogVisible="dialogPluginList.dialogVisible"
+      :close_title="dialogPluginList.close_title"
+      :data="dialogPluginList.data"
+      @success="Return"
+    />
   </div>
 </template>
 
@@ -458,6 +544,8 @@ const info: any = ref({
     freeShipping: 0,
     packingFee: 0,
     packingFeeAccumulateORNot: 0,
+    maxDeliveryDistance: 0,
+    orderStartMoney: 0,
   },
   payType: {
     cashDelivery: 0,
@@ -491,8 +579,8 @@ const formRef = ref();
 const formRules = ref({
   businessName: [{ required: true, message: "请输入" }],
   businessMobile: [{ required: true, message: "请输入" }],
-  businessAddress:[{ required: true, message: "请输入" }],
-  logisticsType:[{ required: true, message: "请输入" }],
+  businessAddress: [{ required: true, message: "请输入" }],
+  logisticsType: [{ required: true, message: "请输入" }],
   // value: [{ required: true, message: "请输入字典项键值" }],
 });
 onMounted(() => {
@@ -634,7 +722,7 @@ function onCancel() {
     name: "businessPlug",
     params: {
       id: route.params.plugsId,
-      admin:'user'
+      admin: "user",
     },
   });
 }
@@ -699,60 +787,50 @@ const handleClick = (tab: any, event: Event) => {
   console.log(tab, event);
 };
 
+// 使用文件管理组件
 
-  // 使用文件管理组件
+const types: any = ref("");
 
-  const types:any = ref('')
+import dialogWindows from "@/components/FileManagement/dialogWindows.vue";
+const dialogPluginList: any = ref({
+  dialogVisible: false,
+  title: "文件管理",
+  data: "",
+  button_title: "确定",
+  width: "1100",
+  heigth: "500",
+  close_title: "取消",
+});
 
-  import dialogWindows from '@/components/FileManagement/dialogWindows.vue'
-  const dialogPluginList:any = ref({
-    dialogVisible:false,
-    title:'文件管理',
-    data:'',
-    button_title:'确定',
-    width:'1100',
-    heigth:'500',
-    close_title:"取消"
+const upload_image = (item: any) => {
+  dialogPluginList.value.dialogVisible = true;
+  types.value = item;
+};
 
-  })
-
-  const upload_image = (item:any)=>{
-    dialogPluginList.value.dialogVisible = true
-    types.value = item
-  }
-
-  const Return = (data:any)=>{
-    dialogPluginList.value.dialogVisible = false
-    if(data.type == 'return'){
-      if(types.value == 'imageUrl'){
-        imageUrl.value = data.data[0].url
-        info.value.businessLogo = data.data[0].url
-      }else if(types.value == 'imageUrl2'){
-        data.data.forEach((item:any) => {
-          imageUrl2.value.push(item.url)
-          info.value.businessImages = JSON.stringify(imageUrl2.value);
-        });
-
-      }else if(types.value == 'imageUrl3'){
-        data.data.forEach((item:any) => {
-          imageUrl3.value = data.data[0].url
-          info.value.weChatORCodeImage = data.data[0].url
-        });
-
-      }else if(types.value == 'imageUrl1'){
-        data.data.forEach((item:any) => {
-          imageUrl1.value = data.data[0].url
-          info.value.shareImages = data.data[0].url
-        });
-
-      }
-
+const Return = (data: any) => {
+  dialogPluginList.value.dialogVisible = false;
+  if (data.type == "return") {
+    if (types.value == "imageUrl") {
+      imageUrl.value = data.data[0].url;
+      info.value.businessLogo = data.data[0].url;
+    } else if (types.value == "imageUrl2") {
+      data.data.forEach((item: any) => {
+        imageUrl2.value.push(item.url);
+        info.value.businessImages = JSON.stringify(imageUrl2.value);
+      });
+    } else if (types.value == "imageUrl3") {
+      data.data.forEach((item: any) => {
+        imageUrl3.value = data.data[0].url;
+        info.value.weChatORCodeImage = data.data[0].url;
+      });
+    } else if (types.value == "imageUrl1") {
+      data.data.forEach((item: any) => {
+        imageUrl1.value = data.data[0].url;
+        info.value.shareImages = data.data[0].url;
+      });
     }
-
   }
-
-
-
+};
 </script>
 
 <style scoped>
@@ -800,6 +878,5 @@ html .location-picker-box {
   display: flex;
   justify-content: center;
   align-items: center;
-
 }
 </style>

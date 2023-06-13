@@ -350,15 +350,36 @@ meta:
         <div
           style="display: flex; justify-content: center; align-items: center"
         >
-          <el-tree-select
+          <!-- <el-tree-select
             v-model="value"
             :data="ProvinceList"
             :render-after-expand="false"
             multiple
-            ref="tree"
+
             show-checkbox
             @check-change="change"
+          /> -->
+          <el-tree-select
+            v-model="value"
+            lazy
+            :props="props"
+            :load="loadNode"
+            show-checkbox
+            ref="tree"
+            @check-change="handleCheckChange"
+            :cache-data="ProvinceList"
+            :render-after-expand="false"
+            :check-strictly="true"
+            multiple
+            :check-on-click-node="true"
           />
+          <!-- <el-tree
+            :props="props"
+            :load="loadNode"
+            lazy
+            show-checkbox
+            @check-change="handleCheckChange"
+          /> -->
         </div>
         <template #footer>
           <span class="dialog-footer">
@@ -399,271 +420,114 @@ import { ElLoading } from "element-plus";
 
 const fullscreenLoading = ref(false);
 const value: any = ref();
-// const datas = [
-//   {
-//     value: "1",
-//     label: "Level one 1",
-//     children: [
-//       {
-//         value: "1-1",
-//         label: "Level two 1-1",
-//         children: [
-//           {
-//             value: "1-1-1",
-//             label: "Level three 1-1-1",
-//           },
-//         ],
-//       },
-//     ],
-//   },
-//   {
-//     value: "2",
-//     label: "Level one 2",
-//     children: [
-//       {
-//         value: "2-1",
-//         label: "Level two 2-1",
-//         children: [
-//           {
-//             value: "2-1-1",
-//             label: "Level three 2-1-1",
-//           },
-//         ],
-//       },
-//       {
-//         value: "2-2",
-//         label: "Level two 2-2",
-//         children: [
-//           {
-//             value: "2-2-1",
-//             label: "Level three 2-2-1",
-//           },
-//         ],
-//       },
-//     ],
-//   },
-//   {
-//     value: "3",
-//     label: "Level one 3",
-//     children: [
-//       {
-//         value: "3-1",
-//         label: "Level two 3-1",
-//         children: [
-//           {
-//             value: "3-1-1",
-//             label: "Level three 3-1-1",
-//           },
-//         ],
-//       },
-//       {
-//         value: "3-2",
-//         label: "Level two 3-2",
-//         children: [
-//           {
-//             value: "3-2-1",
-//             label: "Level three 3-2-1",
-//           },
-//         ],
-//       },
-//     ],
-//   },
-// ];
-// const value = ref("");
-onMounted(() => {
-  getProvinceList();
-
-  getlist();
-});
-// 获取省市区
-const ProvinceList: any = ref([]);
-const getProvinceList = () => {
-  api.get("/api/platform/searchProvinceList").then((res: any) => {
-    if (res.code == 200) {
-      ProvinceList.value = res.body;
-      ProvinceList.value.forEach((item: any) => {
-        item.label = item.provinceName;
-        item.value = item.provinceCode;
-        item.children = item.cityList;
-      });
-    }
-  });
-  // api.get("/api/platform/getALLProvinceList").then((res: any) => {
-  //   if (res.code == 200) {
-  //     ProvinceList.value = res.body;
-  //     ProvinceList.value.forEach((item: any) => {
-  //       item.label = item.provinceName;
-  //       item.value = item.provinceCode;
-  //       item.children = item.cityList;
-  //       item.children.forEach((element: any) => {
-  //         element.label = element.cityName;
-  //         element.value = element.cityCode;
-  //         element.children = element.areaList;
-  //         element.children.forEach((result: any) => {
-  //           result.label = result.areaName;
-  //           result.value = result.areaCode;
-  //         });
-  //       });
-  //     });
-  //   }
-  // });
+let count = 1;
+const props = {
+  label: "provinceName",
+  children: "children",
 };
-// 获取表格信息
-let tableData: any = ref([]);
-const total = ref(0);
-const tableobj = reactive({
-  currentPage: 1,
-  pageSize: 10,
-  keyword: "",
-});
-const userServiceToken = ref(storage.local.get("userServiceToken"));
 
-function getlist() {
-  const loading = ElLoading.service({
-    lock: true,
-    text: "模板信息正在初始化",
-  });
-  let data = {
-    page: tableobj.currentPage,
-    size: tableobj.pageSize,
-    adminId: storage.local.get("adminId"),
-    userServiceToken: storage.local.get("userServiceToken"),
-    plugsId: route.params.id,
-    keyword: tableobj.keyword,
-  };
-  api
-    .get("/api/platform/searchExpressfeeTemplateList", { params: data })
-    .then((res: any) => {
-      tableData.value = res.body.list;
-      if (tableData.value) {
-        tableData.value.forEach((element: any) => {
-          if (element.provinceList) {
-            element.provinceList.forEach((item: any) => {
-              item.children = item.cityList;
-              item.status = 1;
-              item.expressfeeConfList = [
-                {
-                  firstPrice: "",
-                  firstNumber: "",
-                  continueNumber: "",
-                  continuePrice: "",
-                },
-              ];
-              item.children.forEach((result: any) => {
-                result.children = result.areaList;
-                result.provinceName = result.cityName;
-                result.status = 2;
-                result.expressfeeConfList = [
-                  {
-                    firstPrice: "",
-                    firstNumber: "",
-                    continueNumber: "",
-                    continuePrice: "",
-                  },
-                ];
-                result.children.forEach((result1: any) => {
-                  result1.provinceName = result1.areaName;
-                  result1.status = 3;
+const handleCheckChange = (
+  data: any,
+  checked: boolean,
+  indeterminate: boolean
+) => {
+  const res = tree.value.getCheckedNodes();
+  console.log(res.length, data);
+
+  // console.log(res[0].value.length);
+  if (res.length === 1) {
+    if (res[0].value.length == 2) {
+      codelist.value = [];
+      api
+        .get("/api/platform/searchCityList", {
+          params: { provinceCode: res[0].value },
+        })
+        .then((res: any) => {
+          if (res.code == 200) {
+            // ProvinceList.value = res.body;
+            res.body.cityAll.forEach((item: any) => {
+              api
+                .get("/api/platform/searchAreaList", {
+                  params: { code: item.cityCode },
+                })
+                .then((result: any) => {
+                  if (result.code == 200) {
+                    result.body.forEach((element: any) => {
+                      codelist.value.push(element);
+                    });
+                  }
                 });
-              });
             });
           }
         });
-      }
-
-      loading.close();
-      total.value = res.body.total;
-      tableobj.keyword = "";
-    })
-    .catch((err: any) => {
-      setTimeout(() => {
-        loading.close();
-      }, 2000);
-      ElMessage.error({
-        message: "数据加载失败",
-        center: true,
-      });
-    });
-}
-
-// 新增插件
-function addPlugin() {
-  data.value.formModeProps.visible = true;
-  data.value.formModeProps.id = "";
-  data.value.formModeProps.plugsId = route.params.id;
-}
-
-// 删除插件
-const handleClick = (e: any) => {
-  let data = {
-    ids: e,
-  };
-  ElMessageBox.confirm(`确认删除吗？`, "确认信息")
-    .then(() => {
-      api.post("/api/platform/delExpressfeeTemplate", data).then((res: any) => {
-        if (res.code == 200) {
-          ElMessage.success({
-            message: res.msg,
-            center: true,
+    } else if (res[0].value.length == 4) {
+      api
+        .get("/api/platform/searchAreaList", {
+          params: { code: res[0].value },
+        })
+        .then((result: any) => {
+          if (result.code == 200) {
+            result.body.forEach((element: any) => {
+              codelist.value.push(element);
+            });
+          }
+        });
+    } else if (res[0].value.length == 6) {
+      codelist.value.push(data);
+    }
+  } else if (res.length > 1) {
+    res.forEach((item: any) => {
+      console.log(item);
+      if (item.value.length === 2) {
+        api
+          .get("/api/platform/searchCityList", {
+            params: { provinceCode: item.value },
+          })
+          .then((res: any) => {
+            if (res.code == 200) {
+              citylist.value = [];
+              res.body.cityAll.forEach((item1: any) => {
+                citylist.value.push(item1);
+              });
+              citylist.value.forEach((result: any) => {
+                api
+                  .get("/api/platform/searchAreaList", {
+                    params: { code: result.cityCode },
+                  })
+                  .then((result: any) => {
+                    if (result.code == 200) {
+                      result.body.forEach((element: any) => {
+                        codelist.value.push(element);
+                      });
+                    }
+                  });
+              });
+            }
           });
-          getlist();
-        }
-      });
-    })
-    .catch(() => {});
-};
-// 编辑插件
-const editClick = (e: any) => {
-  data.value.formModeProps.visible = true;
-  data.value.formModeProps.id = e;
-  data.value.formModeProps.plugsId = route.params.id;
+      } else if (item.value.length == 4) {
+        api
+          .get("/api/platform/searchAreaList", {
+            params: { code: item.value },
+          })
+          .then((result: any) => {
+            if (result.code == 200) {
+              result.body.forEach((element: any) => {
+                codelist.value.push(element);
+              });
+            }
+          });
+      } else if (item.value.length == 6) {
+        codelist.value.push(item);
+      }
+    });
+  }
 };
 
-// 刷新组件
-function update() {
-  getlist();
-  data.value.formModeProps.visible = false;
-}
-const templateId: any = ref();
-const businessId: any = ref();
-const addClick = (item: any) => {
-  show.value = true;
-  templateId.value = item.id;
-  businessId.value = item.businessId.toString();
-  // let data = [
-  //   {
-  //     adminId: 0,
-  //     areaCode: "330113",
-  //     businessId: 0,
-  //     cityCode: "3303",
-  //     continueNumber: 0,
-  //     continuePrice: 0,
-  //     firstNumber: 0,
-  //     firstPrice: 0,
-  //     provinceCode: "33",
-  //     templateId: id,
-  //     userServiceToken: "",
-  //   },
-  // ];
-  // http.post("/api/platform/insertExpressfeeConf", data).then((res: any) => {
-  //   if (res.code == 200) {
-  //     ElMessage.success({
-  //       message: res.msg,
-  //       center: true,
-  //     });
-  //     getlist();
-  //   }
-  // });
-};
-const tree: any = ref(null);
 const change = (e: any, a: any, b: any) => {
-  console.log(e);
+  console.log(value.value, 99888);
   const res = tree.value.getCheckedNodes();
-  console.log(res.length);
   if (res.length == 1) {
     console.log(456456);
-
-    codelist.value = [];
     api
       .get("/api/platform/searchCityList", {
         params: { provinceCode: e.value },
@@ -737,11 +601,255 @@ const change = (e: any, a: any, b: any) => {
     });
   }
 };
+
+const loadNode = (node: any, resolve: (data: any) => void) => {
+  console.log(node, 9999999);
+
+  if (node.level === 0) {
+    return resolve(ProvinceList.value);
+  } else if (node.level === 1) {
+    console.log(node.data.label);
+    setTimeout(() => {
+      let data: any = [];
+      api
+        .get("/api/platform/searchCityList", {
+          params: { provinceCode: node.data.provinceCode },
+        })
+        .then((res: any) => {
+          if (res.code == 200) {
+            console.log(res.body.cityAll);
+            res.body.cityAll.forEach((item: any) => {
+              item.provinceName = item.cityName;
+              item.value = item.cityCode;
+              data.push(item);
+            });
+            console.log(data, 456);
+            resolve(data);
+          }
+        });
+    }, 500);
+  } else if (node.level === 2) {
+    console.log(node.data);
+    setTimeout(() => {
+      let data: any = [];
+      api
+        .get("/api/platform/searchAreaList", {
+          params: { code: node.data.cityCode },
+        })
+        .then((res: any) => {
+          if (res.code == 200) {
+            console.log(res.body.cityAll);
+            res.body.forEach((item: any) => {
+              item.provinceName = item.areaName;
+              item.value = item.areaCode;
+              data.push(item);
+            });
+            console.log(data, 456);
+            resolve(data);
+          }
+        });
+    }, 500);
+  }
+  if (node.level === 3) return resolve([]);
+};
+onMounted(() => {
+  // if (!storage.local.get("ProvinceList")) {
+  //   getProvinceList();
+  // } else {
+  //   console.log();
+  //   ProvinceList.value=JSON.parse(storage.local.get("ProvinceList"))
+  // }
+  getProvinceList();
+
+  getlist();
+});
+// 获取省市区
+const ProvinceList: any = ref([]);
+const getProvinceList = () => {
+  api.get("/api/platform/searchProvinceList").then((res: any) => {
+    if (res.code == 200) {
+      ProvinceList.value = res.body;
+      ProvinceList.value.forEach((item: any) => {
+        item.label = item.provinceName;
+        item.value = item.provinceCode;
+        item.children = item.cityList;
+      });
+    }
+  });
+
+  // api.get("/api/platform/getALLProvinceList").then((res: any) => {
+  //   if (res.code == 200) {
+  //     ProvinceList.value = res.body;
+  //     ProvinceList.value.forEach((item: any) => {
+  //       item.label = item.provinceName;
+  //       item.value = item.provinceCode;
+  //       item.children = item.cityList;
+  //       item.children.forEach((element: any) => {
+  //         element.label = element.cityName;
+  //         element.value = element.cityCode;
+  //         element.children = element.areaList;
+  //         element.children.forEach((result: any) => {
+  //           result.label = result.areaName;
+  //           result.value = result.areaCode;
+  //         });
+  //       });
+  //     });
+  //     storage.local.set("ProvinceList", JSON.stringify(ProvinceList.value));
+  //   }
+  // });
+};
+// 获取表格信息
+let tableData: any = ref([]);
+const total = ref(0);
+const tableobj = reactive({
+  currentPage: 1,
+  pageSize: 10,
+  keyword: "",
+});
+const userServiceToken = ref(storage.local.get("userServiceToken"));
+
+function getlist() {
+  const loading = ElLoading.service({
+    lock: true,
+    text: "模板信息正在初始化",
+  });
+  let data = {
+    page: tableobj.currentPage,
+    size: tableobj.pageSize,
+    adminId: storage.local.get("adminId"),
+    userServiceToken: storage.local.get("userServiceToken"),
+    plugsId: route.params.id,
+    keyword: tableobj.keyword,
+  };
+  api
+    .get("/api/platform/searchExpressfeeTemplateList", { params: data })
+    .then((res: any) => {
+      tableData.value = res.body.list;
+      if (tableData.value) {
+        tableData.value.forEach((element: any) => {
+          if (element.provinceList) {
+            element.provinceList.forEach((item: any) => {
+              item.children = item.cityList;
+              item.status = 1;
+              item.expressfeeConfList = [
+                {
+                  firstPrice: "",
+                  firstNumber: "",
+                  continueNumber: "",
+                  continuePrice: "",
+                },
+              ];
+              item.children.forEach((result: any) => {
+                result.children = result.areaList;
+                result.provinceName = result.cityName;
+                result.status = 2;
+
+                result.list = [];
+                result.children.forEach((result1: any) => {
+                  result1.provinceName = result1.areaName;
+                  result1.status = 3;
+                  if (result.cityCode == result.cityCode) {
+                    result.list.push(result1.expressfeeConfList[0]);
+                  }
+                });
+                result.expressfeeConfList = [
+                  {
+                    firstPrice: "",
+                    firstNumber: "",
+                    continueNumber: "",
+                    continuePrice: "",
+                  },
+                ];
+              });
+            });
+          }
+        });
+      }
+      console.log(tableData.value);
+
+      loading.close();
+      total.value = res.body.total;
+      tableobj.keyword = "";
+    })
+    .catch((err: any) => {
+      setTimeout(() => {
+        loading.close();
+      }, 2000);
+      ElMessage.error({
+        message: "数据加载失败",
+        center: true,
+      });
+    });
+}
+function findMostFrequentId(arr: any, item: any) {
+  const map = new Map();
+  let maxCount = 0;
+  let mostFrequentId = null;
+  for (const elem of arr) {
+    const id = elem.item;
+    const count = (map.get(id) || 0) + 1;
+    map.set(id, count);
+    if (count > maxCount) {
+      maxCount = count;
+      mostFrequentId = id;
+    }
+  }
+  return mostFrequentId;
+}
+
+// const mostFrequentId = findMostFrequentId(arr);
+// console.log(mostFrequentId, 999); // 输出 3
+// 新增插件
+function addPlugin() {
+  data.value.formModeProps.visible = true;
+  data.value.formModeProps.id = "";
+  data.value.formModeProps.plugsId = route.params.id;
+}
+
+// 删除插件
+const handleClick = (e: any) => {
+  let data = {
+    ids: e,
+  };
+  ElMessageBox.confirm(`确认删除吗？`, "确认信息")
+    .then(() => {
+      api.post("/api/platform/delExpressfeeTemplate", data).then((res: any) => {
+        if (res.code == 200) {
+          ElMessage.success({
+            message: res.msg,
+            center: true,
+          });
+          getlist();
+        }
+      });
+    })
+    .catch(() => {});
+};
+// 编辑插件
+const editClick = (e: any) => {
+  data.value.formModeProps.visible = true;
+  data.value.formModeProps.id = e;
+  data.value.formModeProps.plugsId = route.params.id;
+};
+
+// 刷新组件
+function update() {
+  getlist();
+  data.value.formModeProps.visible = false;
+}
+const templateId: any = ref();
+const businessId: any = ref();
+const addClick = (item: any) => {
+  show.value = true;
+  templateId.value = item.id;
+  businessId.value = item.businessId.toString();
+};
+const tree: any = ref(null);
+
 const codelist: any = ref([]);
 const citylist: any = ref([]);
 const Confirm = () => {
   console.log(codelist.value);
-  console.log(citylist.value);
   const loading = ElLoading.service({
     lock: true,
     text: "模板信息正在初始化",
@@ -764,17 +872,28 @@ const Confirm = () => {
     };
     list1.push(data);
   });
-  http.post("/api/platform/insertExpressfeeConf", list1).then((res: any) => {
-    if (res.code == 200) {
-      ElMessage.success({
-        message: res.msg,
+  http
+    .post("/api/platform/insertExpressfeeConf", list1)
+    .then((res: any) => {
+      if (res.code == 200) {
+        ElMessage.success({
+          message: res.msg,
+          center: true,
+        });
+        loading.close();
+        getlist();
+        value.value = "";
+      }
+    })
+    .catch((err: any) => {
+      setTimeout(() => {
+        loading.close();
+      }, 2000);
+      ElMessage.error({
+        message: "数据加载失败",
         center: true,
       });
-      loading.close();
-      getlist();
-      value.value = "";
-    }
-  });
+    });
   // return;
   // let list: any = [];
   // codelist.value = [];

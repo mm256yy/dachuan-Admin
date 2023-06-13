@@ -181,31 +181,7 @@ const routes: RouteRecordRaw = {
 
       },
     },
-    {
-      path: 'shopType/:id',
-      name: 'shopType',
-      component: () => import('@/views/backstageData/plugins/goodsList/shopType.vue'),
-      meta: {
-        title: '商品规格',
-        i18n: 'route.general.menu.edit',
-        sidebar: false,
-        branch:true
 
-      },
-    },
-    {
-      path: 'shopsku/:goodId',
-      name: 'shopsku',
-      component: () => import('@/views/backstageData/plugins/goodsList/shopsku.vue'),
-      meta: {
-        title: '添加规格',
-        i18n: 'route.general.menu.edit',
-        sidebar: false,
-        branch:true
-
-      },
-
-    },
 
     // {
     //   path: 'shopcCategory/:id',

@@ -192,7 +192,7 @@ function getlist() {
       console.log(businessList.value, 456);
     }
   });
-  let data:any = {
+  let data: any = {
     page: tableobj.currentPage,
     size: tableobj.pageSize,
     adminId: storage.local.get("adminId"),
@@ -200,8 +200,8 @@ function getlist() {
 
     id: route.params.id,
   };
-  if(route.params.admin == 'admin'){
-    data.userServiceToken = -1
+  if (route.params.admin == "admin") {
+    data.userServiceToken = -1;
   }
   api
     .get("/api/plugs/searchPlugsHomeDataList", { params: data })
@@ -249,15 +249,6 @@ const editClick = (e: any) => {
     params: {
       id: e,
       plugsId: route.params.id,
-    },
-  });
-};
-// 规格
-const typeClick = (e: any) => {
-  router.push({
-    name: "shopType",
-    params: {
-      id: e,
     },
   });
 };

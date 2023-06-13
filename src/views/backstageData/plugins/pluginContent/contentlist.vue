@@ -303,15 +303,6 @@ const editClick = (e: any) => {
     },
   });
 };
-// 规格
-const typeClick = (e: any) => {
-  router.push({
-    name: "shopType",
-    params: {
-      id: e,
-    },
-  });
-};
 
 // 批量删除
 const multipleSelection: any = ref([]);

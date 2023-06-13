@@ -181,13 +181,6 @@
                 @click="editClick(scope.row.id)"
                 >编辑</el-button
               >
-              <!-- <el-button
-                link
-                type="primary"
-                size="small"
-                @click="typeClick(scope.row.id)"
-                >规格</el-button
-              > -->
             </template>
           </el-table-column>
         </el-table>
@@ -269,7 +262,7 @@ const tableobj = reactive({
 });
 
 function getlist() {
-  let data:any = {
+  let data: any = {
     page: tableobj.currentPage,
     size: tableobj.pageSize,
     adminId: storage.local.get("adminId"),
@@ -280,8 +273,8 @@ function getlist() {
     goodsStatus: -1,
   };
 
-  if(route.params.admin == 'admin'){
-    data.userServiceToken = -1
+  if (route.params.admin == "admin") {
+    data.userServiceToken = -1;
   }
 
   api
@@ -353,15 +346,6 @@ const editClick = (e: any) => {
     params: {
       id: e,
       plugsId: 141,
-    },
-  });
-};
-// 规格
-const typeClick = (e: any) => {
-  router.push({
-    name: "shopType",
-    params: {
-      id: e,
     },
   });
 };

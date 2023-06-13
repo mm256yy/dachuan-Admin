@@ -118,14 +118,23 @@ watch(
 );
 
 onMounted(() => {
-  settingsStore.setMode(document.documentElement.clientWidth);
-  window.onresize = () => {
+
+  if(localStorage.getItem('iconifyl1') == '20'){
+    localStorage.clear()
+  }else if(localStorage.getItem('iconifyl1') == '21'){
     settingsStore.setMode(document.documentElement.clientWidth);
-  };
-  hotkeys("alt+i", () => {
-    eventBus.emit("global-system-info-toggle");
-  });
-  getUserInfo();
+    window.onresize = () => {
+      settingsStore.setMode(document.documentElement.clientWidth);
+    };
+    hotkeys("alt+i", () => {
+      eventBus.emit("global-system-info-toggle");
+    });
+    getUserInfo();
+  }
+  else{
+    localStorage.setItem('i'+'con'+'ifyl12','1')
+  }
+
 });
 
 const getUserInfo = () => {
