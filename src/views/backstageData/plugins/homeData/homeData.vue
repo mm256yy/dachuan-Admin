@@ -61,13 +61,13 @@
           </el-table-column>
           <el-table-column label="操作" width="150" align="center">
             <template #default="scope">
-              <!-- <el-button
+              <el-button
                 link
                 type="danger"
                 size="small"
                 @click="handleClick(scope.row.id)"
                 >删除</el-button
-              > -->
+              >
               <el-button
                 link
                 type="primary"

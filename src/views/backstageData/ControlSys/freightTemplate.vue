@@ -1,7 +1,7 @@
 <route lang="yaml">
 name: homeRotation
 meta:
-  title: 用户提现
+  title: 运费模板
   icon: ant-design:home-twotone
 </route>
 <template>
@@ -346,7 +346,12 @@ meta:
       </div> -->
     </div>
     <div>
-      <el-dialog v-model="show" title="选择地区" width="30%">
+      <el-dialog
+        v-model="show"
+        title="选择地区"
+        width="50%"
+        :close-on-click-modal="false"
+      >
         <div
           style="display: flex; justify-content: center; align-items: center"
         >
@@ -770,6 +775,7 @@ function getlist() {
       loading.close();
       total.value = res.body.total;
       tableobj.keyword = "";
+      codelist.value = [];
     })
     .catch((err: any) => {
       setTimeout(() => {
@@ -844,11 +850,28 @@ const addClick = (item: any) => {
   templateId.value = item.id;
   businessId.value = item.businessId.toString();
 };
+function group(array: any, subGroupLength: any) {
+  let index = 0;
+  let newArray = [];
+  while (index < array.length) {
+    newArray.push(array.slice(index, (index += subGroupLength)));
+  }
+  return newArray;
+}
+
 const tree: any = ref(null);
 
 const codelist: any = ref([]);
 const citylist: any = ref([]);
+
 const Confirm = () => {
+  if (codelist.value.length == 0) {
+    ElMessage.error({
+      message: "请选择添加数据",
+      center: true,
+    });
+    return;
+  }
   console.log(codelist.value);
   const loading = ElLoading.service({
     lock: true,
@@ -856,6 +879,7 @@ const Confirm = () => {
   });
   show.value = false;
   let list1: any = [];
+  let list2: any = [];
   codelist.value.forEach((element: any) => {
     let data: any = {
       areaCode: element.areaCode,
@@ -872,28 +896,37 @@ const Confirm = () => {
     };
     list1.push(data);
   });
-  http
-    .post("/api/platform/insertExpressfeeConf", list1)
-    .then((res: any) => {
-      if (res.code == 200) {
-        ElMessage.success({
-          message: res.msg,
+  // group(list1, 200);
+  list2 = group(list1, 500);
+  list2.forEach((elements: any, index: any) => {
+    console.log(index);
+    http
+      .post("/api/platform/insertExpressfeeConf", elements)
+      .then((res: any) => {
+        if (res.code == 200) {
+          ElMessage.success({
+            message: res.msg,
+            center: true,
+          });
+
+          loading.close();
+          if (index == list2.length - 1) {
+            getlist();
+          }
+          value.value = "";
+        }
+      })
+      .catch((err: any) => {
+        setTimeout(() => {
+          loading.close();
+        }, 2000);
+        ElMessage.error({
+          message: "数据加载失败",
           center: true,
         });
-        loading.close();
-        getlist();
-        value.value = "";
-      }
-    })
-    .catch((err: any) => {
-      setTimeout(() => {
-        loading.close();
-      }, 2000);
-      ElMessage.error({
-        message: "数据加载失败",
-        center: true,
       });
-    });
+  });
+
   // return;
   // let list: any = [];
   // codelist.value = [];
@@ -1232,5 +1265,8 @@ const handleClick1 = (item: any) => {
       align-items: center;
     }
   }
+}
+:deep(.el-select) {
+  width: 400px;
 }
 </style>
