@@ -10,8 +10,23 @@
   >
     <div class="header-right" style="display: flex; justify-content: end">
       <div class="lang">
+        <el-select
+                size="large"
+                v-model="businessId"
+                filterable
+                placeholder="选择店铺"
+                @change="changeStore(businessId)"
+              >
+                <el-option   key="-1" label="全部" value="-1" />
+                <el-option
+                  v-for="item in businessList"
+                  :key="item.businessId"
+                  :label="item.businessName"
+                  :value="item.businessId"
+                />
+              </el-select>
         <el-input
-          style="width: 150px; height: 40px"
+          style="width: 150px; height: 40px;margin-left: 30px;"
           v-model="tableobj.keyword"
           placeholder="搜索商品"
           @keyup.enter.native="getlist"
@@ -61,8 +76,7 @@
             </div>
           </template>
         </el-table-column>
-
-        <el-table-column prop="goodsName" label="商品名称" align="center" />
+        <el-table-column prop="goodsName" show-overflow-tooltip label="商品名称" align="center" />
         <el-table-column
           prop="categoryName"
           label="商品分类"
@@ -118,8 +132,10 @@ console.log(props);
 
 const myVisible: any = ref(props.modelValue);
 onMounted(() => {
+  getStoreList();
   getlist();
 });
+const businessList: any = ref([]);
 const total = ref(0);
 const tableobj = reactive({
   currentPage: 1,
@@ -127,6 +143,29 @@ const tableobj = reactive({
   categoryId: -1,
   keyword: "",
 });
+const businessId:any=ref('-1');
+function changeStore(val:any){
+  businessId.value=val;
+  getlist();
+    console.log(val,'选择店铺8888888')
+}
+function getStoreList(){
+  let data = {
+    adminId: storage.local.get("adminId"),
+    userServiceToken: storage.local.get("userServiceToken"),
+    size: 1000,
+  };
+  // 获取店铺
+  api.get("/api/plugs/getBusinessInfo", { params: data }).then((res: any) => {
+    if (res.code == 200) {
+      res.body.forEach((item: any) => {
+        item.jsonViewData.businessId = item.jsonViewData.businessId.toString();
+        businessList.value.push(item.jsonViewData);
+        console.log( businessList.value,'店铺列表')
+      });
+    }
+  });
+}
 function getlist() {
   console.log(123);
 
@@ -136,7 +175,7 @@ function getlist() {
     keyword: tableobj.keyword,
     adminId: storage.local.get("adminId"),
     userServiceToken: storage.local.get("userServiceToken"),
-
+    businessId:businessId.value
     // businessId: businessId.value != "" ? businessId.value : -1,
   };
   api

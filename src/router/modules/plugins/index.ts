@@ -389,7 +389,16 @@ const routes: RouteRecordRaw = {
         branch:true
       },
     },
-
+    {
+      path: 'discountPurchaseOrder/:id',
+      name: 'discountPurchaseOrder',
+      component: () => import('@/views/backstageData/plugins/discountPurchaseOrder/discountPurchaseOrder.vue'),
+      meta: {
+        title: '优惠买单',
+        sidebar: false,
+        branch:true
+      },
+    },
 
   ],
 }

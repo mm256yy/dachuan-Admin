@@ -87,8 +87,7 @@ const form: any = ref({
   adminId: Number(storage.local.get("adminId")),
   userServiceToken: storage.local.get("userServiceToken"),
   id: route.params.id ?? "",
-  jsonData: ` [{"data":[{"customer_images":"https://systemimgs.oss-cn-hangzhou.aliyuncs.com/recommendedBits/yzqc_0007.jpg?time=1678687920394","mobile":"18324496190","customer_name":"张三"}],"data_type":"static","description":"这是一个图片列表解析数据 customer_images:客服头像,customer_name:客服名字,mobile:客服名字","key_description":{"customer_images":"客服头像","mobile":"手机","customer_name":"客服名称"},"type":"ax001","sql":"0","parms":"-"},{"data":"0","data_type":"sql","description":"这是一个热销商品的布局页面数据",
-  "key_description":"0","type":"ax002","sql":"SELECT * FROM cf_plugs_goods WHERE id in(?);","parms":"126,127"}]`,
+  jsonData: `[{"data":"0","data_type":"sql","description":"这是一个热销商品的布局页面数据","key_description":"0","type":"ax002","sql":"SELECT * FROM cf_plugs_goods WHERE id in(?);","parms":""}]`,
 
   // describes: "",
   plugsId: Number(route.params.plugsId) ?? "",
@@ -160,7 +159,7 @@ function onCancel() {
     name: "homeData",
     params: {
       id: route.params.plugsId,
-      admin:'user'
+      admin: "user",
     },
   });
 }
