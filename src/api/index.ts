@@ -52,6 +52,7 @@ api.interceptors.request.use(
       if (userStore.isLogin) {
         request.headers.Authorization = userStore.token
         request.headers.USER_SERVICE_TOKEN = storage.local.get('userServiceToken')
+        request.headers.adminId = storage.local.get('adminId')
       }
     }
     // 是否将 POST 请求参数进行字符串化处理

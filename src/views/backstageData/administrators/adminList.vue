@@ -222,12 +222,12 @@ meta: title:员工管理
         </span>
       </template>
     </el-dialog>
-    <FormMode
+    <!-- <FormMode
       v-if="data.formModeProps.visible"
       v-model="data.formModeProps.visible"
       :id="data.formModeProps.id"
       @success="update"
-    />
+    /> -->
 
     <el-dialog
       v-model="centerDialogVisible"
@@ -335,7 +335,7 @@ meta: title:员工管理
 import api from "@/api";
 import http from "@/api/plugin";
 import { ElMessage, ElMessageBox } from "element-plus";
-import FormMode from "./components/DetailForm/index.vue";
+// import FormMode from "./components/DetailForm/index.vue";
 import storage from "@/utils/storage";
 import { ref } from "vue";
 

@@ -77,7 +77,9 @@ const props = withDefaults(
     form: {},
   }
 );
-content.value = props.form.goodsDetailsJson;
+console.log(props.form.questionStemExtJson, 655);
+
+content.value = props.form.questionStemExtJson;
 onMounted(() => {
   tinymce.init({});
 });

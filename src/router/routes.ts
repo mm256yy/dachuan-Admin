@@ -18,7 +18,7 @@ import ControlMember from './modules/backstageData/ControlMember'
 import MyPlugins from './modules/plugins'
 import type { Route } from '#/global'
 import useSettingsStore from '@/store/modules/settings'
-
+import ExamQuestionBank from './modules/backstageData/ExamQuestionBank'
 import Template from './modules/template/index'
 
 import FileManagement from './modules/backstageData/FileManagement'
@@ -124,7 +124,7 @@ const asyncRoutes: Route.recordMainRaw[] = [
       MyPlugins,
       FileManagement,
       ControlSys,
-
+      ExamQuestionBank
     ],
   },
   {

@@ -399,6 +399,17 @@ const routes: RouteRecordRaw = {
         branch:true
       },
     },
+    {
+      path: 'formSubmit/:id',
+      name: 'formSubmit',
+      component: () => import('@/views/backstageData/plugins/formSubmit/formSubmit.vue'),
+      meta: {
+        title: '表单提交',
+        sidebar: false,
+        branch:true
+      },
+    },
+
 
   ],
 }
