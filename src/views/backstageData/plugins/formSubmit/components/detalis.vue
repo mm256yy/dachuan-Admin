@@ -9,11 +9,29 @@
     destroy-on-close
   >
     <el-form ref="formRef" :model="form" :rules="formRules" label-width="90px">
-      <el-form-item label="表单名称" prop="formName">
-        <el-input v-model="form.formName" placeholder="请输入" clearable />
+      <el-form-item label="联系人" prop="">
+        <el-input
+          v-model="form.dataJson.contactsName"
+          placeholder="请输入"
+          clearable
+        />
+      </el-form-item>
+      <el-form-item label="电话" prop="">
+        <el-input
+          v-model="form.dataJson.mobile"
+          placeholder="请输入"
+          clearable
+        />
+      </el-form-item>
+      <el-form-item label="备注" prop="">
+        <el-input
+          v-model="form.dataJson.remarks"
+          placeholder="请输入"
+          clearable
+        />
       </el-form-item>
 
-      <el-form-item label="表单logo" prop="formLogo">
+      <!-- <el-form-item label="图片信息" prop="formLogo">
         <img
           @click="upload_image('imageUrl')"
           style="
@@ -38,41 +56,7 @@
           class="avatar-uploader-icon"
           ><Plus
         /></el-icon>
-        <!-- <el-input v-model="form.formLogo" placeholder="请输入" clearable /> -->
-      </el-form-item>
-      <el-form-item label="表单描述" prop="formDescribe">
-        <el-input v-model="form.formDescribe" placeholder="请输入" clearable />
-      </el-form-item>
-      <!-- <el-form-item label="表单背景图" prop="formHeaderImages">
-        <el-input
-          v-model="form.formHeaderImages"
-          placeholder="请输入"
-          clearable
-        />
       </el-form-item> -->
-      <el-form-item label="表单背景" prop="fromBackground">
-        <el-input
-          v-model="form.fromBackground"
-          placeholder="请输入"
-          clearable
-        />
-      </el-form-item>
-      <el-form-item label="开始时间" prop="validity">
-        <el-date-picker
-          v-model="form.startTime"
-          type="datetime"
-          value-format="YYYY-MM-DD HH:mm:ss"
-          placeholder=""
-        />
-      </el-form-item>
-      <el-form-item label="结束时间" prop="validity">
-        <el-date-picker
-          v-model="form.endTime"
-          type="datetime"
-          value-format="YYYY-MM-DD HH:mm:ss"
-          placeholder=""
-        />
-      </el-form-item>
     </el-form>
     <template #footer>
       <el-button size="large" @click="onCancel"> 取消 </el-button>
@@ -118,17 +102,13 @@ const myVisible = ref(props.modelValue);
 console.log(props, 999);
 
 const title = computed(() => (props.id === "" ? "新增表单" : "修改表单"));
-const form = ref({
+const form: any = ref({
   adminId: storage.local.get("adminId"),
   userServiceToken: storage.local.get("userServiceToken"),
   id: props.id,
-  endTime: "",
-  formDescribe: "",
-  formHeaderImages: "",
-  formLogo: "",
-  formName: "",
-  fromBackground: "",
-  startTime: "",
+  dataJson: {},
+  formId: "",
+  userId: "",
 });
 const formRef = ref();
 const formRules = ref({
@@ -138,25 +118,27 @@ onMounted(() => {
   if (props.id !== "") {
     console.log("我用了你");
     api
-      .get("/api/plugs/searchPlugsFormById", {
+      .get("/api/plugs/searchPlugsFormDataById", {
         params: {
           id: form.value.id,
         },
       })
       .then((res: any) => {
         form.value = res.body;
-        imageUrl.value = form.value.formLogo;
+        form.value.dataJson = JSON.parse(form.value.dataJson);
+        imageUrl.value = form.value.dataJson.images;
       });
   }
 });
 
 function onSubmit() {
+  form.value.dataJson = JSON.stringify(form.value.dataJson);
   if (form.value.id === "") {
     formRef.value &&
       formRef.value.validate((valid: any) => {
         if (valid) {
           api
-            .post("/api/plugs/insertPlugsForm", form.value)
+            .post("/api/plugs/insertPlugsFormData", form.value)
             .then((res: any) => {
               if (res.code == 200) {
                 ElMessage.success({
@@ -179,7 +161,7 @@ function onSubmit() {
       formRef.value.validate((valid: any) => {
         if (valid) {
           api
-            .post("/api/plugs/updatePlugsForm", form.value)
+            .post("/api/plugs/updatePlugsFormData", form.value)
             .then((res: any) => {
               if (res.code == 200) {
                 ElMessage.success({
@@ -223,7 +205,7 @@ const Return = (data: any) => {
   if (data.type == "return") {
     if (types.value == "imageUrl") {
       imageUrl.value = data.data[0].url;
-      form.value.formLogo = data.data[0].url;
+      form.value.dataJson.images = data.data[0].url;
     }
   }
 };

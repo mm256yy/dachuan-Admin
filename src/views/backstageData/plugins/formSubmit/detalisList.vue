@@ -3,14 +3,14 @@
     <div class="content">
       <div class="header" style="margin-bottom: 20px">
         <div class="header-left">
-          <el-button type="primary" @click="addPlugin">
+          <!-- <el-button type="primary" @click="addPlugin">
             <template #icon>
               <el-icon>
                 <svg-icon name="i-ep:circle-plus" />
               </el-icon>
             </template>
             新增表单
-          </el-button>
+          </el-button> -->
           <el-button
             type="danger"
             @click="delPlugin"
@@ -60,42 +60,31 @@
         >
           <el-table-column type="selection" />
           <el-table-column prop="id" label="ID" align="center" width="60" />
-          <el-table-column prop="formName" label="表单名字" align="center" />
-          <el-table-column prop="formLogo" label="表单logo" align="center">
+          <el-table-column
+            prop="dataJson.contactsName"
+            label="联系人"
+            align="center"
+          >
             <template #default="scope">
-              <img
-                style="width: 40px; height: 40px"
-                :src="scope.row.formLogo"
-                alt=""
-              />
+              <div>{{ scope.row.dataJson.contactsName }}</div>
             </template>
           </el-table-column>
-          <el-table-column
-            prop="fromBackground"
-            label="表单背景"
-            align="center"
-          />
-          <el-table-column
-            prop="formDescribe"
-            label="表单描述"
-            align="center"
-          />
+          <el-table-column prop="mobile" label="电话" align="center">
+            <template #default="scope">
+              <div>{{ scope.row.dataJson.mobile }}</div>
+            </template>
+          </el-table-column>
+          <el-table-column prop="remarks" label="备注" align="center">
+            <template #default="scope">
+              <div>{{ scope.row.dataJson.remarks }}</div>
+            </template>
+          </el-table-column>
           <el-table-column
             prop="createTime"
             label="添加/更新时间"
             align="center"
           />
-          <el-table-column prop="formLogo" label="表单详情" align="center">
-            <template #default="scope">
-              <el-button
-                link
-                type="primary"
-                size="small"
-                @click="viewClick(scope.row.id)"
-                >查看</el-button
-              >
-            </template>
-          </el-table-column>
+
           <el-table-column fixed="right" label="操作" width="120">
             <template #default="scope">
               <el-button
@@ -144,9 +133,8 @@
 <script lang="ts" setup>
 import api from "@/api";
 import { ElMessage, ElMessageBox } from "element-plus";
-import FormMode from "./components/index.vue";
+import FormMode from "./components/detalis.vue";
 import storage from "@/utils/storage";
-import router from "@/router";
 const route = useRoute();
 // 搜索
 
@@ -176,6 +164,7 @@ function getlist() {
     adminId: storage.local.get("adminId"),
     keyword: tableobj.keyword,
     userServiceToken: storage.local.get("userServiceToken"),
+    dataId: route.params.id,
   };
 
   // if (route.params.admin == "admin") {
@@ -183,10 +172,13 @@ function getlist() {
   // }
 
   api
-    .get("/api/plugs/searchPlugsFormList", { params: data })
+    .get("/api/plugs/searchPlugsFormDataList", { params: data })
     .then((res: any) => {
       if (res.code == 200) {
         tableData.value = res.body.list;
+        tableData.value.forEach((item: any) => {
+          item.dataJson = JSON.parse(item.dataJson);
+        });
         total.value = res.body.total;
         tableobj.keyword = "";
       } else {
@@ -220,15 +212,6 @@ const editClick = (e: any) => {
   data.value.formModeProps.id = e;
   data.value.formModeProps.plugsId = route.params.id;
 };
-const viewClick = (e: any) => {
-  router.push({
-    name: "detalisList",
-    params: {
-      id: e,
-    },
-  });
-};
-
 // 批量删除
 const multipleSelection: any = ref([]);
 const idlist: any = ref([]);
@@ -246,7 +229,7 @@ const delPlugin = () => {
   };
   ElMessageBox.confirm(`确认删除吗？`, "确认信息")
     .then(() => {
-      api.post("/api/plugs/delPlugsForm", data).then((res: any) => {
+      api.post("/api/plugs/delPlugsFormData", data).then((res: any) => {
         if (res.code == 200) {
           ElMessage.success({
             message: res.msg,
@@ -271,7 +254,7 @@ const handleClick = (e: any) => {
   };
   ElMessageBox.confirm(`确认删除吗？`, "确认信息")
     .then(() => {
-      api.post("/api/plugs/delPlugsForm", data).then((res: any) => {
+      api.post("/api/plugs/delPlugsFormData", data).then((res: any) => {
         if (res.code == 200) {
           ElMessage.success({
             message: res.msg,

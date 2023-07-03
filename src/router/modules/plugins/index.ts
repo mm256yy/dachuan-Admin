@@ -408,6 +408,15 @@ const routes: RouteRecordRaw = {
         sidebar: false,
         branch:true
       },
+    }, {
+      path: 'detalisList/:id',
+      name: 'detalisList',
+      component: () => import('@/views/backstageData/plugins/formSubmit/detalisList.vue'),
+      meta: {
+        title: '表单提交列表',
+        sidebar: false,
+        branch:true
+      },
     },
 
 
