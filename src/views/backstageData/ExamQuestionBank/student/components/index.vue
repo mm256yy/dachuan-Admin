@@ -88,6 +88,7 @@
         <el-select
           v-model="form.subjectId"
           filterable
+          multiple
           placeholder="请选择科目"
           clearable
         >
@@ -145,7 +146,7 @@ const myVisible = ref(props.modelValue);
 console.log(props, 999);
 
 const title = computed(() => (props.id === "" ? "新增考卷" : "修改考卷"));
-const form = ref({
+const form: any = ref({
   adminId: storage.local.get("adminId"),
   userServiceToken: storage.local.get("userServiceToken"),
   id: props.id,
@@ -157,7 +158,7 @@ const form = ref({
   practiceRatio: "",
   remark: "",
   studentName: "",
-  subjectId: "",
+  subjectId: [],
   userid: 0,
   validity: "",
 });
@@ -208,11 +209,19 @@ onMounted(() => {
       })
       .then((res: any) => {
         form.value = res.body;
+        form.value.subjectId = form.value.subjectId.split(",");
+        form.value.subjectId.forEach((item: any) => {
+          item = Number(item);
+        });
+        console.log(form.value.subjectId);
       });
   }
 });
 
 function onSubmit() {
+  console.log(form.value.subjectId);
+
+  form.value.subjectId = form.value.subjectId.join();
   if (form.value.id === "") {
     formRef.value &&
       formRef.value.validate((valid: any) => {

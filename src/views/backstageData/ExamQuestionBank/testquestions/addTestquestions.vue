@@ -570,6 +570,7 @@ function onSubmit() {
                   message: res.msg,
                   center: true,
                 });
+                onCancel();
               }
             });
         }

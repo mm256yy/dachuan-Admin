@@ -61,7 +61,15 @@
           <el-table-column type="selection" />
           <el-table-column prop="id" label="ID" align="center" width="60" />
           <el-table-column prop="className" label="班级名称" align="center" />
-          <el-table-column prop="gradeId" label="所属年级" align="center" />
+
+          <el-table-column prop="gradeId" label="所属年级" align="center">
+            <template #default="scope">
+              <div v-if="scope.row.practiceGrade">
+                {{ scope.row.practiceGrade.gradeName }}
+              </div>
+            </template>
+          </el-table-column>
+
           <!-- <el-table-column
             prop="categoryDesc"
             label="科目数量"

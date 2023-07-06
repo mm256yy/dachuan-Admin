@@ -66,6 +66,14 @@
             align="center"
           />
           <el-table-column prop="subjectId" label="所属科目" align="center" />
+
+          <el-table-column prop="gradeId" label="所属年级" align="center">
+            <template #default="scope">
+              <div v-if="scope.row.practiceGrade">
+                {{ scope.row.practiceGrade.gradeName }}
+              </div>
+            </template>
+          </el-table-column>
           <!-- <el-table-column
             prop="categoryDesc"
             label="试题数量"

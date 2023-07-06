@@ -60,16 +60,31 @@
         >
           <el-table-column type="selection" />
           <el-table-column prop="id" label="ID" align="center" width="60" />
-          <el-table-column
+          <!-- <el-table-column
             prop="questionType"
             label="试题类型"
             align="center"
-          />
-          <!-- <el-table-column
-            prop="questionStemExtJson."
+          /> -->
+
+          <el-table-column prop="questionType" label="试题类型" align="center">
+            <template #default="scope">
+              <div v-if="scope.row.questionType == 0">判断题</div>
+              <div v-if="scope.row.questionType == 1">单选题</div>
+              <div v-if="scope.row.questionType == 2">多选题</div>
+            </template>
+          </el-table-column>
+          <el-table-column
+            prop="questionStemExtJson"
             label="试题题干"
             align="center"
-          /> -->
+            width="500"
+          >
+            <template #default="scope">
+              <div
+                v-html="scope.row.questionStemExtJson.testQuestionsContent"
+              ></div>
+            </template>
+          </el-table-column>
 
           <el-table-column
             prop="createTime"
@@ -178,6 +193,9 @@ function getlist() {
     .then((res: any) => {
       if (res.code == 200) {
         tableData.value = res.body.list;
+        tableData.value.forEach((item: any) => {
+          item.questionStemExtJson = JSON.parse(item.questionStemExtJson);
+        });
         total.value = res.body.total;
         tableobj.keyword = "";
       } else {

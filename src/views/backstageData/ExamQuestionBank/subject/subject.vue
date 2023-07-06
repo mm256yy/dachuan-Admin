@@ -61,7 +61,14 @@
           <el-table-column type="selection" />
           <el-table-column prop="id" label="ID" align="center" width="60" />
           <el-table-column prop="subjectName" label="科目名称" align="center" />
-          <el-table-column prop="classId" label="所属班级" align="center" />
+          <el-table-column prop="classId" label="所属班级" align="center">
+            <template #default="scope">
+              <div v-if="scope.row.plugsPracticeClass">
+                {{ scope.row.plugsPracticeClass.className }}
+              </div>
+            </template>
+          </el-table-column>
+
           <el-table-column
             prop="categoryDesc"
             label="题库数量"
