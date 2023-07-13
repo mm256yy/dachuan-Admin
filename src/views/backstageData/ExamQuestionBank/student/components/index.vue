@@ -145,7 +145,7 @@ const props = withDefaults(
 const myVisible = ref(props.modelValue);
 console.log(props, 999);
 
-const title = computed(() => (props.id === "" ? "新增考卷" : "修改考卷"));
+const title = computed(() => (props.id === "" ? "新增学员" : "修改学员"));
 const form: any = ref({
   adminId: storage.local.get("adminId"),
   userServiceToken: storage.local.get("userServiceToken"),
@@ -209,11 +209,7 @@ onMounted(() => {
       })
       .then((res: any) => {
         form.value = res.body;
-        form.value.subjectId = form.value.subjectId.split(",");
-        form.value.subjectId.forEach((item: any) => {
-          item = Number(item);
-        });
-        console.log(form.value.subjectId);
+        form.value.subjectId = form.value.subjectId.split(",").map(Number);
       });
   }
 });

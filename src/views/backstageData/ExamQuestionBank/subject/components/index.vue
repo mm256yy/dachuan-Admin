@@ -28,6 +28,13 @@
         </el-select>
       </el-form-item>
 
+      <el-form-item label="科目价格" prop="payMoney">
+        <el-input v-model="form.payMoney" placeholder="请输入" clearable />
+      </el-form-item>
+      <el-form-item label="有效天数" prop="effectiveDays">
+        <el-input v-model="form.effectiveDays" placeholder="请输入" clearable />
+      </el-form-item>
+
       <el-form-item label="科目排序" prop="subjectOrder">
         <el-input v-model="form.subjectOrder" placeholder="请输入" clearable />
       </el-form-item>
@@ -85,6 +92,8 @@ const form = ref({
   status: 0,
   subjectName: "",
   subjectOrder: "",
+  payMoney: "",
+  effectiveDays: "",
 });
 const formRef = ref();
 const formRules = ref({

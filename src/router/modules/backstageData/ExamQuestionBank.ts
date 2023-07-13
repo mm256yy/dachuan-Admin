@@ -39,6 +39,16 @@ const routes: RouteRecordRaw = {
       },
     },
     {
+      path: 'practivelist/:id',
+      name: 'practivelist',
+      component: () => import('@/views/backstageData/ExamQuestionBank/subject/practivelist.vue'),
+      meta: {
+        title: '科目练习记录',sidebar: false,
+      },
+    },
+
+
+    {
       path: 'questionbank',
       name: 'questionbank',
       component: () => import('@/views/backstageData/ExamQuestionBank/questionbank/questionbank.vue'),
@@ -71,6 +81,15 @@ const routes: RouteRecordRaw = {
         title: '考卷管理',sidebar: false,
       },
     },
+    {
+      path: 'configuration/:id',
+      name: 'configuration',
+      component: () => import('@/views/backstageData/ExamQuestionBank/examinationpaper/configuration.vue'),
+      meta: {
+        title: '考卷详情',sidebar: false,
+      },
+    },
+
     {
       path: 'student',
       name: 'student',

@@ -98,7 +98,17 @@
               />
             </template>
           </el-table-column>
-
+          <!-- <el-table-column label="练习记录" width="120" align="center">
+            <template #default="scope">
+              <el-button
+                link
+                type="primary"
+                size="small"
+                @click="viewClick(scope.row.id)"
+                >练习记录</el-button
+              >
+            </template>
+          </el-table-column> -->
           <el-table-column fixed="right" label="操作" width="120">
             <template #default="scope">
               <el-button
@@ -149,6 +159,7 @@ import api from "@/api";
 import { ElMessage, ElMessageBox } from "element-plus";
 import FormMode from "./components/index.vue";
 import storage from "@/utils/storage";
+const router = useRouter();
 const route = useRoute();
 // 搜索
 
@@ -277,6 +288,14 @@ const editClick = (e: any) => {
   data.value.formModeProps.visible = true;
   data.value.formModeProps.id = e;
   data.value.formModeProps.plugsId = 143;
+};
+const viewClick = (e: any) => {
+  router.push({
+    name: "practivelist",
+    params: {
+      id: e,
+    },
+  });
 };
 
 // 刷新组件

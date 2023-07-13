@@ -64,8 +64,8 @@
       </el-row>
       <el-row>
         <el-col :span="12">
-          <el-form-item label="考试时长" prop="subjectId">
-            <el-input v-model="form.orders" placeholder="请输入" clearable>
+          <el-form-item label="考试时长" prop="testMinute">
+            <el-input v-model="form.testMinute" placeholder="请输入" clearable>
               <template #append>分钟</template>
             </el-input>
           </el-form-item>
@@ -86,8 +86,8 @@
       </el-row>
       <el-row>
         <el-col :span="12">
-          <el-form-item label="考试次数" prop="subjectId">
-            <el-input v-model="form.testOrder" placeholder="请输入" clearable>
+          <el-form-item label="考试次数" prop="testCount">
+            <el-input v-model="form.testCount" placeholder="请输入" clearable>
               <template #append>次</template>
             </el-input>
           </el-form-item>
@@ -174,6 +174,8 @@ const form = ref({
   status: 0,
   subjectId: "",
   testOrder: 0,
+  testMinute: 120,
+  testCount: 1,
   testPaperName: "",
 });
 const formRef = ref();
@@ -211,6 +213,9 @@ onMounted(() => {
 });
 
 function onSubmit() {
+  // api.get("/api/plugs/getCommonPayInfoByDataId");
+
+  // return;
   if (form.value.id === "") {
     formRef.value &&
       formRef.value.validate((valid: any) => {

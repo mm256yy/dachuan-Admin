@@ -82,7 +82,17 @@
             label="添加/更新时间"
             align="center"
           />
-
+          <el-table-column label="考卷试题" width="120" align="center">
+            <template #default="scope">
+              <el-button
+                link
+                type="primary"
+                size="small"
+                @click="viewClick(scope.row.id)"
+                >试题详情</el-button
+              >
+            </template>
+          </el-table-column>
           <el-table-column prop="status" label="题库状态" align="center">
             <template #default="scope">
               <el-switch
@@ -148,6 +158,7 @@ import { ElMessage, ElMessageBox } from "element-plus";
 import FormMode from "./components/index.vue";
 import storage from "@/utils/storage";
 const route = useRoute();
+const router = useRouter();
 // 搜索
 
 const data: any = ref({
@@ -280,7 +291,14 @@ const editClick = (e: any) => {
   data.value.formModeProps.id = e;
   data.value.formModeProps.plugsId = 143;
 };
-
+const viewClick = (e: any) => {
+  router.push({
+    name: "configuration",
+    params: {
+      id: e,
+    },
+  });
+};
 // 刷新组件
 function update() {
   getlist();
