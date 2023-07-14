@@ -108,6 +108,17 @@
               />
             </template>
           </el-table-column>
+          <el-table-column label="练习记录" align="center">
+            <template #default="scope">
+              <el-button
+                link
+                type="primary"
+                size="small"
+                @click="viewClick(scope.row.id)"
+                >练习详情</el-button
+              >
+            </template>
+          </el-table-column>
 
           <el-table-column fixed="right" label="操作" width="120">
             <template #default="scope">
@@ -288,7 +299,15 @@ const editClick = (e: any) => {
   data.value.formModeProps.id = e;
   data.value.formModeProps.plugsId = 143;
 };
-
+const router = useRouter();
+const viewClick = (e: any) => {
+  router.push({
+    name: "practivelist",
+    params: {
+      id: e,
+    },
+  });
+};
 // 刷新组件
 function update() {
   getlist();

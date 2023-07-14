@@ -45,8 +45,28 @@ meta:
             />
           </el-select>
         </el-form-item>
-        <el-form-item label="店铺ID" prop="">
+        <el-form-item label="店铺ID" prop="businessId">
           <el-select
+            style="width: 680px;"
+               v-model="sleStoreList"
+                filterable
+                placeholder="选择店铺(一个或多个)"
+                multiple
+               @change="selectBusiness"
+                collapse-tags
+                collapse-tags-tooltip
+               :max-collapse-tags="4"
+            >
+              <el-option key="selectAll" label="全部" value="selectAll"/>
+              <!-- <el-option key="0" label="全部" value="0" /> -->
+              <el-option
+                v-for="item in businessList"
+                :key="item.businessId"
+                :label="item.businessName"
+                :value="item.businessId"
+              />
+            </el-select>
+          <!-- <el-select
             v-model="form.businessId"
             filterable
             placeholder="选择插件"
@@ -58,8 +78,9 @@ meta:
               :label="item.businessName"
               :value="item.businessId"
             />
-          </el-select>
+          </el-select> -->
         </el-form-item>
+
         <el-form-item label="插件数据" prop="jsonData">
           <el-input v-model="form.jsonData" />
         </el-form-item>
@@ -87,7 +108,8 @@ const form: any = ref({
   adminId: Number(storage.local.get("adminId")),
   userServiceToken: storage.local.get("userServiceToken"),
   id: route.params.id ?? "",
-  jsonData: `[{"data":"0","data_type":"sql","description":"这是一个热销商品的布局页面数据","key_description":"0","type":"ax002","sql":"SELECT * FROM cf_plugs_goods WHERE id in(?);","parms":""}]`,
+  jsonData: ` [{"data":[{"customer_images":"https://systemimgs.oss-cn-hangzhou.aliyuncs.com/recommendedBits/yzqc_0007.jpg?time=1678687920394","mobile":"18324496190","customer_name":"张三"}],"data_type":"static","description":"这是一个图片列表解析数据 customer_images:客服头像,customer_name:客服名字,mobile:客服名字","key_description":{"customer_images":"客服头像","mobile":"手机","customer_name":"客服名称"},"type":"ax001","sql":"0","parms":"-"},{"data":"0","data_type":"sql","description":"这是一个热销商品的布局页面数据",
+  "key_description":"0","type":"ax002","sql":"SELECT * FROM cf_plugs_goods WHERE id in(?);","parms":"126,127"}]`,
 
   // describes: "",
   plugsId: Number(route.params.plugsId) ?? "",
@@ -102,6 +124,45 @@ const formRules = ref({
 });
 const plugsList: any = ref([]);
 const businessList: any = ref([]);
+const sleStoreList:any=ref([]);
+const selectAll:any=ref(false);
+function selectBusiness(val:any){
+   if(selectAll.value){
+    selectAll.value = false;
+    if(val.indexOf('selectAll') > -1){
+      sleStoreList.value=val.filter((item:any)=>{
+        return item!='selectAll'
+      })
+    }else{
+      sleStoreList.value=[];
+    }
+   }else{
+    if(val.indexOf('selectAll') > -1){
+      const optionsValue:any = [];
+      businessList.value.forEach((item:any)=>{
+        optionsValue.push(item.businessId)
+      })
+      sleStoreList.value=['selectAll',...optionsValue]
+      selectAll.value = true;
+    }else{
+      if(val.length=== businessList.value.length){
+        const optionsValue:any = [];
+        businessList.value.forEach((item:any)=>{
+        optionsValue.push(item.businessId)
+      })
+      sleStoreList.value=['selectAll', ...optionsValue]
+      selectAll.value = true;
+      }else{
+        sleStoreList.value=val
+      }
+    }
+   }
+  const realSelect= sleStoreList.value.filter((item:any)=>{
+    return item!='selectAll'
+  })
+  // realSelect.toString()
+  // form.value.businessId=realSelect.toString();
+}
 onMounted(() => {
   let data = {
     adminId: storage.local.get("adminId"),
@@ -126,12 +187,22 @@ onMounted(() => {
   });
 });
 // 获取店铺
-
+const busList:any=ref([]);
 function onSubmit() {
-  console.log(form.value);
-
+  // console.log(form.value);
+  form.value.businessId='0'
+    businessList.value.forEach((item2:any)=>{
+        sleStoreList.value.forEach((item:any)=>{
+          if(item==item2.businessId){
+              let str=item2.businessId+'_'+item2.businessName;
+              busList.value.push(str)
+          }
+      }) 
+   })
+   form.value.businessList=busList.value;
   formRef.value &&
     formRef.value.validate((valid: any) => {
+
       if (valid) {
         api
           .post("/api/plugs/insertPlugsHomeData", form.value)
@@ -159,7 +230,7 @@ function onCancel() {
     name: "homeData",
     params: {
       id: route.params.plugsId,
-      admin: "user",
+      admin:'user'
     },
   });
 }

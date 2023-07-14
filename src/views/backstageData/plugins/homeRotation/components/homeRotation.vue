@@ -15,7 +15,7 @@
         :rules="formRules"
         label-width="110px"
       >
-        <div v-if="form.userServiceToken == 'PO5159ATBWNAPEXVKDK6E'">
+        <!-- <div v-if="form.userServiceToken == 'PO5159ATBWNAPEXVKDK6E'">
           <el-form-item label="法规名称" prop="title">
             <el-input v-model="form.title" placeholder="请输入" clearable />
           </el-form-item>
@@ -37,9 +37,9 @@
               </template>
             </el-input>
           </el-form-item>
-        </div>
+        </div> -->
 
-        <div v-else>
+        <div>
           <el-form-item label="推荐位名称" prop="title">
             <el-input v-model="form.title" placeholder="请输入" clearable />
           </el-form-item>
@@ -48,11 +48,35 @@
           </el-form-item>
           <el-form-item label="店铺" prop="businessId">
             <el-select
-              v-model="form.businessId"
-              filterable
-              placeholder="选择店铺"
+            v-if="props.id==''"
+            style="width: 680px;"
+               v-model="sleStoreList"
+                filterable
+                placeholder="选择店铺(一个或多个)"
+                multiple
+               @change="selectBusiness"
+                collapse-tags
+                collapse-tags-tooltip
+               :max-collapse-tags="4"
             >
-              <el-option key="0" label="全部" value="0" />
+              <el-option key="selectAll" label="全部" value="selectAll"/>
+              <!-- <el-option key="0" label="全部" value="0" /> -->
+              <el-option
+                v-for="item in businessList"
+                :key="item.businessId"
+                :label="item.businessName"
+                :value="item.businessId"
+              />
+            </el-select>
+            <el-select
+              v-else
+            style="width: 680px;"
+               v-model="form.businessId"
+                filterable
+                placeholder="选择店铺"
+            >
+              <!-- <el-option key="selectAll" label="全部" value="selectAll"/> -->
+              <!-- <el-option key="0" label="全部" value="0" /> -->
               <el-option
                 v-for="item in businessList"
                 :key="item.businessId"
@@ -61,7 +85,7 @@
               />
             </el-select>
           </el-form-item>
-          <el-form-item label="插件ID" prop="plugsId">
+          <!-- <el-form-item label="插件ID" prop="plugsId">
             <el-select
               v-model="form.plugsId"
               filterable
@@ -75,10 +99,8 @@
                 :value="item.id"
               />
             </el-select>
-          </el-form-item>
-
-          <el-form-item label="封面链接" prop="activityImgUrl"
-            >
+          </el-form-item> -->
+          <el-form-item label="封面链接" prop="activityImgUrl">
             <!-- <el-upload
               class="avatar-uploader"
               :action="baseURL"
@@ -131,14 +153,14 @@
             <el-input v-model="form.showHide" placeholder="请输入" clearable />
           </el-form-item>
 
-          <el-form-item label="用户服务标识" prop="userServiceToken">
+          <!-- <el-form-item label="用户服务标识" prop="userServiceToken">
             <el-input
               v-model="form.userServiceToken"
               disabled
               placeholder="请输入"
               clearable
             />
-          </el-form-item>
+          </el-form-item> -->
         </div>
       </el-form>
     </div>
@@ -165,6 +187,7 @@
 
 <script lang="ts" setup>
 import api from "@/api/plugin";
+import http from "@/api/plugin";
 import { UploadProps, ElMessage } from "element-plus";
 import storage from "@/utils/storage";
 import useUserStore from "@/store/modules/user";
@@ -183,9 +206,9 @@ const props = withDefaults(
   }
 );
 const myVisible = ref(props.modelValue);
-console.log(props, 999);
+// console.log(props, 999);
 
-const title = computed(() => (props.id === "" ? "新增" : "修改"));
+const title = computed(() => (props.id === "" ? "新增轮播图" : "修改轮播图"));
 
 const form = ref({
   id: props.id,
@@ -201,6 +224,7 @@ const form = ref({
   title: "",
   type: "",
   businessId: "0",
+  businessList: [],
 });
 const formRef = ref();
 const formRules = ref({
@@ -212,6 +236,8 @@ const formRules = ref({
 });
 const plugsList: any = ref([]);
 const businessList: any = ref([]);
+const sleStoreList:any=ref([]);
+const selectAll:any=ref(false)
 onMounted(() => {
   let data = {
     adminId: storage.local.get("adminId"),
@@ -235,7 +261,6 @@ onMounted(() => {
     }
   });
   if (props.id !== "") {
-    console.log("我用了你");
     api
       .get("/api/plugs/searchPlugsRecommendedById", {
         params: {
@@ -246,7 +271,10 @@ onMounted(() => {
         form.value = res.body;
         imageUrl.value = res.body.activityImgUrl;
         form.value.businessId = JSONBIG.stringify(form.value.businessId);
-
+        // JSONBIG.stringify(form.value.businessId)
+        // sleStoreList.value=sleStoreList.value.push( JSONBIG.stringify(res.body.businessId))
+        sleStoreList.value= res.body.businessId.split(',')
+        // console.log( sleStoreList.value,'id')
         // form.value.id = res.body.id;
         // form.value.plugsDescribe = res.body.plugsDescribe;
         // form.value.paths = res.body.paths;
@@ -259,28 +287,92 @@ onMounted(() => {
       });
   }
 });
+const busList:any=ref([])
+function selectBusiness(val:any){
+   if(selectAll.value){
+    selectAll.value = false;
+    if(val.indexOf('selectAll') > -1){
+      sleStoreList.value=val.filter((item:any)=>{
+        return item!='selectAll'
+      })
+    }else{
+      sleStoreList.value=[];
+    }
+   }else{
+    if(val.indexOf('selectAll') > -1){
+      const optionsValue:any = [];
+      businessList.value.forEach((item:any)=>{
+        optionsValue.push(item.businessId)
+      })
+      sleStoreList.value=['selectAll',...optionsValue]
+      selectAll.value = true;
+    }else{
+      if(val.length=== businessList.value.length){
+        const optionsValue:any = [];
+        businessList.value.forEach((item:any)=>{
+        optionsValue.push(item.businessId)
+      })
+      sleStoreList.value=['selectAll', ...optionsValue]
+      selectAll.value = true;
+      }else{
+        sleStoreList.value=val
+      }
+    }
+   }
+  const realSelect= sleStoreList.value.filter((item:any)=>{
+    return item!='selectAll'
+  })
+  // realSelect.toString()
+  // form.value.businessId=realSelect.toString();
+}
 
 function onSubmit() {
-  if (form.value.id === "") {
-    console.log(form.value.id, 999);
-
+  // form.value.businessId='0'
+  // businessList.value.forEach((item2:any)=>{
+  //         if(form.value.businessId==item2.businessId){
+  //             let str=item2.businessId+'_'+item2.businessName;
+  //             busList.value.push(str)
+  //         }
+  //  })
+   if(props.id==''){
+    form.value.businessId='0'
+    businessList.value.forEach((item2:any)=>{
+        sleStoreList.value.forEach((item:any)=>{
+          if(item==item2.businessId){
+              let str=item2.businessId+'_'+item2.businessName;
+              busList.value.push(str)
+          }
+      }) 
+   })
+   form.value.businessList=busList.value;
     formRef.value &&
       formRef.value.validate((valid: any) => {
         if (valid) {
-          api
+          http
             .post("/api/plugs/insertPlugsRecommended", form.value)
             .then((res: any) => {
-              ElMessage.success({
+
+              if(res.code==200){
+                ElMessage.success({
                 message: "新增成功",
                 center: true,
               });
               console.log(res, 787);
               // emit("success");
               onCancel();
+              }else{
+                ElMessage.error({
+                message: res.msg,
+                center: true,
+              });
+              busList.value=[]
+              }
+              
             });
         }
       });
-  } else {
+  } 
+  else {
     console.log("xiugai", 999);
 
     formRef.value &&
@@ -294,7 +386,7 @@ function onSubmit() {
                   message: "修改成功",
                   center: true,
                 });
-                // emit("success");
+                
                 onCancel();
               }
             });

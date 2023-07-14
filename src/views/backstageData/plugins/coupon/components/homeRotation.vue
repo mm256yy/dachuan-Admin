@@ -16,7 +16,28 @@
 						</el-select>
 					</el-form-item>
 					<el-form-item label="店铺" prop="businessId">
-						<el-select v-model="form.businessId" filterable placeholder="选择店铺">
+						<el-select
+            v-if="props.id==''"
+            style="width: 680px;"
+               v-model="sleStoreList"
+                filterable
+                placeholder="选择店铺(一个或多个)"
+                multiple
+               @change="selectBusiness"
+                collapse-tags
+                collapse-tags-tooltip
+               :max-collapse-tags="4"
+            >
+              <el-option key="selectAll" label="全部" value="selectAll"/>
+              <!-- <el-option key="0" label="全部" value="0" /> -->
+              <el-option
+                v-for="item in businessList"
+                :key="item.businessId"
+                :label="item.businessName"
+                :value="item.businessId"
+              />
+            </el-select>
+						<el-select v-else v-model="form.businessId" filterable placeholder="选择店铺">
 							<el-option key="0" label="全部" value="0" />
 							<el-option v-for="item in businessList" :key="item.businessId" :label="item.businessName"
 								:value="item.businessId" />
@@ -28,9 +49,6 @@
 						</el-select>
 					</el-form-item>
 					<el-form-item label="封面链接" prop="couponIocn">
-						<!-- <el-upload class="avatar-uploader" :action="baseURL" :headers="header" :on-remove="handleRemove"
-							name="file" :data="{ type: 1 }" :show-file-list="false" :on-success="handleAvatarSuccess"
-							:before-upload="beforeAvatarUpload"> -->
 							<img @click="upload_image('imageUrl')" style="border-radius: 8px;border:1px solid #eee;width:64px;heigth:64px" v-if="imageUrl" :src="imageUrl" class="avatar" />
 							<el-icon @click="upload_image('imageUrl')"  style="border-radius: 8px;border:1px solid #eee;width:64px;heigth:64px" v-else class="avatar-uploader-icon">
 								<Plus />
@@ -239,7 +257,7 @@
 
 	const title = computed(() => (props.id === "" ? "新增优惠券" : "修改优惠券"));
 
-	const form = ref({
+	const form:any = ref({
 		"id": props.id,
 		"adminId": storage.local.get("adminId"),
 		"userServiceToken": storage.local.get("userServiceToken"),
@@ -259,7 +277,8 @@
 		"timeType":1,
 		"number":0,
 		"maxNumber":0,
-		 "timeDay": 0
+		 "timeDay": 0,
+		 "businessList": [],
 	});
 	const couponType=ref([
 		{"name":"普通优惠券","id":0},
@@ -339,6 +358,46 @@
 	});
 	const plugsList: any = ref([]);
 	const businessList: any = ref([]);
+	const sleStoreList:any=ref([])
+	const selectAll:any=ref(false);
+	const busList:any=ref([])
+function selectBusiness(val:any){
+   if(selectAll.value){
+    selectAll.value = false;
+    if(val.indexOf('selectAll') > -1){
+      sleStoreList.value=val.filter((item:any)=>{
+        return item!='selectAll'
+      })
+    }else{
+      sleStoreList.value=[];
+    }
+   }else{
+    if(val.indexOf('selectAll') > -1){
+      const optionsValue:any = [];
+      businessList.value.forEach((item:any)=>{
+        optionsValue.push(item.businessId)
+      })
+      sleStoreList.value=['selectAll',...optionsValue]
+      selectAll.value = true;
+    }else{
+      if(val.length=== businessList.value.length){
+        const optionsValue:any = [];
+        businessList.value.forEach((item:any)=>{
+        optionsValue.push(item.businessId)
+      })
+      sleStoreList.value=['selectAll', ...optionsValue]
+      selectAll.value = true;
+      }else{
+        sleStoreList.value=val
+      }
+    }
+   }
+  const realSelect= sleStoreList.value.filter((item:any)=>{
+    return item!='selectAll'
+  })
+  // realSelect.toString()
+  // form.value.businessId=realSelect.toString();
+}
 	onMounted(() => {
 		let data = {
 			adminId: storage.local.get("adminId"),
@@ -412,6 +471,7 @@
 		form.value.endTime=value2.value
 	}
 	function dateType(){
+		// console.log(e,'日期类型')
 		// form.value.timeType=radio1.value;
 	}
 	function selectGoods(){
@@ -436,10 +496,16 @@
 
 	function onSubmit() {
 		if (form.value.id === "") {
-			// form.value.startTime=value1.value;
-			// form.value.endTime=value2.value;
-			form.value.timeType=radio1.value;
-			form.value.goodsType=radio2.value;
+			form.value.businessId='0'
+    	businessList.value.forEach((item2:any)=>{
+        sleStoreList.value.forEach((item:any)=>{
+          if(item==item2.businessId){
+              let str=item2.businessId+'_'+item2.businessName;
+              busList.value.push(str)
+          }
+      }) 
+   })
+   form.value.businessList=busList.value;
 			formRef.value &&
 				formRef.value.validate((valid: any) => {
 					if (valid) {
@@ -580,9 +646,9 @@
 </style>
 
 <style>
-	.el-form-item__content{
-		/* display: none; */
-	}
+	/* .el-form-item__content{
+		display: none;
+	} */
 	.avatar-uploader .el-upload {
 		border: 1px dashed var(--el-border-color);
 		border-radius: 6px;

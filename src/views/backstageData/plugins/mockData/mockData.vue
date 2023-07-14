@@ -49,6 +49,30 @@
           </el-button> -->
         </div>
         <div class="header-right">
+          <div style="margin-right:30px;" >
+                <el-select
+                    size="large"
+                    v-model="selbusinessId"
+                    style="width: 200px;"
+                    filterable
+                    placeholder="选择店铺"
+                  >
+                  <!-- <el-select
+                    v-model="form.businessId"
+                    style="width: 480px"
+                    filterable
+                    placeholder="选择店铺(一个或多个)"
+                    @change=""
+                  > -->
+                  <el-option key="-1" label="全部" value="-1"/>
+                    <el-option
+                      v-for="item in businessList"
+                      :key="item.businessId"
+                      :label="item.businessName"
+                      :value="item.businessId"
+                    />
+                  </el-select>
+          </div>
           <div class="lang">
             <el-input
               style="width: 150px; height: 40px"
@@ -83,6 +107,22 @@
         >
           <el-table-column type="selection" />
           <el-table-column prop="id" label="ID" align="center" />
+          <el-table-column label="所属店铺"  show-overflow-tooltip align="center">
+            <template #default="scope">
+              <div>
+                <div v-if="scope.row.businessId==0" >
+                    全部
+                </div>
+                <div v-else >
+                    <div v-for="item in businessList" :key="item.businessId" >
+                        <div v-if="item.businessId==scope.row.businessId" >
+                          {{item.businessName}}
+                        </div>
+                    </div>
+                </div>
+              </div>
+            </template>
+          </el-table-column>
           <el-table-column prop="dataType" label="数据类型" align="center" />
           <el-table-column
             prop="describes"
@@ -176,7 +216,25 @@ const data = ref({
 
 onMounted(() => {
   getlist();
+  getBusinessInfo()
 });
+const businessList: any = ref([]);
+function getBusinessInfo(){
+  let data = {
+    adminId: storage.local.get("adminId"),
+    userServiceToken: storage.local.get("userServiceToken"),
+    size: 1000,
+  };
+  api.get("/api/plugs/getBusinessInfo", { params: data }).then((res: any) => {
+    if (res.code == 200) {
+      res.body.forEach((item: any) => {
+        item.jsonViewData.businessId = item.jsonViewData.businessId.toString();
+        businessList.value.push(item.jsonViewData);
+      });
+    }
+  });
+}
+
 // 获取表格信息
 let tableData: any = ref([
   // {
@@ -195,7 +253,7 @@ const tableobj = reactive({
   currentPage: 1,
   pageSize: 10,
 });
-
+const selbusinessId:any=ref('-1')
 function getlist() {
   let data: any = {
     page: tableobj.currentPage,
@@ -203,6 +261,7 @@ function getlist() {
     adminId: storage.local.get("adminId"),
     userServiceToken: storage.local.get("userServiceToken"),
     id: route.params.id,
+    businessId:selbusinessId.value
   };
 
   if (route.params.admin == "admin") {

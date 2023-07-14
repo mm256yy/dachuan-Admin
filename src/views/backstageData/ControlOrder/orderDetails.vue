@@ -48,7 +48,7 @@ function getMallSetting() {
         console.log(res);
         if (res.code == 200) {
           content.value = res.body;
-          console.log(content.value,'订单详情8888888888')
+          // console.log(content.value,'订单详情8888888888')
         }
       });
   } catch (error) {
@@ -80,9 +80,12 @@ function addressData(value: any) {
   } catch (error) {
     // data = JSON.parse(data)
   }
-  let province =
-    data.province + "" + data.city + "" + data.district + "" + data.address;
-
+  let province ='';
+  if(content.value.logisticsType == 4){
+    province=data.address;
+  }else{
+    province= data.province + "" + data.city + "" + data.district + "" + data.address;
+  }
   return province;
 }
 function addressData1(value: any) {
@@ -272,12 +275,23 @@ const open = () => {
               </div>
             </div>
             <div style="display: flex; margin: 10px 0">
-              <div style="font-weight: bolder; font-size: 12px; width: 80px">
+              <div v-if="content.logisticsType == 4" >
+                <div style="font-weight: bolder; font-size: 12px; width: 80px">
+                自提地址：
+                </div>
+                <div style="font-size: 10px; display: flex; align-items: center">
+                 {{ addressData(content.orderLogistics.receiverMobile) }}
+                </div>
+              </div>
+              <div v-else >
+                <div style="font-weight: bolder; font-size: 12px; width: 80px">
                 收货地址：
+                </div>
+                <div style="font-size: 10px; display: flex; align-items: center">
+                 {{ addressData(content.orderLogistics.receiverMobile) }}
+                </div>
               </div>
-              <div style="font-size: 10px; display: flex; align-items: center">
-                {{ addressData(content.orderLogistics.receiverMobile) }}
-              </div>
+             
             </div>
             <!-- <div style="display:flex;margin: 10px 0;">
                 <div style="font-weight:bolder;font-size: 12px;width: 80px;">会员昵称：</div>

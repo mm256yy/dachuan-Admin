@@ -60,36 +60,39 @@ meta:
             <el-option :key="2" label="多选题" :value="2" />
           </el-select>
         </el-form-item>
-        <el-form-item label="所属题库" prop="subjectId">
-          <el-row>
-            <el-select
-              v-model="form.subjectId"
-              filterable
-              placeholder="请选择科目"
-            >
-              <el-option
-                v-for="item in subjectList"
-                :key="item.id"
-                :label="item.subjectName"
-                :value="item.id"
-              />
-            </el-select>
-          </el-row>
-          <el-row>
-            <el-select
-              v-model="form.questionBankId"
-              filterable
-              placeholder="请选择题库"
-            >
-              <el-option
-                v-for="item in questionBankList"
-                :key="item.id"
-                :label="item.questionBankName"
-                :value="item.id"
-              />
-            </el-select>
-          </el-row>
+
+        <el-form-item label="所属科目" prop="subjectId">
+          <el-select
+            v-model="form.subjectId"
+            filterable
+            clearable
+            placeholder="请选择科目"
+            @change="changesub"
+          >
+            <el-option
+              v-for="item in subjectList"
+              :key="item.id"
+              :label="item.subjectName"
+              :value="item.id"
+            />
+          </el-select>
         </el-form-item>
+
+        <el-form-item label="所属题库" prop="questionBankId">
+          <el-select
+            v-model="form.questionBankId"
+            filterable
+            placeholder="请选择题库"
+          >
+            <el-option
+              v-for="item in questionBankList"
+              :key="item.id"
+              :label="item.questionBankName"
+              :value="item.id"
+            />
+          </el-select>
+        </el-form-item>
+
         <el-form-item label="试题题干" prop="questionStemExtJson">
           <div>
             <TinymceEditor
@@ -485,7 +488,7 @@ const changeTypeThreeDel = (index: any) => {
 const formRef = ref();
 const formRules = ref({
   questionType: [{ required: true, message: "请输入" }],
-  subjectId: [{ required: true, message: "请输入" }],
+  questionBankId: [{ required: true, message: "请输入" }],
 });
 
 const subjectList: any = ref([]);
@@ -507,14 +510,7 @@ onMounted(() => {
       }
     });
   // 获取题库
-  api
-    .get("/api/plugs/searchPlugsPracticeQuestionBankList", { params: data })
-    .then((res: any) => {
-      if (res.code == 200) {
-        questionBankList.value = res.body.list;
-      }
-    });
-
+  getquestionBankList();
   if (form.value.id != 0) {
     console.log("我用了你");
     api
@@ -534,6 +530,23 @@ onMounted(() => {
       });
   }
 });
+const dataId = ref("");
+const getquestionBankList = () => {
+  let data: any = {
+    page: 1,
+    size: 50,
+    dataId: dataId.value,
+    adminId: storage.local.get("adminId"),
+    userServiceToken: storage.local.get("userServiceToken"),
+  };
+  api
+    .get("/api/plugs/searchPlugsPracticeQuestionBankList", { params: data })
+    .then((res: any) => {
+      if (res.code == 200) {
+        questionBankList.value = res.body.list;
+      }
+    });
+};
 
 function onSubmit() {
   if (form.value.questionType == 0) {
@@ -614,6 +627,11 @@ function onCancel() {
   router.push({
     name: "testquestions",
   });
+}
+function changesub(value: any) {
+  console.log(value);
+  dataId.value = value;
+  getquestionBankList();
 }
 </script>
 

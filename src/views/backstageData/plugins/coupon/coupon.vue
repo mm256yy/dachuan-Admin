@@ -86,6 +86,7 @@ meta:
             prop="couponName"
             label="优惠券名称"
             align="center"
+            show-overflow-tooltip
           />
           <el-table-column
             label="使用/领取条件"

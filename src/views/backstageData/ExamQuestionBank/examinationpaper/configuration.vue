@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="content" style="width: 50%">
+    <div class="content" style="width: 45%">
       <div class="main">
         <el-scrollbar height="64vh">
           <el-table
@@ -58,9 +58,36 @@
       </div>
     </div>
 
-    <div class="content" style="width: 40%; background-color: #fff">
+    <div class="content" style="width: 50%; background-color: #fff">
       <div style="display: flex; padding: 20px; justify-content: space-between">
         <div style="display: flex; justify-content: space-between">
+          <!-- <div class="lang">
+            <el-select
+              v-model="tableobj.questionBankId"
+              filterable
+              placeholder="选择题库
+            "
+            >
+              <el-option
+                v-for="item in questionbankList"
+                :key="item.questionBankId"
+                :label="item.questionBankName"
+                :value="item.questionBankId"
+              />
+            </el-select>
+          </div> -->
+          <!-- <div class="lang">
+            <el-select
+              v-model="businessId"
+              filterable
+              placeholder="选择试题类型
+            "
+            >
+              <el-option key="0" label="判断题" value="0" />
+              <el-option key="1" label="单选题" value="1" />
+              <el-option key="2" label="多选题" value="2" />
+            </el-select>
+          </div> -->
           <div class="lang">
             <el-input
               style="width: 150px"
@@ -194,7 +221,9 @@ const tableobj = reactive({
   currentPage: 1,
   pageSize: 50,
   keyword: "",
+  // questionBankId: "",
 });
+const questionbankList: any = ref([]);
 
 function getlist() {
   let data: any = {
@@ -203,6 +232,7 @@ function getlist() {
     adminId: storage.local.get("adminId"),
     keyword: tableobj.keyword,
     userServiceToken: storage.local.get("userServiceToken"),
+    // questionBankId: tableobj.questionBankId,
   };
 
   api
@@ -217,6 +247,28 @@ function getlist() {
         });
         total.value = res.body.total;
         tableobj.keyword = "";
+        // tableobj.questionBankId = "";
+      } else {
+        ElMessage.success({
+          message: res.msg,
+          center: true,
+        });
+      }
+      // console.log(tableData.value, 123);
+    });
+
+  let datas: any = {
+    page: 1,
+    size: 1000,
+    adminId: storage.local.get("adminId"),
+    userServiceToken: storage.local.get("userServiceToken"),
+  };
+
+  api
+    .get("/api/plugs/searchPlugsPracticeQuestionBankList", { params: datas })
+    .then((res: any) => {
+      if (res.code == 200) {
+        questionbankList.value = res.body.list;
       } else {
         ElMessage.success({
           message: res.msg,

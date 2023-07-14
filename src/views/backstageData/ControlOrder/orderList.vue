@@ -15,6 +15,7 @@ import storage from "@/utils/storage";
 import { ElMessage, ElMessageBox, TabsPaneContext } from "element-plus";
 import EditDetails from "./components/editDetails.vue";
 import ViewDetails from "./components/viewDetails.vue";
+// import Exportorder from "@/components/Exportorder/index.vue";
 import JSONBIG from "json-bigint";
 import table2excel from "js-table2excel";
 const router = useRouter();
@@ -129,7 +130,6 @@ function changeformat(val: any) {
     listvalue.value = false;
     getMallSetting();
   }
-  console.log(listvalue.value, "列表格式列表格式");
 }
 // 导出表格数据
 const DialogVisible2: any = ref(false);
@@ -210,7 +210,6 @@ function getDianpu() {
     if (res.code == 200) {
       res.body.forEach((item: any) => {
         item.jsonViewData.businessId = item.jsonViewData.businessId.toString();
-
         businessList.value.push(item.jsonViewData);
         businessList2.value.push(item.jsonViewData);
       });
@@ -273,8 +272,15 @@ function saleTotalList() {
 // 批量发货
 function deliverGoods() {
   let data = {
-    ids: idlist.value.join(),
+    orderIds: idlist.value.join(),
   };
+  if (data.orderIds == "" || data.orderIds == null) {
+    ElMessage.warning({
+      message: "请选择订单(最多选择当前页面)",
+      center: true,
+    });
+    return;
+  }
   api.post("/api/order/orderSendGoods", data).then((res: any) => {
     if (res.code == 200) {
       ElMessage.success({
@@ -317,7 +323,7 @@ function exportOrder33() {
     },
     responseType: "blob",
   }).then((res: any) => {
-    fileDownload(res.data, "deviceModel.xlsx");
+    fileDownload(res.data, "OrderList.xlsx");
     loading.value = false;
   });
 }
@@ -343,13 +349,15 @@ function getMallSetting() {
       if (res.code == 200) {
         loading.value = false;
         tableData.value = res.body.list;
+        tableData.value.forEach((item: any) => {
+          item.businessId = JSON.parse(JSON.stringify(item.businessId));
+        });
         // tableData.value.forEach((item:any)=>{
         // 	if(item.orderLogistics.receiverAddressJson!==""){
         // 		item.orderLogistics.receiverAddressJson=JSON.parse(item.orderLogistics.receiverAddressJson)
         // 	}
 
         // })
-        console.log(tableData.value, "表格数据");
         total.value = res.body.total;
         let orderArr = res.body.list;
       }
@@ -439,6 +447,10 @@ const formModeProps: any = ref({
   visible1: false,
   id: "",
   id1: "",
+});
+// 导出订单弹框
+const formModeProps2: any = ref({
+  visible: false,
 });
 const editDetails = (item: any) => {
   formModeProps.value.visible = true;
@@ -761,6 +773,8 @@ const changeClick = () => {
               margin: 0 0 10px 0;
               display: flex;
               justify-content: space-between;
+              overflow: hidden;
+              overflow-x: scroll;
             "
           >
             <div style="display: flex; align-items: center">
@@ -838,21 +852,26 @@ const changeClick = () => {
               </div>
             </div>
             <div style="display: flex">
-              <div
-                style="margin-right: 8px; display: flex; align-items: center"
-              >
-                <el-date-picker
-                  v-model="value1"
-                  @change="changeTime"
-                  value-format="YYYY-MM-DD HH:mm:ss"
-                  type="datetimerange"
-                  range-separator="To"
-                  start-placeholder="开始日期"
-                  end-placeholder="结束日期"
-                />
-              </div>
+              <!-- <div style="margin-right: 8px;display: flex;align-items: center;"> -->
+              <el-date-picker
+                v-model="value1"
+                style="width: 360px; margin-left: 15px"
+                @change="changeTime"
+                value-format="YYYY-MM-DD HH:mm:ss"
+                type="datetimerange"
+                range-separator="To"
+                start-placeholder="开始日期"
+                end-placeholder="结束日期"
+              />
+              <!-- </div> -->
 
-              <el-select v-model="businessId" filterable placeholder="选择店铺">
+              <el-select
+                style="width: 180px; margin-left: 15px"
+                v-model="businessId"
+                filterable
+                placeholder="选择店铺"
+              >
+                <el-option :key="0" label="全部" :value="0" />
                 <el-option
                   v-for="item in businessList"
                   :key="item.businessId"
@@ -860,14 +879,15 @@ const changeClick = () => {
                   :value="item.businessId"
                 />
               </el-select>
-              <div class="lang">
-                <el-input
-                  style="width: 150px; margin: 0 15px"
-                  v-model="tableobj.keyword"
-                  placeholder="请输入"
-                  @keyup.enter.native="getMallSetting"
-                />
-              </div>
+              <!-- style="width: 150px; " -->
+              <!-- <div class="lang"> -->
+              <el-input
+                v-model="tableobj.keyword"
+                style="width: 120px; margin: 0 15px"
+                placeholder="请输入"
+                @keyup.enter.native="getMallSetting"
+              />
+              <!-- </div> -->
               <el-button :icon="Search" @click="getMallSetting()"
                 >搜索</el-button
               >
@@ -953,12 +973,23 @@ const changeClick = () => {
                           <div style="width: 240px">
                             数量:x{{ item.goodsNum }}
                           </div>
-                          <div style="width: 200px">
-                            <div v-if="item.goodsSpecification">
-                              单价:￥{{ item.goodsSpecification.dealPrice }}
+                          <div>
+                            <div style="width: 200px">
+                              <div v-if="item.goodsSpecification">
+                                单价:￥{{ item.goodsSpecification.dealPrice }}
+                                <!-- <div v-if="item.plugsGoods.goodsType=0
+">
+																单价:￥{{item.goodsSpecification.dealPrice}}
+															</div> -->
+                                <!-- <div v-else-if="item.plugsGoods.goodsType=1
+">
+																单价:{{item.goodsSpecification.dealPrice}}积分
+															</div> -->
+                              </div>
+                              <div v-else>单价:￥{{ item.goodsPrice }}</div>
                             </div>
-                            <div v-else>单价:￥{{ item.goodsPrice }}</div>
                           </div>
+
                           <div style="width: 200px">
                             <div v-if="item.orderStatus == 0">待付款</div>
                             <div v-else-if="item.orderStatus == 1">待接单</div>
@@ -1062,7 +1093,7 @@ const changeClick = () => {
                         <p>配送费:￥{{ props.row.distributionFee }}</p>
                       </div>
                       <div v-for="item in businessList" :key="item.businessId">
-                        <P v-if="item.businessId == props.row.bussinessId"
+                        <P v-if="item.businessId == props.row.businessId"
                           >所属店铺:{{ item.businessName }}</P
                         >
                       </div>
@@ -1083,12 +1114,11 @@ const changeClick = () => {
               <el-table-column
                 label="订单编号"
                 prop="orderNo"
-                width="250"
+                width="270"
                 show-overflow-tooltip
                 align="center"
               >
               </el-table-column>
-
               <el-table-column label="配送方式" align="center">
                 <template #default="scope">
                   <div v-if="scope.row.logisticsType == 1">配送</div>
@@ -1287,6 +1317,9 @@ const changeClick = () => {
         :id="formModeProps.id1"
         @success="update1"
       ></ViewDetails>
+      <!-- <Exportorder v-if="formModeProps2.visible" v-model="formModeProps2.visible" >
+
+			</Exportorder> -->
     </div>
   </div>
 </template>

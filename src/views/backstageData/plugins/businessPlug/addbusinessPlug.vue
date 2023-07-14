@@ -131,11 +131,11 @@
               </div>
 
             </el-form-item> -->
-            <el-form-item label="详细地址" prop="businessAddress">
+            <el-form-item label="店铺地址" prop="businessAddress">
               <div style="display: flex">
                 <el-input
                   v-model="info.businessAddress.address"
-                  placeholder="请输入"
+                  placeholder="请选择地址"
                   style="width: 650px"
                   clearable
                 />
@@ -501,11 +501,20 @@ function openMapPickPop($event: any) {
   })
     .then(() => {
       window.removeEventListener("message", handleMapPickedMessage, false);
-      info.value.businessAddress.address = currentPicked.value.poiaddress;
+      info.value.businessAddress.address = currentPicked.value.poiaddress+'-'+currentPicked.value.poiname
+;
       info.value.businessAddress.latitude = currentPicked.value.latlng.lat;
       info.value.businessAddress.longitude = currentPicked.value.latlng.lng;
       info.value.businessAddress.city = currentPicked.value.cityname;
-      console.log("选择了地图", currentPicked.value);
+      let data=getArea(currentPicked.value.poiaddress)
+      if(data.Province!==''){
+        info.value.businessAddress.province=data.Province;
+      }else{
+        info.value.businessAddress.province=data.City;
+      }
+      info.value.businessAddress. district=data.Country;
+      console.log( currentPicked.value,'选择地图0000')
+      console.log(info.value.businessAddress,'地址6666')
     })
     .catch((e) => {
       if (e != "cancel") throw e;
@@ -513,6 +522,43 @@ function openMapPickPop($event: any) {
     });
 
   window.addEventListener("message", handleMapPickedMessage, false);
+}
+function getArea(str:any){
+  let area = {
+    Province:'',
+    City:'',
+    Country:''
+  }
+    let index11 = 0
+    let index1 = str.indexOf("省")
+    if (index1 == -1) {
+      index11 = str.indexOf("自治区")
+      if (index11 != -1) {
+        area.Province = str.substring(0, index11 + 3)
+      } else {
+        area.Province = str.substring(0, 0)
+      }
+    } else {
+      area.Province = str.substring(0, index1 + 1)
+    }
+    let index2 = str.indexOf("市")
+    if (index11 == -1) {
+      area.City = str.substring(index11 + 1, index2 + 1)
+    } else {
+      if (index11 == 0) {
+        area.City = str.substring(index1 + 1, index2 + 1)
+      } else {
+        area.City = str.substring(index11 + 3, index2 + 1)
+      }
+    }
+    let index3 = str.lastIndexOf("区")
+    if (index3 == -1) {
+      index3 = str.indexOf("县")
+      area.Country = str.substring(index2 + 1, index3 + 1)
+    } else {
+      area.Country = str.substring(index2 + 1, index3 + 1)
+    }
+    return area;
 }
 function handleMapPickedMessage(event: any) {
   /**
@@ -560,10 +606,10 @@ const info: any = ref({
     refundReview: 0,
   },
   businessAddress: {
-    address: "浙江省杭州市临平区塘宁路旺盛大厦1001骊龙网络科技有限公司",
-    province: "浙江省",
-    city: "杭州市",
-    district: "余杭区",
+    address: "",
+    province: "",
+    city: "",
+    district: "",
     latitude: 0,
     longitude: 0,
   },
@@ -586,7 +632,6 @@ const formRules = ref({
 onMounted(() => {
   console.log(generateSnowflakeID());
   if (form.value.id !== "") {
-    console.log("我用了你");
     api
       .get("/api/plugs/searchPlugsDataById", {
         params: {
@@ -656,6 +701,13 @@ function generateSnowflakeID() {
 // 使用示例  1670742827904-17081-61215
 
 function onSubmit() {
+  // if( info.value.businessAddress. address==''){
+  //   ElMessage.warning({
+  //                 message: "请点击选择店铺位置",
+  //                 center: true,
+  //               });
+  //     return
+  // }
   if (form.value.id === "") {
     formRef.value &&
       formRef.value.validate((valid: any) => {

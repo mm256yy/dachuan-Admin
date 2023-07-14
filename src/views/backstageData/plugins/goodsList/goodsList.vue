@@ -33,6 +33,7 @@
               placeholder="选择店铺
             "
             >
+            <el-option :key="0" label="全部" :value="-1" />
               <el-option
                 v-for="item in businessList"
                 :key="item.businessId"
@@ -299,8 +300,8 @@ function getlist() {
           });
 
         total.value = res.body.total;
-        businessId.value = "";
-        tableobj.keyword = "";
+        // businessId.value = "";
+        // tableobj.keyword = "";
       } else {
         ElMessage.error({
           message: res.msg,

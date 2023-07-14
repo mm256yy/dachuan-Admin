@@ -47,11 +47,33 @@ meta:
         </el-form-item>
         <el-form-item label="所属店铺" prop="businessId">
           <el-select
+            v-if="!route.params.id"
+            style="width: 680px;"
+               v-model="sleStoreList"
+                filterable
+                placeholder="选择店铺(一个或多个)"
+                multiple
+               @change="selectBusiness"
+                collapse-tags
+                collapse-tags-tooltip
+               :max-collapse-tags="4"
+            >
+              <el-option key="selectAll" label="全部" value="selectAll"/>
+              <!-- <el-option key="0" label="全部" value="0" /> -->
+              <el-option
+                v-for="item in businessList"
+                :key="item.businessId"
+                :label="item.businessName"
+                :value="item.businessId"
+              />
+            </el-select>
+          <el-select
+            v-else
             v-model="form.businessId"
             filterable
             placeholder="选择店铺"
           >
-            <el-option key="0" label="全部" value="0" />
+            <!-- <el-option key="0" label="全部" value="0" /> -->
             <el-option
               v-for="item in businessList"
               :key="item.businessId"
@@ -144,6 +166,7 @@ const form: any = ref({
   plugsId: Number(route.params.plugsId) ?? "",
   jsonViewData: {},
   businessId: "0",
+  businessList: [],
   dataType: "shop_car_data",
 });
 const jsonData = ref({});
@@ -162,7 +185,45 @@ const usersadd: any = ref("");
 const bianji: any = ref("");
 const delet: any = ref("");
 const pliginadd: any = ref("");
-
+const sleStoreList:any=ref([])
+const selectAll:any=ref(false);
+const busList:any=ref([])
+function selectBusiness(val:any){
+   if(selectAll.value){
+    selectAll.value = false;
+    if(val.indexOf('selectAll') > -1){
+      sleStoreList.value=val.filter((item:any)=>{
+        return item!='selectAll'
+      })
+    }else{
+      sleStoreList.value=[];
+    }
+   }else{
+    if(val.indexOf('selectAll') > -1){
+      const optionsValue:any = [];
+      businessList.value.forEach((item:any)=>{
+        optionsValue.push(item.businessId)
+      })
+      sleStoreList.value=['selectAll',...optionsValue]
+      selectAll.value = true;
+    }else{
+      if(val.length=== businessList.value.length){
+        const optionsValue:any = [];
+        businessList.value.forEach((item:any)=>{
+        optionsValue.push(item.businessId)
+      })
+      sleStoreList.value=['selectAll', ...optionsValue]
+      selectAll.value = true;
+      }else{
+        sleStoreList.value=val
+      }
+    }
+   }
+  const realSelect= sleStoreList.value.filter((item:any)=>{
+    return item!='selectAll'
+  })
+  // form.value.businessId=realSelect.toString();
+}
 const buttonauto = () => {
   // console.log("123",localStorage.getItem('fa_menuList'));
   const btnList = JSON.parse(localStorage.getItem("fa_menuList") || "");
@@ -279,6 +340,16 @@ function onSubmit() {
   console.log(form.value);
   form.value.jsonData = JSON.stringify(form.value.jsonData);
   if (form.value.id === "") {
+    form.value.businessId='0'
+    businessList.value.forEach((item2:any)=>{
+        sleStoreList.value.forEach((item:any)=>{
+          if(item==item2.businessId){
+              let str=item2.businessId+'_'+item2.businessName;
+              busList.value.push(str)
+          }
+      }) 
+   })
+   form.value.businessList=busList.value;
     formRef.value &&
       formRef.value.validate((valid: any) => {
         if (valid) {

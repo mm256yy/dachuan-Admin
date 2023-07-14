@@ -24,6 +24,51 @@
             批量删除
           </el-button> -->
         </div>
+        <div class="header-right">
+          <div style="margin-right:30px;" >
+                <el-select
+                    size="large"
+                    v-model="selbusinessId"
+                    style="width: 200px;"
+                    filterable
+                    placeholder="选择店铺"
+                  >
+                  <!-- <el-select
+                    v-model="form.businessId"
+                    style="width: 480px"
+                    filterable
+                    placeholder="选择店铺(一个或多个)"
+                    @change=""
+                  > -->
+                  <el-option key="-1" label="全部" value="-1"/>
+                    <el-option
+                      v-for="item in businessList"
+                      :key="item.businessId"
+                      :label="item.businessName"
+                      :value="item.businessId"
+                    />
+                  </el-select>
+          </div>
+          <div class="lang">
+            <el-input
+              style="width: 150px; height: 40px"
+              v-model="keywords"
+              placeholder="名称"
+            />
+          </div>
+          <el-button
+            type="primary"
+            style="height: 40px; margin: 0 20px 0 30px"
+            @click="getlist"
+          >
+            <template #icon>
+              <el-icon>
+                <svg-icon name="i-ep:search" />
+              </el-icon>
+            </template>
+            搜索
+          </el-button>
+        </div>
       </div>
       <div class="main">
         <el-table
@@ -158,6 +203,7 @@ const options = [
 
 onMounted(() => {
   getlist();
+  getBusinessInfo();
 });
 // 获取表格信息
 let tableData: any = ref([
@@ -177,8 +223,10 @@ const tableobj = reactive({
   currentPage: 1,
   pageSize: 10,
 });
+const keywords:any=ref('');
+const selbusinessId:any=ref('-1')
 const businessList: any = ref([]);
-function getlist() {
+function getBusinessInfo(){
   let datas = {
     adminId: storage.local.get("adminId"),
     userServiceToken: storage.local.get("userServiceToken"),
@@ -192,12 +240,16 @@ function getlist() {
       console.log(businessList.value, 456);
     }
   });
+}
+function getlist() {
+
   let data: any = {
     page: tableobj.currentPage,
     size: tableobj.pageSize,
     adminId: storage.local.get("adminId"),
     userServiceToken: storage.local.get("userServiceToken"),
-
+    keyword:keywords.value,
+    businessId:selbusinessId.value,
     id: route.params.id,
   };
   if (route.params.admin == "admin") {

@@ -3,14 +3,14 @@
     <div class="content">
       <div class="header" style="margin-bottom: 20px">
         <div class="header-left">
-          <el-button type="primary" @click="addPlugin">
+          <!-- <el-button type="primary" @click="addPlugin">
             <template #icon>
               <el-icon>
                 <svg-icon name="i-ep:circle-plus" />
               </el-icon>
             </template>
-            新增考卷
-          </el-button>
+            新增题库
+          </el-button> -->
           <el-button
             type="danger"
             @click="delPlugin"
@@ -23,21 +23,13 @@
             </template>
             批量删除
           </el-button>
-          <el-button type="primary" @click="view">
-            <template #icon>
-              <el-icon>
-                <svg-icon name="ep:delete" />
-              </el-icon>
-            </template>
-            练习记录
-          </el-button>
         </div>
         <div style="display: flex">
           <div class="lang">
             <el-input
               style="width: 150px"
               v-model="tableobj.keyword"
-              placeholder="考卷名称"
+              placeholder="题库名称"
               @keyup.enter.native="getlist"
             />
           </div>
@@ -68,50 +60,35 @@
         >
           <el-table-column type="selection" />
           <el-table-column prop="id" label="ID" align="center" width="60" />
-          <el-table-column
-            prop="testPaperName"
-            label="考卷名称"
-            align="center"
-          />
-          <!-- <el-table-column prop="subjectId" label="考卷时间" align="center" /> -->
-          <el-table-column prop="testMinute" label="考卷时长" align="center" />
+          <el-table-column prop="testNo" label="考卷名称" align="center" />
+
           <!-- <el-table-column
             prop="categoryDesc"
-            label="考卷信息"
+            label="试题数量"
+            align="center"
+          />
+          <el-table-column
+            prop="categoryDesc"
+            label="练习学员"
+            align="center"
+          />
+          <el-table-column
+            prop="categoryDesc"
+            label="试题占比"
             align="center"
           /> -->
-
           <el-table-column
             prop="createTime"
             label="添加/更新时间"
             align="center"
           />
-          <el-table-column label="考卷试题" width="120" align="center">
-            <template #default="scope">
-              <el-button
-                link
-                type="primary"
-                size="small"
-                @click="viewClick(scope.row.id)"
-                >试题详情</el-button
-              >
-            </template>
-          </el-table-column>
-          <el-table-column prop="status" label="题库状态" align="center">
-            <template #default="scope">
-              <el-switch
-                v-model="scope.row.status"
-                inline-prompt
-                :inactive-value="0"
-                inactive-text="禁用"
-                :active-value="1"
-                active-text="启用"
-                size="large"
-              />
-            </template>
-          </el-table-column>
 
-          <el-table-column fixed="right" label="操作" width="120">
+          <el-table-column
+            fixed="right"
+            label="操作"
+            align="center"
+            width="120"
+          >
             <template #default="scope">
               <el-button
                 link
@@ -119,13 +96,6 @@
                 size="small"
                 @click="handleClick(scope.row.id)"
                 >删除</el-button
-              >
-              <el-button
-                link
-                type="primary"
-                size="small"
-                @click="editClick(scope.row.id)"
-                >编辑</el-button
               >
             </template>
           </el-table-column>
@@ -162,7 +132,6 @@ import { ElMessage, ElMessageBox } from "element-plus";
 import FormMode from "./components/index.vue";
 import storage from "@/utils/storage";
 const route = useRoute();
-const router = useRouter();
 // 搜索
 
 const data: any = ref({
@@ -191,15 +160,14 @@ function getlist() {
     size: tableobj.pageSize,
     adminId: storage.local.get("adminId"),
     keyword: tableobj.keyword,
+    dataId: route.params.id || "",
     userServiceToken: storage.local.get("userServiceToken"),
   };
 
-  if (route.params.admin == "admin") {
-    data.userServiceToken = -1;
-  }
-
   api
-    .get("/api/plugs/searchPlugsPracticeTestPaperList", { params: data })
+    .get("/api/plugs/searchPlugsPracticeTestRecordList", {
+      params: data,
+    })
     .then((res: any) => {
       if (res.code == 200) {
         tableData.value = res.body.list;
@@ -249,7 +217,7 @@ const delPlugin = () => {
   ElMessageBox.confirm(`确认删除吗？`, "确认信息")
     .then(() => {
       api
-        .post("/api/plugs/delPlugsPracticeTestPaper", data)
+        .post("/api/plugs/delPlugsPracticeTestRecord", data)
         .then((res: any) => {
           if (res.code == 200) {
             ElMessage.success({
@@ -276,7 +244,7 @@ const handleClick = (e: any) => {
   ElMessageBox.confirm(`确认删除吗？`, "确认信息")
     .then(() => {
       api
-        .post("/api/plugs/delPlugsPracticeTestPaper", data)
+        .post("/api/plugs/delPlugsPracticeTestRecord", data)
         .then((res: any) => {
           if (res.code == 200) {
             ElMessage.success({
@@ -295,22 +263,7 @@ const editClick = (e: any) => {
   data.value.formModeProps.id = e;
   data.value.formModeProps.plugsId = 143;
 };
-const viewClick = (e: any) => {
-  router.push({
-    name: "configuration",
-    params: {
-      id: e,
-    },
-  });
-};
-const view = (e: any) => {
-  router.push({
-    name: "testList",
-    // params: {
-    //   id: e,
-    // },
-  });
-};
+
 // 刷新组件
 function update() {
   getlist();

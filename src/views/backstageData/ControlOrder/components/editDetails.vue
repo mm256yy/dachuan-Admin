@@ -159,7 +159,7 @@
             </div>
 
             <div style="display: flex; width: 500px; margin: 20px 100px">
-              <div style="width: 250px">会员折扣：￥0</div>
+              <div style="width: 250px">会员折扣:￥0</div>
               <div>运费：￥：{{ form.distributionFee }}</div>
             </div>
             <div style="display: flex; width: 500px; margin: 20px 100px">
@@ -616,8 +616,8 @@ function getdetalis() {
         logisticsInfo.value=res.body.orderLogistics;
         receiverAddressJson.value=  JSON.parse(res.body.orderLogistics.receiverAddressJson);
         console.log(logisticsInfo.value,'物流信息');
-        console.log( receiverAddressJson.value,'物流信息7777777777777');
-        // console.log(form.value);
+        // console.log( receiverAddressJson.value,'物流信息7777777777777');
+        console.log(form.value,'订单详情666');
         form.value.orderLogistics.receiverAddressJson = JSON.parse(
           form.value.orderLogistics.receiverAddressJson
         );

@@ -418,7 +418,36 @@ const routes: RouteRecordRaw = {
         branch:true
       },
     },
-
+    {
+      path: 'Notice/:id',
+      name: 'Notice',
+      component: () => import('@/views/backstageData/plugins/Notice/Notice.vue'),
+      meta: {
+        title: '公告通知',
+        sidebar: false,
+        branch:true
+      },
+    },
+    {
+      path: 'addNotice/:plugsId',
+      name: 'addNotice',
+      component: () => import('@/views/backstageData/plugins/Notice/addNotice.vue'),
+      meta: {
+        title: '新增公告通知',
+        sidebar: false,
+        branch:true
+      },
+    },
+    {
+      path: 'addNotice/:id/:plugsId',
+      name: 'editNotice',
+      component: () => import('@/views/backstageData/plugins/Notice/addNotice.vue'),
+      meta: {
+        title: '编辑公告通知',
+        sidebar: false,
+        branch:true
+      },
+    },
 
   ],
 }

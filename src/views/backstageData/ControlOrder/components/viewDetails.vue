@@ -380,7 +380,7 @@
                   margin-right: 30px;
                 "
               >
-                收件人姓名
+                联系人姓名
               </div>
               <div style="">
                 <!-- {{ form.orderLogistics.receiverAddressJson.province }}
@@ -400,14 +400,31 @@
                   margin-right: 30px;
                 "
               >
-                收件人电话
+                联系人电话
               </div>
               <div style="">
                 {{ form.orderLogistics.receiverAddressJson.mobile }}
               </div>
             </div>
             <div style="display: flex; width: 500px; margin: 20px;justify-content: space-between;">
-              <div
+              <div v-if="form.logisticsType==3" style="display: flex;" >
+                <div
+                style="
+                  width: 100px;
+                  font-weight: 700;
+                  text-align: right;
+                  margin-right: 30px;
+                "
+                >
+                自提地址
+                </div>
+                <div style="width: 400px;">
+                {{ form.orderLogistics.receiverAddressJson.address }}
+
+                 </div>
+              </div>
+              <div v-else style="display: flex;" >
+                <div
                 style="
                   width: 100px;
                   font-weight: 700;
@@ -422,7 +439,10 @@
                 {{ form.orderLogistics.receiverAddressJson.city }}
                 {{ form.orderLogistics.receiverAddressJson.district }}
                 {{ form.orderLogistics.receiverAddressJson.address }}
+
               </div>
+              </div>
+              
             </div>
             <div style="display: flex; width: 500px; margin: 20px">
               <div
@@ -529,7 +549,6 @@
                   <div>{{ scope.row.payPrice }}</div>
                 </template>
               </el-table-column>
-
               <el-table-column label="购买数量" align="center">
                 <template #default="scope">
                   <div>{{ scope.row.goodsNum }}</div>
@@ -934,8 +953,6 @@
       
                </div>
               </div>
-              
-             
             </div>
           </el-scrollbar>
         </el-tab-pane>

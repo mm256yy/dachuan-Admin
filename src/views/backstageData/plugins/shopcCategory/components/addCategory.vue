@@ -16,7 +16,28 @@
         <el-input v-model="form.categoryDesc" placeholder="请输入" clearable />
       </el-form-item>
       <el-form-item label="所属店铺" prop="businessId">
-        <el-select v-model="form.businessId" filterable placeholder="选择店铺">
+        <el-select
+            v-if="props.id==''"
+            style="width: 680px;"
+               v-model="sleStoreList"
+                filterable
+                placeholder="选择店铺(一个或多个)"
+                multiple
+               @change="selectBusiness"
+                collapse-tags
+                collapse-tags-tooltip
+               :max-collapse-tags="4"
+            >
+              <el-option key="selectAll" label="全部" value="selectAll"/>
+              <!-- <el-option key="0" label="全部" value="0" /> -->
+              <el-option
+                v-for="item in businessList"
+                :key="item.businessId"
+                :label="item.businessName"
+                :value="item.businessId"
+              />
+            </el-select>
+        <el-select v-else v-model="form.businessId" filterable placeholder="选择店铺">
           <el-option key="0" label="全部" value="0" />
           <el-option
             v-for="item in businessList"
@@ -125,7 +146,6 @@ const props = withDefaults(
   }
 );
 const myVisible = ref(props.modelValue);
-console.log(props, 999);
 
 const title = computed(() =>
   props.id === "" ? "新增商品分类" : "修改商品分类"
@@ -142,6 +162,7 @@ const form = ref({
   plugsId: Number(props.plugsId),
   status: "",
   businessId: "0",
+  businessList: [],
 });
 const formRef = ref();
 const formRules = ref({
@@ -155,7 +176,46 @@ const formRules = ref({
 });
 const plugsList: any = ref([]);
 const businessList: any = ref([]);
-
+const sleStoreList:any=ref([])
+const busList:any=ref([]);
+const selectAll:any=ref(false);
+function selectBusiness(val:any){
+   if(selectAll.value){
+    selectAll.value = false;
+    if(val.indexOf('selectAll') > -1){
+      sleStoreList.value=val.filter((item:any)=>{
+        return item!='selectAll'
+      })
+    }else{
+      sleStoreList.value=[];
+    }
+   }else{
+    if(val.indexOf('selectAll') > -1){
+      const optionsValue:any = [];
+      businessList.value.forEach((item:any)=>{
+        optionsValue.push(item.businessId)
+      })
+      sleStoreList.value=['selectAll',...optionsValue]
+      selectAll.value = true;
+    }else{
+      if(val.length=== businessList.value.length){
+        const optionsValue:any = [];
+        businessList.value.forEach((item:any)=>{
+        optionsValue.push(item.businessId)
+      })
+      sleStoreList.value=['selectAll', ...optionsValue]
+      selectAll.value = true;
+      }else{
+        sleStoreList.value=val
+      }
+    }
+   }
+  const realSelect= sleStoreList.value.filter((item:any)=>{
+    return item!='selectAll'
+  })
+  // realSelect.toString()
+  // form.value.businessId=realSelect.toString();
+}
 onMounted(() => {
   let data = {
     adminId: storage.local.get("adminId"),
@@ -196,17 +256,25 @@ onMounted(() => {
 });
 
 function onSubmit() {
-  if (form.value.businessId == "" && !form.value.businessId) {
-    ElMessage.error({
-      message: "店铺不能为空",
-      center: true,
-    });
-    return;
-  }
-  form.value.businessId = JSONBIG.parse(form.value.businessId);
+  // if (form.value.businessId == "" && !form.value.businessId) {
+  //   ElMessage.error({
+  //     message: "店铺不能为空",
+  //     center: true,
+  //   });
+  //   return;
+  // }
+  // form.value.businessId = JSONBIG.parse(form.value.businessId);
   if (form.value.id === "") {
-    console.log(form.value.id, 999);
-
+    // console.log(form.value.id, 999);
+    businessList.value.forEach((item2:any)=>{
+        sleStoreList.value.forEach((item:any)=>{
+          if(item==item2.businessId){
+              let str=item2.businessId+'_'+item2.businessName;
+              busList.value.push(str)
+          }
+      }) 
+   })
+   form.value.businessList=busList.value;
     formRef.value &&
       formRef.value.validate((valid: any) => {
         if (valid) {
@@ -229,8 +297,8 @@ function onSubmit() {
         }
       });
   } else {
-    console.log("xiugai", 999);
-
+    // console.log("xiugai", 999);
+    form.value.businessId = JSONBIG.parse(form.value.businessId);
     formRef.value &&
       formRef.value.validate((valid: any) => {
         if (valid) {

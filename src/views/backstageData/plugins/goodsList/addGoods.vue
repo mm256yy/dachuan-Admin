@@ -36,8 +36,86 @@ meta:
                 show-word-limit
               />
             </el-form-item>
+           
+            <!-- <el-form-item label="所属分类" prop="categoryId">
+              <el-select
+                v-model="selCategoryList"
+                style="width: 480px"
+                multiple
+                collapse-tags
+                collapse-tags-tooltip
+               :max-collapse-tags="4"
+                filterable
+                placeholder="选择分类(一个或多个)"
+                @change="changeCate"
+              >
+                <el-option
+                  v-for="item in categoryList"
+                  :key="item.id"
+                  :label="item.categoryName"
+                  :value="item.id"
+                />
+              </el-select>
+            </el-form-item> -->
+           
+             <el-form-item label="所属店铺" prop="businessId">
+              <el-select
+                v-if="!route.params.id"
+                v-model="sleStoreList"
+                style="width: 480px"
+                filterable
+                multiple
+                collapse-tags
+                collapse-tags-tooltip
+               :max-collapse-tags="4"
+                placeholder="选择店铺(一个或多个)"
+                @change="selectBusiness"
+              >
+              <el-option key="selectAll" label="全部" value="selectAll"/>
+                <el-option
+                  v-for="item in businessList"
+                  :key="item.businessId"
+                  :label="item.businessName"
+                  :value="item.businessId"
+                />
+              </el-select>
+              <el-select
+              v-else
+            style="width: 480px;"
+               v-model="form.businessId"
+                filterable
+                placeholder="选择店铺"
+                @change="change"
+            >
+
+              <!-- <el-option key="0" label="全部" value="0" /> -->
+              <el-option
+                v-for="item in businessList"
+                :key="item.businessId"
+                :label="item.businessName"
+                :value="item.businessId"
+              />
+            </el-select>
+            </el-form-item>
+            <el-form-item label="所属分类" prop="categoryId">
+              <el-select
+                style="width: 480px;"
+                v-model="form.categoryId"
+                filterable
+                placeholder="选择分类"
+              >
+                <!-- <el-option :key="0" label="全部" :value="0" /> -->
+                <el-option
+                  v-for="item in categoryList"
+                  :key="item.id"
+                  :label="item.categoryName"
+                  :value="item.id"
+                />
+              </el-select>
+            </el-form-item>
             <el-form-item label="商品类型" prop="goodsType">
               <el-select
+                style="width: 240px"
                 v-model="form.goodsType"
                 class="m-2"
                 placeholder="请选择"
@@ -131,7 +209,6 @@ meta:
                     :src="item"
                     class="avatar"
                   />
-
                   <!-- <el-upload
                     class="avatar-uploader"
                     :action="baseURL"
@@ -162,12 +239,12 @@ meta:
                 />
               </el-select>
             </el-form-item>
-            <el-form-item label="所属店铺" prop="businessId">
+            <!-- <el-form-item label="所属店铺" prop="businessId">
               <el-select
                 v-model="form.businessId"
                 filterable
                 placeholder="选择店铺"
-                @change="change(form.businessId)"
+              
               >
                 <el-option key="0" label="全部" value="0" />
                 <el-option
@@ -177,22 +254,8 @@ meta:
                   :value="item.businessId"
                 />
               </el-select>
-            </el-form-item>
-            <el-form-item label="所属分类" prop="categoryId">
-              <el-select
-                v-model="form.categoryId"
-                filterable
-                placeholder="选择分类"
-              >
-                <el-option :key="0" label="全部" :value="0" />
-                <el-option
-                  v-for="item in categoryList"
-                  :key="item.id"
-                  :label="item.categoryName"
-                  :value="item.id"
-                />
-              </el-select>
-            </el-form-item>
+            </el-form-item> -->
+           
             <el-form-item label="运费模板" prop="categoryId">
               <el-select
                 v-model="form.expressfeeTemplateId"
@@ -461,7 +524,6 @@ meta:
     />
   </div>
 </template>
-
 <script lang="ts" setup>
 import api from "@/api/plugin";
 import http from "@/api";
@@ -470,7 +532,6 @@ import SKU from "./components/sku.vue";
 import storage from "@/utils/storage";
 import useUserStore from "@/store/modules/user";
 import JSONBIG from "json-bigint";
-
 import tinymce from "tinymce/tinymce";
 import TinymceEditor from "@tinymce/tinymce-vue";
 import "tinymce/themes/silver/theme";
@@ -585,7 +646,8 @@ const form: any = ref({
   monthSales: "",
   plugsId: Number(route.params.plugsId) ?? "",
   businessId: "0",
-  categoryId: 0,
+  businessList: [],
+  categoryId: '',
   previewUrl: "",
   retirementRule: "",
   rewardIntegral: "",
@@ -607,15 +669,58 @@ const formRules = ref({
   plugsId: [{ required: true, message: "请输入", trigger: "change" }],
   businessId: [{ required: true, message: "请输入", trigger: "change" }],
   categoryId: [{ required: true, message: "请输入", trigger: "change" }],
+  goodsType: [{ required: true, message: "请输入", trigger: "change" }],
   title: [{ required: true, message: "请输入" }],
   goodsPrice: [{ required: true, message: "请输入" }],
   limitNum: [{ required: true, message: "请输入" }],
   stockNum: [{ required: true, message: "请输入" }],
   goodsWeight: [{ required: true, message: "请输入" }],
+
 });
 const plugsList: any = ref([]);
 const categoryList: any = ref([]);
 const businessList: any = ref([]);
+const sleStoreList:any=ref([]); // 多选店铺
+const selCategoryList:any=ref([])
+const busList:any=ref([]);
+const selectAll:any=ref('false')
+function selectBusiness(val:any){
+   if(selectAll.value){
+    selectAll.value = false;
+    if(val.indexOf('selectAll') > -1){
+      sleStoreList.value=val.filter((item:any)=>{
+        return item!='selectAll'
+      })
+    }else{
+      sleStoreList.value=[];
+    }
+   }else{
+    if(val.indexOf('selectAll') > -1){
+      const optionsValue:any = [];
+      businessList.value.forEach((item:any)=>{
+        optionsValue.push(item.businessId)
+      })
+      sleStoreList.value=['selectAll',...optionsValue]
+      selectAll.value = true;
+    }else{
+      if(val.length=== businessList.value.length){
+        const optionsValue:any = [];
+        businessList.value.forEach((item:any)=>{
+        optionsValue.push(item.businessId)
+      })
+      sleStoreList.value=['selectAll', ...optionsValue]
+      selectAll.value = true;
+      }else{
+        sleStoreList.value=val
+      }
+    }
+   }
+  const realSelect= sleStoreList.value.filter((item:any)=>{
+    return item!='selectAll'
+  })
+  // realSelect.toString()
+  // form.value.businessId=realSelect.toString();
+}
 onMounted(() => {
   tinymce.init({});
   let data = {
@@ -679,7 +784,8 @@ onMounted(() => {
           form.value.limitNum = res.body.limitNum;
           form.value.monthSales = res.body.monthSales;
           form.value.plugsId = res.body.plugsId;
-          form.value.businessId = JSONBIG.stringify(res.body.businessId);
+          form.value.businessId =JSONBIG.stringify(res.body.businessId);
+          console.log( form.value.businessId,'店铺id6666')
           form.value.previewUrl = res.body.previewUrl;
           form.value.retirementRule = res.body.retirementRule;
           form.value.rewardIntegral = res.body.rewardIntegral;
@@ -782,9 +888,10 @@ const getsku = () => {
     });
 };
 const templateList: any = ref([]);
+function changeCate(val:any){
+  console.log(val,'分类类型');
+}
 function change(val: any) {
-  console.log(val);
-  // 获取运费模板
   api
     .get("/api/platform/getExpressfeeTemplateList", {
       params: {
@@ -796,7 +903,7 @@ function change(val: any) {
         templateList.value = res.body;
       }
     });
-  if (val == "0") {
+  if (val == "0" ||  val ==0) {
     form.value.businessName = "全部";
   } else {
     let a = businessList.value.filter((item: any) => {
@@ -808,6 +915,7 @@ function change(val: any) {
     form.value.businessName = a[0].businessName;
     form.value.distributionFee = a[0].shopExpressFee.allShopExpressFee;
   }
+  console.log(form.value,'表单信息')
 }
 
 const guige: any = ref([]);
@@ -825,10 +933,22 @@ function onSubmit() {
     });
     return;
   }
-  form.value.businessId = JSONBIG.parse(form.value.businessId);
+  // form.value.businessId = JSONBIG.parse(form.value.businessId);
   form.value.extJson = JSON.stringify(deposit.value);
-
+// if(form.value.businessId==0){
+//   form.value.businessName="全部"
+// }
   if (form.value.id === "") {
+    form.value.businessId='0'
+    businessList.value.forEach((item2:any)=>{
+        sleStoreList.value.forEach((item:any)=>{
+          if(item==item2.businessId){
+              let str=item2.businessId+'_'+item2.businessName;
+              busList.value.push(str)
+          }
+      }) 
+   })
+   form.value.businessList=busList.value;
     formRef.value &&
       formRef.value.validate((valid: any) => {
         if (valid) {
@@ -836,8 +956,6 @@ function onSubmit() {
             .post("/api/plugs/insertPlugsGoods", form.value)
             .then((res: any) => {
               if (res.code == 200) {
-                console.log(res.body.id, 999963);
-
                 guige.value.forEach((item: any) => {
                   let data = {
                     attributeName: item.name,
@@ -907,7 +1025,6 @@ function onSubmit() {
             .post("/api/plugs/updatePlugsGoods", form.value)
             .then((res: any) => {
               if (res.code == 200) {
-                console.log(skulist.value.length, 966);
                 if (skulist.value.length !== 0) {
                   http
                     .post("/api/plugs/delPlugsGoodsSpecificationAll", {
