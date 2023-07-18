@@ -97,6 +97,7 @@ const form = ref({
 const formRef = ref();
 const formRules = ref({
   questionBankName: [{ required: true, message: "请输入" }],
+  subjectId: [{ required: true, message: "请输入", trigger: "change" }],
 });
 const subjectList: any = ref([]);
 onMounted(() => {

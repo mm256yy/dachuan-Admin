@@ -92,15 +92,13 @@ meta:
             />
           </el-select>
         </el-form-item>
-
-        <el-form-item label="试题题干" prop="questionStemExtJson">
-          <div>
-            <TinymceEditor
-              v-model="form.questionStemExtJson.testQuestionsContent"
-              :init="defaultSetting"
-            />
-          </div>
-        </el-form-item>
+        <div class="title"><span>*</span>试题题干</div>
+        <div>
+          <TinymceEditor
+            v-model="form.questionStemExtJson.testQuestionsContent"
+            :init="defaultSetting"
+          />
+        </div>
         <div class="title"><span>*</span>试题选项</div>
 
         <div class="box" v-if="form.questionType == 0">
@@ -488,7 +486,7 @@ const changeTypeThreeDel = (index: any) => {
 const formRef = ref();
 const formRules = ref({
   questionType: [{ required: true, message: "请输入" }],
-  questionBankId: [{ required: true, message: "请输入" }],
+  questionBankId: [{ required: true, message: "请输入", trigger: "change" }],
 });
 
 const subjectList: any = ref([]);
@@ -644,6 +642,7 @@ function changesub(value: any) {
 .title {
   font-size: 14px;
   font-weight: 700;
+  margin-bottom: 10px;
   span {
     color: #f56c6c;
     margin-right: 5px;
