@@ -15,6 +15,15 @@ const routes: RouteRecordRaw = {
   },
   children: [
     {
+      path: 'homeGet',
+      name: 'homeGet',
+      component: () => import('@/views/backstageData/ShopManagement/shopGet.vue'),
+      meta: {
+        title: '商品采集',
+        sidebar: false,
+      },
+    },
+    {
       path: 'goodsList/141/:admin',
       name: 'goodsList',
       component: () => import('@/views/backstageData/plugins/goodsList/goodsList.vue'),
@@ -48,15 +57,7 @@ const routes: RouteRecordRaw = {
 
       },
     },
-    {
-      path: 'homeGet',
-      name: 'homeGet',
-      component: () => import('@/views/backstageData/ShopManagement/shopGet.vue'),
-      meta: {
-        title: '商品采集',
-        sidebar: false,
-      },
-    },
+
 
 
 

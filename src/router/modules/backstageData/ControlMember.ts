@@ -22,15 +22,34 @@ const routes: RouteRecordRaw = {
         title: '用户列表',sidebar: false,
       },
     },
+    // {
+    //   path: 'menberGrade',
+    //   name: 'menberGrade',
+    //   component: () => import('@/views/backstageData/ControlMember/menberGrade.vue'),
+    //   meta: {
+    //     title: '会员等级',
+    //     sidebar: false,
+    //   },
+    // },
     {
-      path: 'menberGrade',
-      name: 'menberGrade',
-      component: () => import('@/views/backstageData/ControlMember/menberGrade.vue'),
+      path: 'membershipLevel',
+      name: 'membershipLevel',
+      component: () => import('@/views/backstageData/plugins/membershipLevel/index.vue'),
       meta: {
         title: '会员等级',
         sidebar: false,
       },
     },
+    // {
+    //   path: 'membershipLevel/:id/:admin',
+    //   name: 'membershipLevel',
+    //   component: () => import('@/views/backstageData/plugins/membershipLevel/index.vue'),
+    //   meta: {
+    //     title: '会员服务',
+    //     sidebar: false,
+    //     branch:true
+    //   },
+    // },
     {
       path: 'memberLaber',
       name: 'memberLaber',

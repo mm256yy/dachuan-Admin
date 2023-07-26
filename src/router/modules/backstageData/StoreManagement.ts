@@ -5,7 +5,7 @@ import type { RouteRecordRaw } from 'vue-router'
 const routes: RouteRecordRaw = {
   path: '/backstageData/StoreManagement',
   component:() => import('@/layouts/index.vue'),
-  redirect: '/backstageData/StoreManagement/businessPlug/135',
+  redirect: '/backstageData/StoreManagement/businessPlug/135/:admin',
   name: 'StoreManagement',
   meta: {
     title: '店铺管理',

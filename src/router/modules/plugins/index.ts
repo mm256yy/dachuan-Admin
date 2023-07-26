@@ -319,16 +319,16 @@ const routes: RouteRecordRaw = {
       },
     },
 
-    {
-      path: 'membershipLevel/:id/:admin',
-      name: 'membershipLevel',
-      component: () => import('@/views/backstageData/plugins/membershipLevel/index.vue'),
-      meta: {
-        title: '会员服务',
-        sidebar: false,
-        branch:true
-      },
-    },
+    // {
+    //   path: 'membershipLevel/:id/:admin',
+    //   name: 'membershipLevel',
+    //   component: () => import('@/views/backstageData/plugins/membershipLevel/index.vue'),
+    //   meta: {
+    //     title: '会员服务',
+    //     sidebar: false,
+    //     branch:true
+    //   },
+    // },
     {
       path: 'coupon/:id/:admin',
       name: 'coupon',

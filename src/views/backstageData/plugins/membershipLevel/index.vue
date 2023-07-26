@@ -75,7 +75,7 @@ meta:
         >
           <el-table-column type="selection" />
 
-          <el-table-column prop="id" label="ID" align="center" width="70" />
+          <el-table-column prop="id" label="ID" align="center" />
 
           <el-table-column prop="orderId" label="会员名称" align="center">
             <template #default="scope">

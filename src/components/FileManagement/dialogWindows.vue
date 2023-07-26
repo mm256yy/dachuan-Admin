@@ -75,7 +75,7 @@ meta:
                     justify-content: space-between;
                   "
                 >
-                  <div @click="change(item, index)">
+                  <div style="width: 140px" @click="change(item, index)">
                     {{ item.filegroupname }}
                   </div>
                   <div v-if="index !== 0">

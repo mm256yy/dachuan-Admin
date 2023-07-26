@@ -136,7 +136,7 @@ const form = ref({
   id: props.id,
   adminId: storage.local.get("adminId"),
   userServiceToken: storage.local.get("userServiceToken"),
-  plugsId: Number(props.plugsId),
+  plugsId: 174,
   buyDayNumber: 0,
   defaultStatus: 1,
   discount: 0,

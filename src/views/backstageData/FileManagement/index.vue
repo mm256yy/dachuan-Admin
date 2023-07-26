@@ -68,7 +68,9 @@ meta:
                 justify-content: space-between;
               "
             >
-              <div @click="change(item, index)">{{ item.filegroupname }}</div>
+              <div style="width: 140px" @click="change(item, index)">
+                {{ item.filegroupname }}
+              </div>
               <div v-if="index !== 0">
                 <el-icon color="red" @click="delFile(item, index)"
                   ><Delete
