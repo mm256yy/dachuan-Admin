@@ -36,7 +36,7 @@ meta:
                 show-word-limit
               />
             </el-form-item>
-           
+
             <!-- <el-form-item label="所属分类" prop="categoryId">
               <el-select
                 v-model="selCategoryList"
@@ -57,8 +57,8 @@ meta:
                 />
               </el-select>
             </el-form-item> -->
-           
-             <el-form-item label="所属店铺" prop="businessId">
+
+            <el-form-item label="所属店铺" prop="businessId">
               <el-select
                 v-if="!route.params.id"
                 v-model="sleStoreList"
@@ -67,11 +67,11 @@ meta:
                 multiple
                 collapse-tags
                 collapse-tags-tooltip
-               :max-collapse-tags="4"
+                :max-collapse-tags="4"
                 placeholder="选择店铺(一个或多个)"
                 @change="selectBusiness"
               >
-              <el-option key="selectAll" label="全部" value="selectAll"/>
+                <el-option key="selectAll" label="全部" value="selectAll" />
                 <el-option
                   v-for="item in businessList"
                   :key="item.businessId"
@@ -80,26 +80,25 @@ meta:
                 />
               </el-select>
               <el-select
-              v-else
-            style="width: 480px;"
-               v-model="form.businessId"
+                v-else
+                style="width: 480px"
+                v-model="form.businessId"
                 filterable
                 placeholder="选择店铺"
                 @change="change"
-            >
-
-              <!-- <el-option key="0" label="全部" value="0" /> -->
-              <el-option
-                v-for="item in businessList"
-                :key="item.businessId"
-                :label="item.businessName"
-                :value="item.businessId"
-              />
-            </el-select>
+              >
+                <!-- <el-option key="0" label="全部" value="0" /> -->
+                <el-option
+                  v-for="item in businessList"
+                  :key="item.businessId"
+                  :label="item.businessName"
+                  :value="item.businessId"
+                />
+              </el-select>
             </el-form-item>
             <el-form-item label="所属分类" prop="categoryId">
               <el-select
-                style="width: 480px;"
+                style="width: 480px"
                 v-model="form.categoryId"
                 filterable
                 placeholder="选择分类"
@@ -244,7 +243,7 @@ meta:
                 v-model="form.businessId"
                 filterable
                 placeholder="选择店铺"
-              
+
               >
                 <el-option key="0" label="全部" value="0" />
                 <el-option
@@ -255,7 +254,7 @@ meta:
                 />
               </el-select>
             </el-form-item> -->
-           
+
             <el-form-item label="运费模板" prop="categoryId">
               <el-select
                 v-model="form.expressfeeTemplateId"
@@ -513,13 +512,8 @@ meta:
     <dialogWindows
       v-if="dialogPluginList.dialogVisible"
       v-model="dialogPluginList.dialogVisible"
-      :title="dialogPluginList.title"
-      :width="dialogPluginList.width"
-      :button_title="dialogPluginList.button_title"
-      :height="dialogPluginList.heigth"
       :dialogVisible="dialogPluginList.dialogVisible"
-      :close_title="dialogPluginList.close_title"
-      :data="dialogPluginList.data"
+      :source="dialogPluginList.source"
       @success="Return"
     />
   </div>
@@ -644,10 +638,10 @@ const form: any = ref({
   id: route.params.id ?? "",
   limitNum: "100",
   monthSales: "",
-  plugsId: Number(route.params.plugsId) ?? "",
+  plugsId: 141,
   businessId: "0",
   businessList: [],
-  categoryId: '',
+  categoryId: "",
   previewUrl: "",
   retirementRule: "",
   rewardIntegral: "",
@@ -675,49 +669,48 @@ const formRules = ref({
   limitNum: [{ required: true, message: "请输入" }],
   stockNum: [{ required: true, message: "请输入" }],
   goodsWeight: [{ required: true, message: "请输入" }],
-
 });
 const plugsList: any = ref([]);
 const categoryList: any = ref([]);
 const businessList: any = ref([]);
-const sleStoreList:any=ref([]); // 多选店铺
-const selCategoryList:any=ref([])
-const busList:any=ref([]);
-const selectAll:any=ref('false')
-function selectBusiness(val:any){
-   if(selectAll.value){
+const sleStoreList: any = ref([]); // 多选店铺
+const selCategoryList: any = ref([]);
+const busList: any = ref([]);
+const selectAll: any = ref("false");
+function selectBusiness(val: any) {
+  if (selectAll.value) {
     selectAll.value = false;
-    if(val.indexOf('selectAll') > -1){
-      sleStoreList.value=val.filter((item:any)=>{
-        return item!='selectAll'
-      })
-    }else{
-      sleStoreList.value=[];
+    if (val.indexOf("selectAll") > -1) {
+      sleStoreList.value = val.filter((item: any) => {
+        return item != "selectAll";
+      });
+    } else {
+      sleStoreList.value = [];
     }
-   }else{
-    if(val.indexOf('selectAll') > -1){
-      const optionsValue:any = [];
-      businessList.value.forEach((item:any)=>{
-        optionsValue.push(item.businessId)
-      })
-      sleStoreList.value=['selectAll',...optionsValue]
+  } else {
+    if (val.indexOf("selectAll") > -1) {
+      const optionsValue: any = [];
+      businessList.value.forEach((item: any) => {
+        optionsValue.push(item.businessId);
+      });
+      sleStoreList.value = ["selectAll", ...optionsValue];
       selectAll.value = true;
-    }else{
-      if(val.length=== businessList.value.length){
-        const optionsValue:any = [];
-        businessList.value.forEach((item:any)=>{
-        optionsValue.push(item.businessId)
-      })
-      sleStoreList.value=['selectAll', ...optionsValue]
-      selectAll.value = true;
-      }else{
-        sleStoreList.value=val
+    } else {
+      if (val.length === businessList.value.length) {
+        const optionsValue: any = [];
+        businessList.value.forEach((item: any) => {
+          optionsValue.push(item.businessId);
+        });
+        sleStoreList.value = ["selectAll", ...optionsValue];
+        selectAll.value = true;
+      } else {
+        sleStoreList.value = val;
       }
     }
-   }
-  const realSelect= sleStoreList.value.filter((item:any)=>{
-    return item!='selectAll'
-  })
+  }
+  const realSelect = sleStoreList.value.filter((item: any) => {
+    return item != "selectAll";
+  });
   // realSelect.toString()
   // form.value.businessId=realSelect.toString();
 }
@@ -784,8 +777,8 @@ onMounted(() => {
           form.value.limitNum = res.body.limitNum;
           form.value.monthSales = res.body.monthSales;
           form.value.plugsId = res.body.plugsId;
-          form.value.businessId =JSONBIG.stringify(res.body.businessId);
-          console.log( form.value.businessId,'店铺id6666')
+          form.value.businessId = JSONBIG.stringify(res.body.businessId);
+          console.log(form.value.businessId, "店铺id6666");
           form.value.previewUrl = res.body.previewUrl;
           form.value.retirementRule = res.body.retirementRule;
           form.value.rewardIntegral = res.body.rewardIntegral;
@@ -888,8 +881,8 @@ const getsku = () => {
     });
 };
 const templateList: any = ref([]);
-function changeCate(val:any){
-  console.log(val,'分类类型');
+function changeCate(val: any) {
+  console.log(val, "分类类型");
 }
 function change(val: any) {
   api
@@ -903,7 +896,7 @@ function change(val: any) {
         templateList.value = res.body;
       }
     });
-  if (val == "0" ||  val ==0) {
+  if (val == "0" || val == 0) {
     form.value.businessName = "全部";
   } else {
     let a = businessList.value.filter((item: any) => {
@@ -915,7 +908,7 @@ function change(val: any) {
     form.value.businessName = a[0].businessName;
     form.value.distributionFee = a[0].shopExpressFee.allShopExpressFee;
   }
-  console.log(form.value,'表单信息')
+  console.log(form.value, "表单信息");
 }
 
 const guige: any = ref([]);
@@ -935,20 +928,20 @@ function onSubmit() {
   }
   // form.value.businessId = JSONBIG.parse(form.value.businessId);
   form.value.extJson = JSON.stringify(deposit.value);
-// if(form.value.businessId==0){
-//   form.value.businessName="全部"
-// }
+  // if(form.value.businessId==0){
+  //   form.value.businessName="全部"
+  // }
   if (form.value.id === "") {
-    form.value.businessId='0'
-    businessList.value.forEach((item2:any)=>{
-        sleStoreList.value.forEach((item:any)=>{
-          if(item==item2.businessId){
-              let str=item2.businessId+'_'+item2.businessName;
-              busList.value.push(str)
-          }
-      }) 
-   })
-   form.value.businessList=busList.value;
+    form.value.businessId = "0";
+    businessList.value.forEach((item2: any) => {
+      sleStoreList.value.forEach((item: any) => {
+        if (item == item2.businessId) {
+          let str = item2.businessId + "_" + item2.businessName;
+          busList.value.push(str);
+        }
+      });
+    });
+    form.value.businessList = busList.value;
     formRef.value &&
       formRef.value.validate((valid: any) => {
         if (valid) {
@@ -956,40 +949,65 @@ function onSubmit() {
             .post("/api/plugs/insertPlugsGoods", form.value)
             .then((res: any) => {
               if (res.code == 200) {
-                guige.value.forEach((item: any) => {
-                  let data = {
-                    attributeName: item.name,
-                    goodsId: res.body.id,
-                  };
-                  api
-                    .post("/api/plugs/insertPlugsGoodsAttributeKey", data)
-                    .then((ress: any) => {
-                      if (ress.code == 200) {
-                        if (item.name === ress.body.attributeName) {
-                          item.id = ress.body.id;
+                res.body.forEach((element1: any) => {
+                  guige.value.forEach((item: any) => {
+                    let data = {
+                      attributeName: item.name,
+                      goodsId: element1.id,
+                    };
+                    api
+                      .post("/api/plugs/insertPlugsGoodsAttributeKey", data)
+                      .then((ress: any) => {
+                        if (ress.code == 200) {
+                          if (item.name === ress.body.attributeName) {
+                            item.id = ress.body.id;
+                          }
+                          item.value.forEach((result: any) => {
+                            console.log(result);
+                            let datas = {
+                              attributeValue: result,
+                              attributeKeyId: item.id,
+                            };
+                            api
+                              .post(
+                                "/api/plugs/insertPlugsGoodsAttributeValue",
+                                datas
+                              )
+                              .then((ressss) => {
+                                if (res.ressss == 200) {
+                                }
+                              });
+                          });
                         }
-                        item.value.forEach((result: any) => {
-                          console.log(result);
-                          let datas = {
-                            attributeValue: result,
-                            attributeKeyId: item.id,
-                          };
-                          api
-                            .post(
-                              "/api/plugs/insertPlugsGoodsAttributeValue",
-                              datas
-                            )
-                            .then((ressss) => {
-                              if (res.ressss == 200) {
-                              }
-                            });
-                        });
-                      }
-                    });
+                      });
+                  });
                 });
-                skulist.value.forEach((element: any) => {
-                  element.goodsId = res.body.id;
+                res.body.forEach((item: any) => {
+                  skulist.value.forEach((element: any) => {
+                    element.goodsId = item.id;
+                  });
+                  console.log(skulist.value, "78979");
                 });
+
+                let arr = [
+                  {
+                    id: 111,
+                  },
+                  {
+                    id: 112,
+                  },
+                ];
+                let arr1 = [
+                  {
+                    id: 111,
+                    goodId: 111,
+                  },
+                  {
+                    id: 112,
+                    goodId: 111,
+                  },
+                ];
+
                 setTimeout(() => {
                   api
                     .post(
@@ -1167,95 +1185,46 @@ function onCancel() {
 
 // 图片上传
 const imageUrl: any = ref([]);
-const header: any = reactive({
-  BGDEBUG: 0,
-  testToken: "2gq72h2qrbhx256y0167uf5wd64ls55u",
-  Authorization: userStore.token,
-});
-const baseURL: any = "https://api.daccf.com/api/file/uploadImages";
-const handleAvatarSuccess: UploadProps["onSuccess"] = (
-  response,
-  uploadFile
-) => {
-  console.log(response, "456465", uploadFile);
-  let obj = response.body;
-  imageUrl.value.push(obj);
 
-  form.value.rotationImgsJson = JSON.stringify(imageUrl.value);
-};
 const delimg = (index: any) => {
   imageUrl.value.splice(index, 1);
   form.value.rotationImgsJson = JSON.stringify(imageUrl.value);
 };
 
 const imageUrl1 = ref("");
-const handleAvatarSuccess1: UploadProps["onSuccess"] = (
-  response,
-  uploadFile
-) => {
-  console.log(response, uploadFile);
-  imageUrl1.value = response.body;
-  form.value.previewUrl = response.body;
-};
 
 const imageUrl2 = ref("");
-const handleAvatarSuccess2: UploadProps["onSuccess"] = (
-  response,
-  uploadFile
-) => {
-  console.log(response, uploadFile);
-  imageUrl2.value = response.body;
-  form.value.goodsDetails = response.body;
-};
-const beforeAvatarUpload: UploadProps["beforeUpload"] = (rawFile) => {
-  // if (rawFile.type !== "image/jpeg") {
-  //   ElMessage.error("Avatar picture must be JPG format!");
-  //   return false;
-  // } else if (rawFile.size / 1024 / 1024 > 2) {
-  //   ElMessage.error("Avatar picture size can not exceed 2MB!");
-  //   return false;
-  // }
-  // return true;
-};
 
 const types: any = ref("");
 // 使用文件管理组件
 import dialogWindows from "@/components/FileManagement/dialogWindows.vue";
 const dialogPluginList: any = ref({
   dialogVisible: false,
-  title: "文件管理",
-  data: "",
-  button_title: "确定",
-  width: "1100",
-  heigth: "500",
-  close_title: "取消",
+  source: 1,
 });
 
 const upload_file = (item: any) => {
-  types.value = item;
   dialogPluginList.value.dialogVisible = true;
+  types.value = item;
+  if (types.value == "商品预览图") {
+    dialogPluginList.value.source = 1;
+  } else if (types.value == "商品详情轮播图") {
+    dialogPluginList.value.source = 2;
+  }
 };
+
 const Return = (data: any) => {
-  console.log(data);
+  console.log(data, 123);
 
   dialogPluginList.value.dialogVisible = false;
-  if (data.type == "return") {
-    if (types.value == "商品预览图") {
-      imageUrl1.value = data.data[0].url;
-      form.value.previewUrl = data.data[0].url;
-    } else if (types.value == "商品详情图") {
-      imageUrl2.value = data.data[0].url;
-      form.value.goodsDetails = data.data[0].url;
-    } else if (types.value == "商品详情轮播图") {
-      // imageUrl2.value =  data.data[0].url
-      // form.value.goodsDetails = data.data[0].url
-
-      data.data.forEach((item: any) => {
-        imageUrl.value.push(item.url);
-      });
-
-      form.value.rotationImgsJson = JSON.stringify(imageUrl.value);
-    }
+  if (types.value == "商品预览图") {
+    imageUrl1.value = data[0];
+    form.value.previewUrl = data[0];
+  } else if (types.value == "商品详情轮播图") {
+    // imageUrl2.value =  data.data[0].url
+    // form.value.goodsDetails = data.data[0].url
+    imageUrl.value = data;
+    form.value.rotationImgsJson = JSON.stringify(imageUrl.value);
   }
 };
 </script>

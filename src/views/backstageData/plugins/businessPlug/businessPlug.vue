@@ -56,29 +56,34 @@
           :header-cell-style="{
             background: '#f3f6fd',
             color: '#555',
-            textAlign: 'center',
+            textAlign: 'left',
           }"
         >
           <el-table-column type="selection" />
 
-          <el-table-column prop="id" label="ID" align="center" width="60" />
+          <el-table-column prop="id" label="ID" align="left" width="180" />
           <!-- <el-table-column prop="plugsId" label="插件ID" align="center"  /> -->
 
-          <el-table-column prop="icon" label="店铺logo" align="center">
+          <el-table-column prop="icon" label="店铺logo" width="200" align="left">
             <template #default="scope">
               <img
-                style="width: 40px; height: 40px"
+                style="width: 60px; height: 60px;object-fit: contain;"
                 :src="scope.row.jsonViewData.businessLogo"
                 alt=""
               />
             </template>
           </el-table-column>
-          <el-table-column prop="icon" label="店铺名称" align="center">
+          <el-table-column prop="icon" label="店铺名称" width="280" align="left">
             <template #default="scope">
               {{ scope.row.jsonViewData.businessName }}
             </template>
           </el-table-column>
-          <el-table-column prop="title" label="店铺电话" align="center">
+          <el-table-column prop="icon" show-overflow-tooltip label="店铺地址" align="left">
+            <template #default="scope">
+              {{ scope.row.jsonViewData.businessAddress.address }}
+            </template>
+          </el-table-column>
+          <el-table-column prop="title" label="店铺电话" width="180" align="left">
             <template #default="scope">
               {{ scope.row.jsonViewData.businessMobile }}
             </template>
@@ -87,8 +92,8 @@
           <el-table-column
             fixed="right"
             label="操作"
-            width="120"
-            align="center"
+            width="160"
+            align="left"
           >
             <template #default="scope">
               <el-button
@@ -180,7 +185,7 @@ function getlist() {
         tableData.value = res.body.list;
         total.value = res.body.total;
         console.log(tableData.value);
-        tableobj.keyword = "";
+        // tableobj.keyword = "";
       }
     });
 }
@@ -199,7 +204,7 @@ function addPlugin() {
   router.push({
     name: "addbusinessPlug",
     params: {
-      plugsId: route.params.id,
+      plugsId: 135,
 
     },
   });
@@ -272,7 +277,7 @@ const editClick = (e: any) => {
     name: "editbusinessPlug",
     params: {
       id: e,
-      plugsId: route.params.id,
+      plugsId: 135,
     },
   });
 };

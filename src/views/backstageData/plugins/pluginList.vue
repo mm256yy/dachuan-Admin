@@ -86,11 +86,12 @@
           <el-table-column prop="plugsStatus" label="状态" align="center">
             <template #default="scope">
               <el-switch
-                loading
                 v-model="scope.row.plugsStatus"
                 inline-prompt
                 :active-value="0"
                 :inactive-value="1"
+                active-text="启用"
+                inactive-text="禁用"
                 size="large"
               />
             </template>
@@ -501,17 +502,15 @@ const edituser = (item: any) => {
     });
 };
 
-const examine = (item:any)=>{
-
+const examine = (item: any) => {
   router.push({
     name: item.paths,
     params: {
       id: item.id,
-      admin:'admin'
+      admin: "admin",
     },
   });
-}
-
+};
 </script>
 
 <style scoped lang="scss">

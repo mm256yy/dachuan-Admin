@@ -158,17 +158,17 @@ const routes: RouteRecordRaw = {
 
     //   },
     // },
-    {
-      path: 'addGoods/:plugsId',
-      name: 'addGoods',
-      component: () => import('@/views/backstageData/plugins/goodsList/addGoods.vue'),
-      meta: {
-        title: '新增商品',
-        sidebar: false,
-        branch:true
+    // {
+    //   path: 'addGoods/:plugsId',
+    //   name: 'addGoods',
+    //   component: () => import('@/views/backstageData/plugins/goodsList/addGoods.vue'),
+    //   meta: {
+    //     title: '新增商品',
+    //     sidebar: false,
+    //     branch:true
 
-      },
-    },
+    //   },
+    // },
     {
       path: 'addGoods/:id/:plugsId',
       name: 'editGoods',

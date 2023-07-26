@@ -183,6 +183,7 @@
             <ChangeGoods
               v-if="comp.modelValue"
               v-model="comp.modelValue"
+              :id="businessId"
               @success="update"
             ></ChangeGoods>
             <!-- 铭德服饰 -->
@@ -524,6 +525,7 @@
     title: [{ required: true, message: "请输入插件名称" }],
   });
   const plugsList: any = ref([]);
+  const businessId:any=ref()
   onMounted(() => {
     // 获取插件列表
     api.get("/api/plugs/searchPlugsInfoList").then((res: any) => {
@@ -544,9 +546,10 @@
           if (res.code == 200) {
             console.log(666);
             form.value = res.body;
-            console.log(form.value, 998);
+            businessId.value=JSON.parse(JSON.stringify(res.body.businessId));
+            console.log(businessId.value,'店铺id')
             jsonDatas.value = JSON.parse(res.body.jsonData);
-            console.log(jsonDatas.value, 998);
+           
             form.value.id = res.body.id;
           } else {
             ElMessage.error({
@@ -559,6 +562,7 @@
   });
   const comp = ref({
     modelValue: false,
+
   });
   const changeGoods = (item: any, index: any, obj: any) => {
     console.log(index, obj[index]);

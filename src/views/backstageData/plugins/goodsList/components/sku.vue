@@ -170,11 +170,10 @@
             v-if="scope.row.specificationImages"
             :src="scope.row.specificationImages"
             class="avatar"
-
+            @click="upload_file(scope.$index)"
           />
 
           <el-button v-else class="file" @click="upload_file(scope.$index)">
-
             点击上传
           </el-button>
         </template>
@@ -197,17 +196,12 @@
       <!-- <el-button type="primary" @click="submit()">保存规格</el-button> -->
     </div>
     <dialogWindows
-        v-if="dialogPluginList.dialogVisible"
-        v-model="dialogPluginList.dialogVisible"
-        :title="dialogPluginList.title"
-        :width="dialogPluginList.width"
-        :button_title="dialogPluginList.button_title"
-        :height="dialogPluginList.heigth"
-        :dialogVisible="dialogPluginList.dialogVisible"
-        :close_title="dialogPluginList.close_title"
-        :data="dialogPluginList.data"
-        @success="Return"
-      />
+      v-if="dialogPluginList.dialogVisible"
+      v-model="dialogPluginList.dialogVisible"
+      :dialogVisible="dialogPluginList.dialogVisible"
+      :source="dialogPluginList.source"
+      @success="Return"
+    />
   </div>
 </template>
 
@@ -469,46 +463,29 @@ const moreSet = () => {
 };
 
 const submit = () => {
-
-
   emit("success", guige.value, tableData.value);
 };
 const emit = defineEmits(["success"]);
 
-
-const types:any = ref('')
+const types: any = ref("");
 // 使用文件管理组件
-import dialogWindows from '@/components/FileManagement/dialogWindows.vue'
-  const dialogPluginList:any = ref({
-    dialogVisible:false,
-    title:'文件管理',
-    data:'',
-    button_title:'确定',
-    width:'1100',
-    heigth:'500',
-    close_title:"取消"
+import dialogWindows from "@/components/FileManagement/dialogWindows.vue";
+const dialogPluginList: any = ref({
+  dialogVisible: false,
+  source: 1,
+});
 
-  })
+const upload_file = (item: any) => {
+  dialogPluginList.value.dialogVisible = true;
+  dialogPluginList.value.source = 1;
+  types.value = item;
+};
 
-  const upload_file = (item:any)=>{
-    types.value = item
-    dialogPluginList.value.dialogVisible = true
-
-  }
-  const Return = (data:any)=>{
-
-    console.log(types.value);
-
-    dialogPluginList.value.dialogVisible = false
-    if(data.type == 'return'){
-      tableData.value[types.value].specificationImages = data.data[0].url
-
-
-    }
-
-  }
-
-
+const Return = (data: any) => {
+  console.log(types.value);
+  dialogPluginList.value.dialogVisible = false;
+  tableData.value[types.value].specificationImages = data[0];
+};
 </script>
 <style scoped lang="scss">
 .title {

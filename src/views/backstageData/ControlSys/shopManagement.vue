@@ -128,21 +128,24 @@ const wx_form = ref({
       name: "店铺电话",
       data: "",
       label: "shopMobile",
-      relationship: "<div>用于联系店铺的电话，部分模版肯能需要设置.</div><div>方便后续联系.</div>",
+      relationship:
+        "<div>用于联系店铺的电话，部分模版肯能需要设置.</div><div>方便后续联系.</div>",
       isEdit: false,
     },
     {
       name: "分享标题",
       data: "",
       label: "shareTitle",
-      relationship: "<div>小程序分享时自定义的分享标题(建议不超过20个字).</div><div>标题明了突出重点最好.</div>",
+      relationship:
+        "<div>小程序分享时自定义的分享标题(建议不超过20个字).</div><div>标题明了突出重点最好.</div>",
       isEdit: false,
     },
     {
       name: "分享图片",
       data: "",
       label: "shareImages",
-      relationship: "<div>小程序分享时自定义的分享图标.</div><div>建议尺寸：500*400px</div>",
+      relationship:
+        "<div>小程序分享时自定义的分享图标.</div><div>建议尺寸：500*400px</div>",
       isEdit: false,
     },
   ],
@@ -241,7 +244,6 @@ function configJson() {
 function getMallSetting() {
   try {
     let config: any = JSON.parse(info.value);
-
 
     for (var a = 0; wx_form.value.familyMember.length > a; a++) {
       for (let key in config.weiXinConfig) {
@@ -525,45 +527,37 @@ const header: any = reactive({
   Authorization: userStore.token,
 });
 
-
-const types:any = ref('')
+const types: any = ref("");
 // 使用文件管理组件
-import dialogWindows from '@/components/FileManagement/dialogWindows.vue'
-  const dialogPluginList:any = ref({
-    dialogVisible:false,
-    title:'文件管理',
-    data:'',
-    button_title:'确定',
-    width:'1100',
-    heigth:'500',
-    close_title:"取消"
+import dialogWindows from "@/components/FileManagement/dialogWindows.vue";
+const dialogPluginList: any = ref({
+  dialogVisible: false,
+  title: "文件管理",
+  data: "",
+  button_title: "确定",
+  width: "1100",
+  heigth: "500",
+  close_title: "取消",
+});
 
-  })
+const upload_file = (item: any) => {
+  types.value = item;
+  dialogPluginList.value.dialogVisible = true;
+  dialogPluginList.value.source = 1;
 
-  const upload_file = (item:any)=>{
+  console.log(item, 964544);
+};
 
-    types.value = item
-    dialogPluginList.value.dialogVisible = true
-
+const Return = (data: any) => {
+  dialogPluginList.value.dialogVisible = false;
+  if (types.value.label == "shopLogo") {
+    wx_form.value.dianpu[1].data = data[0];
+    Save(types.value);
+  } else if (types.value.label == "shareImages") {
+    wx_form.value.dianpu[4].data = data[0];
+    Save(types.value);
   }
-
-  const Return = (data:any)=>{
-
-    dialogPluginList.value.dialogVisible = false
-    if(data.type == 'return'){
-      if(types.value.label == "shopLogo"){
-        wx_form.value.dianpu[1].data = data.data[0].url
-        Save(types.value)
-      }else if(types.value.label == "shareImages"){
-        wx_form.value.dianpu[4].data = data.data[0].url
-        Save(types.value)
-      }
-
-    }
-
-  }
-
-
+};
 </script>
 
 <template>
@@ -590,15 +584,26 @@ import dialogWindows from '@/components/FileManagement/dialogWindows.vue'
                 <div v-else>
                   <span v-if="scope.row.data != 0">
                     <img
-
                       v-if="scope.row.label == 'shopLogo'"
                       :src="scope.row.data"
-                      style="height: 40px; width: 40px;border-radius: 8px;display: flex;justify-content: center;"
+                      style="
+                        height: 40px;
+                        width: 40px;
+                        border-radius: 8px;
+                        display: flex;
+                        justify-content: center;
+                      "
                     />
                     <img
                       v-else-if="scope.row.label == 'shareImages'"
                       :src="scope.row.data"
-                      style="height: 40px; width: 40px;border-radius: 8px;display: flex;justify-content: center;"
+                      style="
+                        height: 40px;
+                        width: 40px;
+                        border-radius: 8px;
+                        display: flex;
+                        justify-content: center;
+                      "
                     />
                     <span v-else-if="scope.row.name == '店铺电话'">{{
                       scope.row.label
@@ -666,20 +671,32 @@ import dialogWindows from '@/components/FileManagement/dialogWindows.vue'
                     <template #tip> </template>
                   </el-upload> -->
 
-                  <div v-if="
-                        scope.row.label == 'shopLogo' ||   scope.row.label == 'shareImages'
-                      ">
+                  <div
+                    v-if="
+                      scope.row.label == 'shopLogo' ||
+                      scope.row.label == 'shareImages'
+                    "
+                  >
+                    <el-button
+                      v-if="scope.row.data"
+                      @click="upload_file(scope.row)"
+                      type="primary"
+                      plain
+                      size="small"
+                    >
+                      重新上传
+                    </el-button>
 
-                      <el-button v-if="scope.row.data" @click="upload_file(scope.row)" type="primary" plain size="small">
-                          重新上传
-                      </el-button>
-
-                      <el-button v-else @click="upload_file(scope.row)" type="primary" plain size="small">
-                          上传
-                      </el-button>
-
-                    </div>
-
+                    <el-button
+                      v-else
+                      @click="upload_file(scope.row)"
+                      type="primary"
+                      plain
+                      size="small"
+                    >
+                      上传
+                    </el-button>
+                  </div>
 
                   <!-- 上传分享图片 -->
                   <!-- <el-upload
@@ -726,17 +743,12 @@ import dialogWindows from '@/components/FileManagement/dialogWindows.vue'
       </div>
     </page-main>
     <dialogWindows
-          v-if="dialogPluginList.dialogVisible"
-          v-model="dialogPluginList.dialogVisible"
-          :title="dialogPluginList.title"
-          :width="dialogPluginList.width"
-          :button_title="dialogPluginList.button_title"
-          :height="dialogPluginList.heigth"
-          :dialogVisible="dialogPluginList.dialogVisible"
-          :close_title="dialogPluginList.close_title"
-          :data="dialogPluginList.data"
-          @success="Return"
-      />
+      v-if="dialogPluginList.dialogVisible"
+      v-model="dialogPluginList.dialogVisible"
+      :dialogVisible="dialogPluginList.dialogVisible"
+      :source="dialogPluginList.source"
+      @success="Return"
+    />
   </div>
 </template>
 

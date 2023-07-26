@@ -9,10 +9,13 @@
     destroy-on-close
   >
     <div class="header-right" style="display: flex; justify-content: end">
-      <div class="lang">
-        <el-select
+      <div class="lang" style="display: flex;" >
+        <div>
+          <el-select
+                v-if="props.id==-1"
                 size="large"
-                v-model="businessId"
+                style="width:180px ;"
+                v-model="props.id"
                 filterable
                 placeholder="选择店铺"
                 @change="changeStore(businessId)"
@@ -24,9 +27,29 @@
                   :label="item.businessName"
                   :value="item.businessId"
                 />
-              </el-select>
+            </el-select>
+          <el-select
+                v-else
+                size="large"
+                style="width:180px ;"
+                v-model="props.id"
+                filterable
+                placeholder="选择店铺"
+                disabled
+                @change="changeStore(businessId)"
+              >
+                <el-option   key="-1" label="全部" value="-1" />
+                <el-option
+                  v-for="item in businessList"
+                  :key="item.businessId"
+                  :label="item.businessName"
+                  :value="item.businessId"
+                />
+            </el-select>
+        </div>
+            
         <el-input
-          style="width: 150px; height: 40px;margin-left: 30px;"
+          style="width: 150px; height: 40px;margin-left: 10px;"
           v-model="tableobj.keyword"
           placeholder="搜索商品"
           @keyup.enter.native="getlist"
@@ -34,7 +57,7 @@
       </div>
       <el-button
         type="primary"
-        style="height: 40px; margin: 0 20px 0 30px"
+        style="height: 40px; margin: 0 10px 0 10px"
         @click="getlist"
       >
         <template #icon>
@@ -73,6 +96,17 @@
                 :src="scope.row.previewUrl"
                 alt=""
               />
+            </div>
+          </template>
+        </el-table-column>
+        <el-table-column prop="goodsType
+" label="商品类型" align="center">
+          <template #default="scope">
+            <div v-if="scope.row.goodsType==0" >
+              普通商品
+            </div>
+            <div v-else >
+              积分商品
             </div>
           </template>
         </el-table-column>
@@ -123,12 +157,12 @@ const props = withDefaults(
   }>(),
   {
     modelValue: false,
-    id: "",
+    id: "-1",
   }
 );
 const tableData: any = ref([]);
 const categoryList: any = ref([]);
-console.log(props);
+console.log(props,'携带信息');
 
 const myVisible: any = ref(props.modelValue);
 onMounted(() => {
@@ -147,7 +181,7 @@ const businessId:any=ref('-1');
 function changeStore(val:any){
   businessId.value=val;
   getlist();
-    console.log(val,'选择店铺8888888')
+    // console.log(val,'选择店铺8888888')
 }
 function getStoreList(){
   let data = {
@@ -161,21 +195,19 @@ function getStoreList(){
       res.body.forEach((item: any) => {
         item.jsonViewData.businessId = item.jsonViewData.businessId.toString();
         businessList.value.push(item.jsonViewData);
-        console.log( businessList.value,'店铺列表')
+        // console.log( businessList.value,'店铺列表')
       });
     }
   });
 }
 function getlist() {
-  console.log(123);
-
   let data = {
     page: tableobj.currentPage,
     size: tableobj.pageSize,
     keyword: tableobj.keyword,
     adminId: storage.local.get("adminId"),
     userServiceToken: storage.local.get("userServiceToken"),
-    businessId:businessId.value
+    businessId:props.id !="" ? props.id: -1
     // businessId: businessId.value != "" ? businessId.value : -1,
   };
   api
@@ -183,7 +215,6 @@ function getlist() {
     .then((res: any) => {
       if (res.code == 200) {
         tableData.value = res.body.list;
-        console.log(tableData.value, 456);
         tableobj.keyword = "";
         // 获取分类
         api

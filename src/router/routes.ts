@@ -14,6 +14,7 @@ import ShopManagement from './modules/backstageData/ShopManagement'
 import ControlOrder from './modules/backstageData/ControlOrder'
 // // 会员管理
 import ControlMember from './modules/backstageData/ControlMember'
+import StoreManagement from './modules/backstageData/StoreManagement'
 // 插件中心
 import MyPlugins from './modules/plugins'
 import type { Route } from '#/global'
@@ -124,7 +125,8 @@ const asyncRoutes: Route.recordMainRaw[] = [
       MyPlugins,
       FileManagement,
       ControlSys,
-      ExamQuestionBank
+      ExamQuestionBank,
+      StoreManagement
     ],
   },
   {

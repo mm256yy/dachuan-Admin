@@ -556,15 +556,18 @@
               </el-table-column>
               <el-table-column label="规格" align="center">
                 <template #default="scope">
-                  <div v-if="scope.row.goodsSpecification!==null" >
-                    <div
+                  <div v-if="scope.row.goodsSpecificationName!==''" >
+                   <div
                     style="text-align: left"
                     v-for="(item, key) in JSON.parse(
-                      scope.row.goodsSpecification.specificationName
+                      scope.row.goodsSpecificationName
                     )"
                   >
                     {{ key }}: {{ item }}
-                   </div>
+                   </div> 
+                  <!-- <div> 
+                      {{scope.row.goodsSpecificationName}}
+                   </div> -->
                   </div>
                 </template>
               </el-table-column>
@@ -645,7 +648,7 @@
               </div>
               <div style="margin: 10px">
                 <span style="font-weight: 700">申请时间：</span>
-                <span>{{ formatDate(form.orderRefundRecord.createTime) }}</span>
+                <span>{{ form.orderRefundRecord.createTime }}</span>
               </div>
 
               <div style="margin: 10px">

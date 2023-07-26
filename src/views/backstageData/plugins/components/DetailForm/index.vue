@@ -43,8 +43,7 @@
         <el-form-item label="插件类型" prop="plugsType">
           <el-input v-model="form.plugsType" placeholder="请输入" clearable />
         </el-form-item>
-        <el-form-item label="插件图标" prop="icon"
-          >
+        <el-form-item label="插件图标" prop="icon">
           <!-- <el-upload
             class="avatar-uploader"
             :action="baseURL"
@@ -56,8 +55,28 @@
             :before-upload="beforeAvatarUpload"
           > -->
           <div @click="upload_file('插件图标')">
-            <img v-if="imageUrl" :src="imageUrl" style="height: 60px;width:60px;border-radius: 8px;border: 1px solid #eee;" class="avatar" />
-            <el-icon v-else class="avatar-uploader-icon" style="height: 60px;width:60px;border-radius: 8px;border: 1px solid #eee;"><Plus /></el-icon>
+            <img
+              v-if="imageUrl"
+              :src="imageUrl"
+              style="
+                height: 60px;
+                width: 60px;
+                border-radius: 8px;
+                border: 1px solid #eee;
+              "
+              class="avatar"
+            />
+            <el-icon
+              v-else
+              class="avatar-uploader-icon"
+              style="
+                height: 60px;
+                width: 60px;
+                border-radius: 8px;
+                border: 1px solid #eee;
+              "
+              ><Plus
+            /></el-icon>
           </div>
 
           <!-- </el-upload> -->
@@ -83,17 +102,12 @@
     </template>
   </el-dialog>
   <dialogWindows
-          v-if="dialogPluginList.dialogVisible"
-          v-model="dialogPluginList.dialogVisible"
-          :title="dialogPluginList.title"
-          :width="dialogPluginList.width"
-          :button_title="dialogPluginList.button_title"
-          :height="dialogPluginList.heigth"
-          :dialogVisible="dialogPluginList.dialogVisible"
-          :close_title="dialogPluginList.close_title"
-          :data="dialogPluginList.data"
-          @success="Return"
-      />
+    v-if="dialogPluginList.dialogVisible"
+    v-model="dialogPluginList.dialogVisible"
+    :dialogVisible="dialogPluginList.dialogVisible"
+    :source="dialogPluginList.source"
+    @success="Return"
+  />
 </template>
 
 <script lang="ts" setup>
@@ -247,39 +261,28 @@ const beforeAvatarUpload: UploadProps["beforeUpload"] = (rawFile) => {
   // return true;
 };
 
-const types:any = ref('')
+const types: any = ref("");
 // 使用文件管理组件
-import dialogWindows from '@/components/FileManagement/dialogWindows.vue'
-  const dialogPluginList:any = ref({
-    dialogVisible:false,
-    title:'文件管理',
-    data:'',
-    button_title:'确定',
-    width:'1100',
-    heigth:'500',
-    close_title:"取消"
+import dialogWindows from "@/components/FileManagement/dialogWindows.vue";
 
-  })
+const dialogPluginList: any = ref({
+  dialogVisible: false,
+  source: 1,
+});
 
-  const upload_file = (item:any)=>{
-    types.value = item
-    dialogPluginList.value.dialogVisible = true
+const upload_file = (item: any) => {
+  dialogPluginList.value.dialogVisible = true;
+  dialogPluginList.value.source = 1;
+  types.value = item;
+};
+const Return = (data: any) => {
+  dialogPluginList.value.dialogVisible = false;
 
+  if (types.value == "插件图标") {
+    imageUrl.value = data[0];
+    form.value.icon = data[0];
   }
-
-  const Return = (data:any)=>{
-
-    dialogPluginList.value.dialogVisible = false
-    if(data.type == 'return'){
-      if(types.value == '插件图标'){
-        imageUrl.value = data.data[0].url
-        form.value.icon = data.data[0].url
-      }
-
-    }
-
-  }
-
+};
 </script>
 
 <style scoped>

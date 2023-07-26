@@ -5,17 +5,16 @@ meta: title:订单管理
 <script setup lang="ts">
 import { Delete, Edit, Search, Share, Upload } from "@element-plus/icons-vue";
 import api from "@/api";
-
 import Axios from "axios";
 import useUserStore from "@/store/modules/user";
-import fileDownload from "js-file-download";
 import http from "@/api/plugin";
 import { ref, onMounted, computed, reactive } from "vue";
 import storage from "@/utils/storage";
 import { ElMessage, ElMessageBox, TabsPaneContext } from "element-plus";
 import EditDetails from "./components/editDetails.vue";
 import ViewDetails from "./components/viewDetails.vue";
-// import Exportorder from "@/components/Exportorder/index.vue";
+import Exportorder from "@/components/Exportorder/index.vue";
+import Salessummary from "@/components/Salessummary/index.vue";
 import JSONBIG from "json-bigint";
 import table2excel from "js-table2excel";
 const router = useRouter();
@@ -36,42 +35,27 @@ const tableobj = reactive({
   pageSize: 10,
   keyword: "",
 });
-// 销售汇总
-const salsForm: any = ref({
-  current: 1,
-  startDateTime: "",
-  endDateTime: "",
-  keyword: "",
-  size: 10,
-  businessId: "",
-});
-const salasList: any = ref([]);
-// 日期范围
-const value1 = ref<[Date, Date]>([
-  new Date(2000, 10, 10, 10, 10),
-  new Date(2000, 10, 11, 10, 10),
-]);
-const value3 = ref<[Date, Date]>([
-  new Date(2000, 10, 10, 10, 10),
-  new Date(2000, 10, 11, 10, 10),
-]);
-// const list3=ref([])
 const value2 = ref("");
 const starttime: any = ref("");
 const endtime: any = ref("");
 const loadingType: any = ref("-1");
-const exportSals: any = ref("0");
-
-function changeTime() {
-  starttime.value = value1.value[0];
-  endtime.value = value1.value[1];
+  // 日期范围
+  const value4:any = ref<[Date, Date]>([
+  new Date(2000, 10, 10, 10, 10),
+  new Date(2000, 10, 11, 10, 10),
+]);
+function changeTime4(val:any) {
+  if(!val){
+    value4.value=new Date();
+    starttime.value= '';
+    endtime.value='';
+  }else{
+    starttime.value= value4.value[0];
+    endtime.value= value4.value[1];
+  }
   // getMallSetting()
 }
 
-function changeTime2() {
-  salsForm.value.startDateTime = value3.value[0];
-  salsForm.value.endDateTime = value3.value[1];
-}
 
 function exportOrders() {
   loadingType.value = 1;
@@ -80,12 +64,7 @@ function exportOrders() {
 
   getMallSetting();
 }
-function exportOrders2() {
-  // loadingType2.value=1
-  exportSals.value = 1;
-  salsForm.size = 1000;
-  saleTotalList();
-}
+
 const shortcuts = [
   {
     text: "Last week",
@@ -132,9 +111,10 @@ function changeformat(val: any) {
   }
 }
 // 导出表格数据
-const DialogVisible2: any = ref(false);
+const DialogVisible2: any = ref({
+  visible:false
+});
 const exportStatus: any = ref("0");
-const DialogTitle: any = ref("销售汇总");
 const datas: any = reactive({
   arr: [],
 }); //这里用四个对象来模拟接口中得到的object型数据
@@ -157,50 +137,7 @@ const orderItemInfo: any = ref({
   consigneeAddress: "",
   orderMark: "",
 });
-// 销售汇总导出
-function exportToExcel2() {
-  console.log("销售汇总导出销售汇总导出");
-  const column = [
-    {
-      title: "商品ID",
-      key: "goodsID",
-      type: "text",
-    },
-    {
-      title: "商品图片",
-      key: "goodsImage",
-      type: "image",
-      width: 100,
-      height: 100,
-    },
-    {
-      title: "商品名称",
-      key: "goodsName",
-      type: "text",
-    },
-    {
-      title: "商品规格",
-      key: "goodsSpe",
-      type: "text",
-    },
-    {
-      title: "销售金额(元)",
-      key: "salsMoney",
-      type: "text",
-    },
-    {
-      title: "销售数量",
-      key: "salsNum",
-      type: "text",
-    },
-  ];
-  const excelName = "月份订单"; //文件名称
-  exportSals.value = 0;
-  console.log(salasList.value, "月份订单月份订单");
-  table2excel(column, salasList.value, excelName); //生成Excel表格，自动下载
 
-  salasList.value = [];
-}
 
 const businessList: any = ref([]);
 const businessList2: any = ref([]);
@@ -222,53 +159,12 @@ onBeforeMount(() => {
 });
 // 销售汇总
 function saleTotal() {
-  DialogVisible2.value = true;
+  DialogVisible2.value.visible = true;
+}
+function salessummary(e:any){
+  DialogVisible2.value.visible=false;
 }
 
-function handleSizeChange2(val: any) {
-  salsForm.value.size = val;
-  saleTotalList();
-}
-
-function handleCurrentChange2(val: any) {
-  salsForm.value.current = val;
-  saleTotalList();
-}
-
-function saleTotalList() {
-  loading2.value = true;
-  api
-    .get("/api/order/getOrderItemStatistics", {
-      params: salsForm.value,
-    })
-    .then((res: any) => {
-      if (res.code == 200) {
-        loading2.value = false;
-        tableData2.value = res.body.list;
-        total2.value = res.body.total;
-        if (exportSals.value == 1) {
-          tableData2.value.forEach((item: any) => {
-            const obj = {
-              goodsID: "",
-              goodsImage: "",
-              goodsName: "",
-              goodsSpe: "",
-              salsMoney: "",
-              salsNum: "",
-            };
-            obj.goodsID = item.goodsId;
-            obj.goodsImage = item.previewUrl;
-            obj.goodsName = item.goodName;
-            obj.goodsSpe = item.goodsSpecificationName;
-            obj.salsMoney = item.payTotalAmount;
-            obj.salsNum = item.goodsNum;
-            salasList.value.push(obj);
-          });
-          exportToExcel2();
-        }
-      }
-    });
-}
 // 批量发货
 function deliverGoods() {
   let data = {
@@ -297,36 +193,14 @@ function deliverGoods() {
   });
 }
 function exportOrder33() {
-  loading.value = true;
-  const userStore = useUserStore();
-  const requestUrl = "/api/order/exportOrderExcel";
-  const basrUrl = import.meta.env.VITE_APP_API_BASEURL;
-  const data6 = {
-    page: tableobj.currentPage,
-    size: 1000,
-    keyword: tableobj.keyword,
-    adminId: storage.local.get("adminId"),
-    userServiceToken: storage.local.get("userServiceToken"),
-    businessId: businessId.value != "" ? businessId.value : -1,
-    orderStatus: activeName.value,
-    startDateTime: starttime.value,
-    endDateTime: endtime.value,
-    loadingType: 1,
-  };
-  Axios({
-    method: "get",
-    url: basrUrl + requestUrl,
-    params: data6,
-    headers: {
-      Authorization: userStore.token,
-      USER_SERVICE_TOKEN: storage.local.get("userServiceToken"),
-    },
-    responseType: "blob",
-  }).then((res: any) => {
-    fileDownload(res.data, "OrderList.xlsx");
-    loading.value = false;
-  });
+  formModeProps2.value.visible=true;
+  // console.log(formModeProps2.value,'导出状态')
 }
+function exportOrderChange(e:any){
+  loading.value=e.loading;
+  formModeProps2.value.visible=e.myVisible;
+}
+
 function getMallSetting() {
   loading.value = true;
   let data: any = {
@@ -389,7 +263,6 @@ const handleSelectionChange = (val: any) => {
   idlist.value = multipleSelection.value.map((item: any) => {
     return item.id;
   });
-  console.log();
 };
 // 批量删除
 const delPlugin = () => {
@@ -466,7 +339,6 @@ function update() {
   getMallSetting();
   formModeProps.value.visible = false;
 }
-
 function update1() {
   getMallSetting();
   formModeProps.value.visible1 = false;
@@ -562,188 +434,8 @@ const changeClick = () => {
 
 <template>
   <div>
-    <!-- 销售汇总 -->
-    <div v-if="DialogVisible2">
-      <el-dialog
-        v-model="DialogVisible2"
-        title="销售汇总"
-        width="1000px"
-        v-loading="loading2"
-        element-loading-text="加载中..."
-        :close-on-click-modal="false"
-        :show-close="false"
-        append-to-body
-        destroy-on-close
-      >
-        <div
-          class="header-right"
-          style="display: flex; justify-content: end; align-items: center"
-        >
-          <div
-            style="
-              width: 360px !important;
-              height: 40px !important;
-              margin-right: 50px;
-            "
-          >
-            <el-date-picker
-              size="large"
-              v-model="value3"
-              @change="changeTime2"
-              value-format="YYYY-MM-DD HH:mm:ss"
-              type="datetimerange"
-              range-separator="To"
-              start-placeholder="开始日期"
-              end-placeholder="结束日期"
-            />
-          </div>
 
-          <el-select
-            size="large"
-            v-model="salsForm.businessId"
-            filterable
-            placeholder="选择店铺"
-          >
-            <el-option
-              v-for="item in businessList2"
-              :key="item.businessId"
-              :label="item.businessName"
-              :value="item.businessId"
-            />
-          </el-select>
-          <div class="lang" style="margin-left: 10px">
-            <el-input
-              style="width: 150px; height: 40px"
-              v-model="salsForm.keyword"
-              placeholder="搜索商品"
-              @keyup.enter.native="saleTotalList"
-            />
-          </div>
-          <el-button
-            type="success"
-            style="height: 40px; margin: 0 0px 0 10px"
-            @click="exportOrders2()"
-          >
-            <template #icon>
-              <el-icon>
-                <Position />
-              </el-icon>
-            </template>
-            导出
-          </el-button>
-          <el-button
-            type="primary"
-            style="height: 40px; margin: 0 10px 0 10px"
-            @click="saleTotalList"
-          >
-            <template #icon>
-              <el-icon>
-                <svg-icon name="i-ep:search" />
-              </el-icon>
-            </template>
-            搜索
-          </el-button>
-        </div>
-        <div style="padding: 20px">
-          <el-table
-            :data="tableData2"
-            v-loading="loading2"
-            element-loading-text="加载中..."
-            style="width: 100%; height: 500px"
-            :header-cell-style="{
-              background: '#f3f6fd',
-              color: '#555',
-              textAlign: 'center',
-            }"
-          >
-            <el-table-column
-              prop="goodsId"
-              width="100"
-              label="商品ID"
-              align="center"
-            />
-            <el-table-column
-              prop="rotationImgsJson"
-              width="120"
-              label="商品图片"
-              align="center"
-            >
-              <template #default="scope">
-                <div
-                  style="
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                  "
-                >
-                  <img
-                    style="width: 40px; height: 40px"
-                    :src="scope.row.plugsGoods.previewUrl"
-                    alt=""
-                  />
-                </div>
-              </template>
-            </el-table-column>
-            <el-table-column
-              label="商品名称"
-              prop="goodName"
-              width="280"
-              show-overflow-tooltip
-              align="center"
-            >
-            </el-table-column>
-            <el-table-column
-              prop="goodsSpecificationName"
-              label="商品规格"
-              align="center"
-              width="200"
-            >
-            </el-table-column>
-            <el-table-column
-              prop="payTotalAmount"
-              label="销售金额(元)"
-              align="center"
-              width="120"
-            >
-            </el-table-column>
-            <el-table-column
-              prop="goodsNum"
-              label="销售数量"
-              align="center"
-              width="120"
-            >
-            </el-table-column>
-          </el-table>
-          <div class="example-pagination-block">
-            <div>
-              <el-pagination
-                background
-                @current-change="handleCurrentChange"
-                @size-change="handleSizeChange"
-                :current-page="salsForm.current"
-                :page-size="salsForm.size"
-                layout="prev,pager,next,total"
-                :total="total2"
-              >
-              </el-pagination>
-            </div>
-          </div>
-        </div>
-        <template #footer>
-          <el-button size="large" @click="DialogVisible2 = false">
-            取消
-          </el-button>
-          <el-button
-            type="primary"
-            size="large"
-            @click="DialogVisible2 = false"
-          >
-            确定
-          </el-button>
-        </template>
-      </el-dialog>
-    </div>
-    <!-- 销售汇总 end -->
+  
     <div>
       <page-main>
         <el-tabs
@@ -781,7 +473,6 @@ const changeClick = () => {
               <el-button type="success" :icon="Share" @click="saleTotal"
                 >销售汇总</el-button
               >
-
               <el-button
                 type="danger"
                 @click="delPlugin"
@@ -838,7 +529,7 @@ const changeClick = () => {
                       v-model="listvalue"
                       class="ml-2"
                       @change="changeformat"
-                      width="60"
+                      width="56"
                       style="
                         --el-switch-on-color: #409eff;
                         --el-switch-off-color: #fb5531;
@@ -852,21 +543,20 @@ const changeClick = () => {
               </div>
             </div>
             <div style="display: flex">
-              <!-- <div style="margin-right: 8px;display: flex;align-items: center;"> -->
-              <el-date-picker
-                v-model="value1"
-                style="width: 360px; margin-left: 15px"
-                @change="changeTime"
+              <div>
+                <el-date-picker
+                style="width: 352px;"
+                v-model="value4"
                 value-format="YYYY-MM-DD HH:mm:ss"
                 type="datetimerange"
-                range-separator="To"
+                range-separator="-"
                 start-placeholder="开始日期"
                 end-placeholder="结束日期"
-              />
-              <!-- </div> -->
-
+                @change="changeTime4"
+                />
+              </div>
               <el-select
-                style="width: 180px; margin-left: 15px"
+                style="width: 160px; margin-left: 10px"
                 v-model="businessId"
                 filterable
                 placeholder="选择店铺"
@@ -879,16 +569,13 @@ const changeClick = () => {
                   :value="item.businessId"
                 />
               </el-select>
-              <!-- style="width: 150px; " -->
-              <!-- <div class="lang"> -->
               <el-input
                 v-model="tableobj.keyword"
-                style="width: 120px; margin: 0 15px"
+                style="width: 150px; margin: 0 10px"
                 placeholder="请输入"
                 @keyup.enter.native="getMallSetting"
               />
-              <!-- </div> -->
-              <el-button :icon="Search" @click="getMallSetting()"
+              <el-button :icon="Search" type="primary"  @click="getMallSetting()"
                 >搜索</el-button
               >
             </div>
@@ -903,7 +590,7 @@ const changeClick = () => {
               :header-cell-style="{
                 background: '#f3f6fd',
                 color: '#555',
-                textAlign: 'center',
+                textAlign: 'left',
               }"
               @selection-change="handleSelectionChange"
             >
@@ -967,7 +654,10 @@ const changeClick = () => {
                             </div>
                             <div>
                               <p>{{ item.goodName }}</p>
-                              <p>{{ item.goodsSpecificationName }}</p>
+                              <p v-for="(item2,key) in JSON.parse(item.goodsSpecificationName)" >
+                                  {{key}}:{{item2}}
+                              </p>
+                              <!-- <p>{{ item.goodsSpecificationName }}</p> -->
                             </div>
                           </div>
                           <div style="width: 240px">
@@ -978,18 +668,17 @@ const changeClick = () => {
                               <div v-if="item.goodsSpecification">
                                 单价:￥{{ item.goodsSpecification.dealPrice }}
                                 <!-- <div v-if="item.plugsGoods.goodsType=0
-">
+                                ">
 																单价:￥{{item.goodsSpecification.dealPrice}}
 															</div> -->
                                 <!-- <div v-else-if="item.plugsGoods.goodsType=1
-">
+                                ">
 																单价:{{item.goodsSpecification.dealPrice}}积分
 															</div> -->
                               </div>
                               <div v-else>单价:￥{{ item.goodsPrice }}</div>
                             </div>
                           </div>
-
                           <div style="width: 200px">
                             <div v-if="item.orderStatus == 0">待付款</div>
                             <div v-else-if="item.orderStatus == 1">待接单</div>
@@ -1094,7 +783,7 @@ const changeClick = () => {
                       </div>
                       <div v-for="item in businessList" :key="item.businessId">
                         <P v-if="item.businessId == props.row.businessId"
-                          >所属店铺:{{ item.businessName }}</P
+                          >店铺:{{ item.businessName }}</P
                         >
                       </div>
                     </div>
@@ -1114,12 +803,12 @@ const changeClick = () => {
               <el-table-column
                 label="订单编号"
                 prop="orderNo"
-                width="270"
+                width="300"
                 show-overflow-tooltip
-                align="center"
+                align="left"
               >
               </el-table-column>
-              <el-table-column label="配送方式" align="center">
+              <el-table-column label="配送方式" width="150" align="left">
                 <template #default="scope">
                   <div v-if="scope.row.logisticsType == 1">配送</div>
                   <div v-else-if="scope.row.logisticsType == 2">快递</div>
@@ -1129,21 +818,25 @@ const changeClick = () => {
                   <div v-else-if="scope.row.logisticsType == 0">快递</div>
                 </template>
               </el-table-column>
-              <el-table-column label="商品数量" align="center">
+              <el-table-column label="店铺" align="left" width="270" show-overflow-tooltip >
+                <template #default="scope">
+                  <div v-for="item in businessList" :key="item.businessId" >
+                      <div v-if="scope.row.businessId==item.businessId">
+                          {{item.businessName}}
+                      </div>
+                  </div>
+                </template>
+              </el-table-column>
+              <el-table-column label="商品数量" width="140" align="left">
                 <template #default="scope">
                   <div
-                    style="
-                      display: flex;
-                      justify-content: center;
-                      align-items: center;
-                    "
                   >
                     {{ scope.row.goodsTotalNum }}
                   </div>
                 </template>
               </el-table-column>
 
-              <el-table-column label="实际支付" align="center">
+              <el-table-column label="实际支付" width="160" align="left">
                 <template #default="scope">
                   <div>
                     <span style="color: red">¥{{ scope.row.payMoney }}</span>
@@ -1161,15 +854,16 @@ const changeClick = () => {
               <el-table-column
                 label="下单时间"
                 prop="updateTime"
-                align="center"
+                align="left"
                 :formatter="formatDate"
               >
               </el-table-column>
               <el-table-column
                 label="订单状态"
-                align="center"
+               
+                align="left"
                 fixed="right"
-                width="80"
+                width="100"
               >
                 <template #default="scope">
                   <div style="color: #ff4f4f">
@@ -1211,7 +905,7 @@ const changeClick = () => {
               <el-table-column
                 fixed="right"
                 label="操作"
-                align="center"
+                align="left"
                 width="250"
               >
                 <template #default="scope">
@@ -1249,8 +943,8 @@ const changeClick = () => {
             </el-table>
           </div>
           <!-- 订单详情 -->
-
-          <el-dialog v-model="dialogVisible" title="Tips" width="30%">
+          <div v-if="dialogVisible" >
+            <el-dialog v-model="dialogVisible" title="Tips" width="30%">
             <div
               style="
                 display: flex;
@@ -1280,8 +974,9 @@ const changeClick = () => {
                 </el-button>
               </span>
             </template>
-          </el-dialog>
-
+            </el-dialog>
+          </div>
+         
           <div
             style="
               display: flex;
@@ -1305,22 +1000,32 @@ const changeClick = () => {
           </div>
         </div>
       </page-main>
+    </div>
+    <div>
+      <div  v-if="formModeProps.visible" >
       <EditDetails
-        v-if="formModeProps.visible"
         v-model="formModeProps.visible"
         :id="formModeProps.id"
         @success="update"
       ></EditDetails>
+    </div>
+    <div  v-if="formModeProps.visible1" >
       <ViewDetails
-        v-if="formModeProps.visible1"
         v-model="formModeProps.visible1"
         :id="formModeProps.id1"
         @success="update1"
       ></ViewDetails>
-      <!-- <Exportorder v-if="formModeProps2.visible" v-model="formModeProps2.visible" >
-
-			</Exportorder> -->
     </div>
+    <div v-if="formModeProps2.visible" >
+      <Exportorder  v-model="formModeProps2.visible" @exportOrderChange="exportOrderChange" >
+			</Exportorder>
+    </div>
+    <div v-if="DialogVisible2.visible" >
+       <Salessummary  v-model="DialogVisible2.visible"   @salessummary="salessummary">
+       </Salessummary>
+     </div>
+    </div>
+
   </div>
 </template>
 <style scoped>

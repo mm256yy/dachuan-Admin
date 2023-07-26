@@ -33,7 +33,7 @@
               placeholder="选择店铺
             "
             >
-            <el-option :key="0" label="全部" :value="-1" />
+              <el-option :key="0" label="全部" :value="-1" />
               <el-option
                 v-for="item in businessList"
                 :key="item.businessId"
@@ -67,29 +67,24 @@
           :header-cell-style="{
             background: '#f3f6fd',
             color: '#555',
-            textAlign: 'center',
+            textAlign: 'left',
           }"
           @selection-change="handleSelectionChange"
         >
           <el-table-column type="selection" />
 
-          <el-table-column prop="id" label="ID" align="center" width="60" />
+          <el-table-column prop="id" label="ID" align="left" width="80" />
           <el-table-column
             prop="rotationImgsJson"
-            label="商品logo"
-            align="center"
+            label="商品"
+            align="left"
             width="100"
           >
             <template #default="scope">
-              <div
-                style="
-                  display: flex;
-                  align-items: center;
-                  justify-content: center;
-                "
-              >
+              <div>
                 <img
-                  style="width: 40px; height: 40px"
+                  v-if="scope.row.previewUrl"
+                  style="width: 50px; height: 50px"
                   :src="scope.row.previewUrl"
                   alt=""
                 />
@@ -97,34 +92,36 @@
             </template>
           </el-table-column>
 
-          <el-table-column
-            prop="goodsName"
-            label="商品名称"
-            align="center"
-            width="250"
-          >
+          <el-table-column prop="goodsName" label="商品名称" width="380">
             <template #default="scope">
               <div
                 style="
                   display: -webkit-box;
                   -webkit-box-orient: vertical;
-                  -webkit-line-clamp: 2;
+                  -webkit-line-clamp: 1;
                   overflow: hidden;
+                  margin-bottom: 4px;
                 "
               >
                 <div>{{ scope.row.goodsName }}</div>
+              </div>
+              <div>
+                <el-tag v-if="scope.row.goodsType == 0" class="ml-2" type="info"
+                  >普通商品</el-tag
+                >
+                <el-tag v-else class="ml-2" type="info">积分商品</el-tag>
               </div>
             </template>
           </el-table-column>
           <!-- <el-table-column prop="goodsPrice" label="商品价格" align="center" /> -->
 
-          <el-table-column prop="categoryId" label="商品分类" align="center">
+          <el-table-column prop="categoryId" label="商品分类" align="left">
             <template #default="scope">
               <div v-if="!scope.row.categoryName">全部</div>
               <div v-else>{{ scope.row.categoryName }}</div>
             </template>
           </el-table-column>
-          <el-table-column prop="stockNum" label="价格/库存" align="center">
+          <el-table-column prop="stockNum" label="价格/库存" align="left">
             <template #default="scope">
               <div style="display: flex; flex-direction: column">
                 <div>商品价格：{{ scope.row.goodsPrice }}</div>
@@ -132,7 +129,7 @@
               </div>
             </template>
           </el-table-column>
-          <el-table-column prop="stockNum" label="数据" align="center">
+          <el-table-column prop="stockNum" label="数据" align="left">
             <template #default="scope">
               <div style="">
                 <div>月销售：{{ scope.row.monthSales }}</div>
@@ -141,7 +138,12 @@
               </div>
             </template>
           </el-table-column>
-          <el-table-column prop="goodsStatus" label="是否上架" align="center">
+          <el-table-column
+            prop="goodsStatus"
+            label="是否上架"
+            width="140"
+            align="left"
+          >
             <template #default="scope">
               <el-switch
                 v-model="scope.row.goodsStatus"
@@ -154,19 +156,19 @@
               />
             </template>
           </el-table-column>
-          <el-table-column prop="createTime" label="创建时间" align="center">
+          <el-table-column
+            prop="createTime"
+            label="创建时间"
+            width="200"
+            align="left"
+          >
             <template #default="scope">
               <div style="">
                 <div>{{ formatDate(scope.row.createTime) }}</div>
               </div>
             </template>
           </el-table-column>
-          <el-table-column
-            fixed="right"
-            label="操作"
-            width="200"
-            align="center"
-          >
+          <el-table-column fixed="right" label="操作" width="180" align="left">
             <template #default="scope">
               <el-button
                 link

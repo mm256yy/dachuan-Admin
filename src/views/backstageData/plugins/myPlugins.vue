@@ -1,13 +1,15 @@
 <template>
   <div class="content">
-    <div class="bigbox">
+    
+    <div class="contentBox" >
+      <el-alert  title="如对插件有使用问题或需要定制插件功能请联系您的业务经理" type="success" />
+      <div class="bigbox">
       <div
         class="box"
         v-for="item in pluginList"
         :key="item.id"
         style="
           position: relative;
-          box-shadow: 0px 0px 8px 0px rgba(207, 207, 207, 0.5);
         "
         @click="gopath1(item)"
       >
@@ -24,6 +26,8 @@
         </div> -->
       </div>
     </div>
+    </div>
+    
   </div>
 </template>
 
@@ -76,22 +80,37 @@ onMounted(() => {
 <style scoped lang="scss">
 .content {
   padding: 20px;
+  // background-color: #fff;
 }
-
+.contentBox{
+  background-color: #fff;
+  padding: 16px;
+  border-radius: 6px;
+}
+.el-alert {
+  margin-bottom: 16px;
+  color: #515a6e;
+  border: 1px solid #8ce6b0;
+}
 .bigbox {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   background-color: #fff;
+  // justify-content: space-between;
+  
+  // padding: 16px;
   .box:hover {
     /* 盒子向上移动 */
     box-shadow: 0 26px 40px -24px rgb(0 36 100 / 50%);
     transform: translateY(-8px);
+    transition: all .2s;
   }
   .box {
-    width: 300px;
+    width: 252px;
     padding: 10px;
-    margin: 10px 5px;
+    margin: 10px 9px;
+    // background-color: rgb(45 140 240 / 6%);
     background-color: rgb(45 140 240 / 6%);
     overflow: hidden;
     cursor: pointer;

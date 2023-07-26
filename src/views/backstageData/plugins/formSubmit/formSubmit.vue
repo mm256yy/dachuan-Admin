@@ -64,6 +64,7 @@
           <el-table-column prop="formLogo" label="表单logo" align="center">
             <template #default="scope">
               <img
+                v-if="scope.row.formLogo"
                 style="width: 40px; height: 40px"
                 :src="scope.row.formLogo"
                 alt=""

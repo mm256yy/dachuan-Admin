@@ -20,7 +20,7 @@
           <el-scrollbar height="64vh">
             <el-form-item label="用户名	" prop="">
               <el-input
-                style="width: 480px;"
+                style="width: 480px"
                 v-model="form.userName"
                 placeholder="用户名"
                 clearable
@@ -29,18 +29,18 @@
               />
             </el-form-item>
             <el-form-item label="用户头像" prop="headImg">
-              <!-- <el-upload
-                class="avatar-uploader"
-                :action="baseURL"
-                :headers="header"
-                name="file"
-                :data="{ type: 1 }"
-                :show-file-list="false"
-                :on-success="handleAvatarSuccess"
-                :before-upload="beforeAvatarUpload"
-              > -->
               <div @click="upload_file('touxiang')">
-                <img v-if="imageUrl" style="height: 80px;width: 80px;border:1px solid #eee;border-radius: 8px;" :src="imageUrl" class="avatar" />
+                <img
+                  v-if="imageUrl"
+                  style="
+                    height: 80px;
+                    width: 80px;
+                    border: 1px solid #eee;
+                    border-radius: 8px;
+                  "
+                  :src="imageUrl"
+                  class="avatar"
+                />
                 <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
               </div>
 
@@ -48,20 +48,18 @@
             </el-form-item>
             <el-form-item label="用户邮箱" prop="userEmail">
               <el-input
-                style="width: 360px;"
+                style="width: 360px"
                 v-model="form.userEmail"
                 placeholder="用户邮箱"
                 clearable
-
               />
             </el-form-item>
             <el-form-item label="真实姓名" prop="realname">
               <el-input
-                style="width: 360px;"
+                style="width: 360px"
                 v-model="form.realname"
                 placeholder="真实姓名"
                 clearable
-
               />
             </el-form-item>
             <el-form-item label="性别" prop="gender">
@@ -73,96 +71,81 @@
 
             <el-form-item label="身份证号" prop="idCar">
               <el-input
-              style="width: 360px;"
-              v-model="form.idCar"
-              placeholder="身份证号"
-
-              class="input-with-select">
-                <template #prepend>
-                  中国居民
-                </template>
-
+                style="width: 360px"
+                v-model="form.idCar"
+                placeholder="身份证号"
+                class="input-with-select"
+              >
+                <template #prepend> 中国居民 </template>
               </el-input>
-
             </el-form-item>
             <el-form-item label="手机号" prop="mobile">
               <el-input
-              style="width: 360px;"
-              v-model="form.mobile"
-              placeholder="手机号"
-              class="input-with-select">
-                <template #prepend>
-                  号码
-                </template>
+                style="width: 360px"
+                v-model="form.mobile"
+                placeholder="手机号"
+                class="input-with-select"
+              >
+                <template #prepend> 号码 </template>
               </el-input>
-
             </el-form-item>
 
             <el-form-item label="密码" prop="password" v-if="form.id != 31">
               <el-input
-              style="width: 360px;"
-              v-model="form.password"
-              placeholder="密码"
-              class="input-with-select">
-                <template #prepend>
-                  密码
-                </template>
+                style="width: 360px"
+                v-model="form.password"
+                placeholder="密码"
+                class="input-with-select"
+              >
+                <template #prepend> 密码 </template>
               </el-input>
             </el-form-item>
 
             <el-form-item label="生日" prop="birth">
               <div>
                 <el-input
-                style="width: 150px;"
-                v-model="births.year"
-                placeholder="年份"
-                class="input-with-select">
-                  <template #append>
-                    年
-                  </template>
+                  style="width: 150px"
+                  v-model="births.year"
+                  placeholder="年份"
+                  class="input-with-select"
+                >
+                  <template #append> 年 </template>
                 </el-input>
 
                 <el-input
-                style="width: 150px;"
-                v-model="births.moth"
-                placeholder="月份"
-                class="input-with-select">
-                  <template #append>
-                    月
-                  </template>
+                  style="width: 150px"
+                  v-model="births.moth"
+                  placeholder="月份"
+                  class="input-with-select"
+                >
+                  <template #append> 月 </template>
                 </el-input>
 
                 <el-input
-                style="width: 150px;"
-                v-model="births.day"
-                placeholder="日份"
-                class="input-with-select">
-                  <template #append>
-                    日
-                  </template>
+                  style="width: 150px"
+                  v-model="births.day"
+                  placeholder="日份"
+                  class="input-with-select"
+                >
+                  <template #append> 日 </template>
                 </el-input>
-
               </div>
-
 
               <!-- <el-input v-model="form.birth" placeholder="请输入" clearable /> -->
             </el-form-item>
             <el-form-item label="第三方关联账号" prop="">
-
               <el-input
-              style="width: 360px;"
-              v-model="form.associatedAccounJson"
-              placeholder="第三方关联账号"
-              class="input-with-select">
-                <template #prepend>
-                  第三方账号
-                </template>
-                </el-input>
+                style="width: 360px"
+                v-model="form.associatedAccounJson"
+                placeholder="第三方关联账号"
+                class="input-with-select"
+              >
+                <template #prepend> 第三方账号 </template>
+              </el-input>
             </el-form-item>
             <el-form-item label="备注" prop="remark">
-
               <el-input
-                style="width: 400px;"
+                style="width: 400px"
                 v-model="form.remark"
                 :rows="2"
                 maxlength="150"
@@ -170,19 +153,16 @@
                 type="textarea"
                 placeholder="备注"
               />
-
             </el-form-item>
             <el-form-item label="用户等级" prop="">
               <el-input
-              style="width: 360px;"
-              v-model="form.userLevel"
-              placeholder="用户等级"
-              class="input-with-select">
-                <template #prepend>
-                  等级
-                </template>
-                </el-input>
-
+                style="width: 360px"
+                v-model="form.userLevel"
+                placeholder="用户等级"
+                class="input-with-select"
+              >
+                <template #prepend> 等级 </template>
+              </el-input>
             </el-form-item>
             <el-form-item label="用户状态(0正常,1锁定)" prop="plugsDescribe">
               <el-switch
@@ -195,25 +175,19 @@
               />
             </el-form-item>
             <el-form-item label="用户CODE渠道标识" prop="">
-
-
               <el-input
-
-              style="width: 360px;"
-              v-model="form.userCode"
-              placeholder="用户CODE渠道标识"
-              class="input-with-select">
-                <template #prepend>
-                  用户CODE渠道标识
-                </template>
-                </el-input>
-
+                style="width: 360px"
+                v-model="form.userCode"
+                placeholder="用户CODE渠道标识"
+                class="input-with-select"
+              >
+                <template #prepend> 用户CODE渠道标识 </template>
+              </el-input>
             </el-form-item>
 
             <el-form-item label="设备信息" prop="">
-
               <el-input
-                style="width: 400px;"
+                style="width: 400px"
                 v-model="form.deviceJson"
                 :rows="2"
                 maxlength="300"
@@ -224,37 +198,29 @@
             </el-form-item>
 
             <el-form-item label="用户注册IP" prop="">
-
               <el-input
-
-              style="width: 360px;"
-              v-model="form.ipAddress"
-              placeholder="用户注册IP"
-              class="input-with-select">
-              <template #prepend>
-                IP
-              </template>
+                style="width: 360px"
+                v-model="form.ipAddress"
+                placeholder="用户注册IP"
+                class="input-with-select"
+              >
+                <template #prepend> IP </template>
               </el-input>
-
             </el-form-item>
 
             <el-form-item label="登录次数" prop="">
               <el-input
-
-              style="width: 360px;"
-              v-model="form.loginCount"
-              placeholder="登录次数"
-              class="input-with-select">
-              <template #append>
-                次
-              </template>
+                style="width: 360px"
+                v-model="form.loginCount"
+                placeholder="登录次数"
+                class="input-with-select"
+              >
+                <template #append> 次 </template>
               </el-input>
-
             </el-form-item>
             <el-form-item label="支付信息JSON 格式" prop="">
-
               <el-input
-                style="width: 400px;"
+                style="width: 400px"
                 v-model="form.userPayJson"
                 :rows="2"
                 maxlength="300"
@@ -262,20 +228,16 @@
                 type="textarea"
                 placeholder="支付信息JSON 格式"
               />
-
             </el-form-item>
             <el-form-item label="用户服务标识" prop="">
               <el-input
-
-              style="width: 360px;"
-              v-model="form.userServiceToken"
-              placeholder="用户服务标识"
-              class="input-with-select">
-              <template #prepend>
-                标识
-              </template>
+                style="width: 360px"
+                v-model="form.userServiceToken"
+                placeholder="用户服务标识"
+                class="input-with-select"
+              >
+                <template #prepend> 标识 </template>
               </el-input>
-
             </el-form-item>
           </el-scrollbar>
         </el-tab-pane>
@@ -283,51 +245,43 @@
           <el-scrollbar height="64vh">
             <el-form-item label="店铺名称" prop="smallRoutine">
               <el-input
-
-              style="width: 360px;"
-              v-model="configJson.smallRoutine"
-              placeholder="请输入"
-              class="input-with-select">
-              <template #prepend>
-                店铺名称
-              </template>
+                style="width: 360px"
+                v-model="configJson.smallRoutine"
+                placeholder="请输入"
+                class="input-with-select"
+              >
+                <template #prepend> 店铺名称 </template>
               </el-input>
-
             </el-form-item>
             <el-form-item label="店铺Logo" prop="shopLogo">
-              <!-- <el-upload
-                class="avatar-uploader"
-                :action="baseURL"
-                :headers="header"
-                name="file"
-                :data="{ type: 1 }"
-                :show-file-list="false"
-                :on-success="handleAvatarSuccess1"
-                :before-upload="beforeAvatarUpload"
-              >
-                <img v-if="imageUrl1" :src="imageUrl1" class="avatar" />
-                <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
-              </el-upload> -->
               <div @click="upload_file('dianpu')">
-                <img v-if="imageUrl1" style="height: 80px;width: 80px;border:1px solid #eee;border-radius: 8px;" :src="imageUrl1" class="avatar" />
+                <img
+                  v-if="imageUrl1"
+                  style="
+                    height: 80px;
+                    width: 80px;
+                    border: 1px solid #eee;
+                    border-radius: 8px;
+                  "
+                  :src="imageUrl1"
+                  class="avatar"
+                />
                 <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
               </div>
             </el-form-item>
             <el-form-item label="店铺电话" prop="shopMobile">
               <el-input
-              style="width: 360px;"
-              v-model="configJson.shopMobile"
-              placeholder="请输入"
-              class="input-with-select">
-              <template #prepend>
-                店铺电话
-              </template>
+                style="width: 360px"
+                v-model="configJson.shopMobile"
+                placeholder="请输入"
+                class="input-with-select"
+              >
+                <template #prepend> 店铺电话 </template>
               </el-input>
-
             </el-form-item>
             <el-form-item label="分享标题" prop="shareTitle">
               <el-input
-                style="width: 400px;"
+                style="width: 400px"
                 v-model="configJson.shareTitle"
                 :rows="2"
                 maxlength="300"
@@ -335,24 +289,20 @@
                 type="textarea"
                 placeholder="请输入"
               />
-
             </el-form-item>
             <el-form-item label="分享图片" prop="shareImages">
-              <!-- <el-upload
-                class="avatar-uploader"
-                :action="baseURL"
-                :headers="header"
-                name="file"
-                :data="{ type: 1 }"
-                :show-file-list="false"
-                :on-success="handleAvatarSuccess2"
-                :before-upload="beforeAvatarUpload"
-              >
-                <img v-if="imageUrl2" :src="imageUrl2" class="avatar" />
-                <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
-              </el-upload> -->
               <div @click="upload_file('share')">
-                <img v-if="imageUrl2" style="height: 80px;width: 80px;border:1px solid #eee;border-radius: 8px;" :src="imageUrl2" class="avatar" />
+                <img
+                  v-if="imageUrl2"
+                  style="
+                    height: 80px;
+                    width: 80px;
+                    border: 1px solid #eee;
+                    border-radius: 8px;
+                  "
+                  :src="imageUrl2"
+                  class="avatar"
+                />
                 <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
               </div>
             </el-form-item>
@@ -362,7 +312,7 @@
           <el-scrollbar height="64vh">
             <el-form-item label="通知地址" prop="notice_url">
               <el-input
-                style="width: 400px;"
+                style="width: 400px"
                 v-model="configJson.weiXinConfig.notice_url"
                 :rows="2"
                 maxlength="300"
@@ -370,61 +320,50 @@
                 type="textarea"
                 placeholder="请输入"
               />
-
             </el-form-item>
             <el-form-item label="小程序appID" prop="x_appid">
-
               <el-input
-              style="width: 400px;"
-              v-model="configJson.weiXinConfig.x_appid"
-              placeholder="请输入"
-              class="input-with-select">
-              <template #prepend>
-                Appid
-              </template>
+                style="width: 400px"
+                v-model="configJson.weiXinConfig.x_appid"
+                placeholder="请输入"
+                class="input-with-select"
+              >
+                <template #prepend> Appid </template>
               </el-input>
-
             </el-form-item>
             <el-form-item label="小程序密钥" prop="x_secret">
               <el-input
-              style="width: 400px;"
-              v-model="configJson.weiXinConfig.x_secret"
-              placeholder="请输入"
-              class="input-with-select">
-              <template #prepend>
-                Secret
-              </template>
+                style="width: 400px"
+                v-model="configJson.weiXinConfig.x_secret"
+                placeholder="请输入"
+                class="input-with-select"
+              >
+                <template #prepend> Secret </template>
               </el-input>
-
             </el-form-item>
             <el-form-item label="微信商户号" prop="mchid">
-
               <el-input
-              style="width: 400px;"
-              v-model="configJson.weiXinConfig.mchid"
-              placeholder="请输入"
-              class="input-with-select">
-              <template #prepend>
-                商户号
-              </template>
+                style="width: 400px"
+                v-model="configJson.weiXinConfig.mchid"
+                placeholder="请输入"
+                class="input-with-select"
+              >
+                <template #prepend> 商户号 </template>
               </el-input>
-
             </el-form-item>
             <el-form-item label="微信支付密钥" prop="pay_key">
               <el-input
-              style="width: 400px;"
-              v-model="configJson.weiXinConfig.pay_key"
-              placeholder="请输入"
-              class="input-with-select">
-              <template #prepend>
-                微信支付密钥
-              </template>
+                style="width: 400px"
+                v-model="configJson.weiXinConfig.pay_key"
+                placeholder="请输入"
+                class="input-with-select"
+              >
+                <template #prepend> 微信支付密钥 </template>
               </el-input>
-
             </el-form-item>
             <el-form-item label="微信支付证书(cert)" prop="pay_cert">
               <el-input
-                style="width: 400px;"
+                style="width: 400px"
                 v-model="configJson.weiXinConfig.pay_cert"
                 :rows="2"
                 maxlength="500"
@@ -432,11 +371,10 @@
                 type="textarea"
                 placeholder="请输入"
               />
-
             </el-form-item>
             <el-form-item label="微信支付证书(key)" prop="pay_cert_key">
               <el-input
-                style="width: 400px;"
+                style="width: 400px"
                 v-model="configJson.weiXinConfig.pay_cert_key"
                 :rows="2"
                 maxlength="500"
@@ -444,36 +382,30 @@
                 type="textarea"
                 placeholder="请输入"
               />
-
             </el-form-item>
             <el-form-item label="公众号appID" prop="g_appid">
               <el-input
-              style="width: 400px;"
-              v-model="configJson.weiXinConfig.g_appid"
-              placeholder="请输入"
-              class="input-with-select">
-              <template #prepend>
-                公众号Appid
-              </template>
+                style="width: 400px"
+                v-model="configJson.weiXinConfig.g_appid"
+                placeholder="请输入"
+                class="input-with-select"
+              >
+                <template #prepend> 公众号Appid </template>
               </el-input>
-
             </el-form-item>
             <el-form-item label="公众号密钥" prop="g_secret">
-
               <el-input
-              style="width: 400px;"
-              v-model="configJson.weiXinConfig.g_secret"
-              placeholder="请输入"
-              class="input-with-select">
-              <template #prepend>
-                公众号Secret
-              </template>
+                style="width: 400px"
+                v-model="configJson.weiXinConfig.g_secret"
+                placeholder="请输入"
+                class="input-with-select"
+              >
+                <template #prepend> 公众号Secret </template>
               </el-input>
-
             </el-form-item>
             <el-form-item label="公众号Token" prop="g_token">
               <el-input
-                style="width: 400px;"
+                style="width: 400px"
                 v-model="configJson.weiXinConfig.g_token"
                 :rows="2"
                 maxlength="300"
@@ -481,11 +413,10 @@
                 type="textarea"
                 placeholder="请输入"
               />
-
             </el-form-item>
             <el-form-item label="公众号EncodingAESKey" prop="g_encodingAESKey">
               <el-input
-                style="width: 400px;"
+                style="width: 400px"
                 v-model="configJson.weiXinConfig.g_encodingAESKey"
                 :rows="2"
                 maxlength="300"
@@ -493,7 +424,6 @@
                 type="textarea"
                 placeholder="请输入"
               />
-
             </el-form-item>
           </el-scrollbar>
         </el-tab-pane>
@@ -501,7 +431,7 @@
           <el-scrollbar height="64vh">
             <el-form-item label="AccessKey" prop="accessKey">
               <el-input
-                style="width: 400px;"
+                style="width: 400px"
                 v-model="configJson.qiniuYunConfig.accessKey"
                 placeholder="请输入"
                 clearable
@@ -509,7 +439,7 @@
             </el-form-item>
             <el-form-item label="SecretKey" prop="secretKey">
               <el-input
-                style="width: 400px;"
+                style="width: 400px"
                 v-model="configJson.qiniuYunConfig.secretKey"
                 placeholder="请输入"
                 clearable
@@ -517,7 +447,7 @@
             </el-form-item>
             <el-form-item label="七牛云bucket" prop="bucket">
               <el-input
-                style="width: 400px;"
+                style="width: 400px"
                 v-model="configJson.qiniuYunConfig.bucket"
                 placeholder="请输入"
                 clearable
@@ -525,7 +455,7 @@
             </el-form-item>
             <el-form-item label="七牛云zone" prop="zone">
               <el-input
-                style="width: 400px;"
+                style="width: 400px"
                 v-model="configJson.qiniuYunConfig.zone"
                 placeholder="请输入"
                 clearable
@@ -533,7 +463,7 @@
             </el-form-item>
             <el-form-item label="七牛云domainOfBucket" prop="domainOfBucket">
               <el-input
-                style="width: 400px;"
+                style="width: 400px"
                 v-model="configJson.qiniuYunConfig.domainOfBucket"
                 placeholder="请输入"
                 clearable
@@ -541,7 +471,7 @@
             </el-form-item>
             <el-form-item label="七牛云expireSeconds" prop="expireSeconds">
               <el-input
-                style="width: 400px;"
+                style="width: 400px"
                 v-model="configJson.qiniuYunConfig.expireSeconds"
                 placeholder="请输入"
                 clearable
@@ -549,7 +479,7 @@
             </el-form-item>
             <el-form-item label="七牛云访问域名" prop="url">
               <el-input
-                style="width: 400px;"
+                style="width: 400px"
                 v-model="configJson.qiniuYunConfig.url"
                 placeholder="请输入"
                 clearable
@@ -589,19 +519,20 @@
               <div
                 class="box"
                 @click="addchangeplug"
-                style="position: relative;
+                style="
+                  position: relative;
                   box-shadow: 0px 0px 8px 0px rgba(207, 207, 207, 0.5);
-
                 "
               >
-                <div class="box-left" style="width: 60px;height: 60px;">
-
+                <div class="box-left" style="width: 60px; height: 60px">
                   <el-icon size="50">
                     <svg-icon name="i-ep:plus" />
                   </el-icon>
                   <!-- <img style="border-radius: 5px" alt="" /> -->
                 </div>
-                <div class="box-right" style="font-weight: bolder;">新增插件</div>
+                <div class="box-right" style="font-weight: bolder">
+                  新增插件
+                </div>
               </div>
             </div>
             <ChangePlug
@@ -621,23 +552,18 @@
       </el-button>
     </div>
     <dialogWindows
-          v-if="dialogPluginList.dialogVisible"
-          v-model="dialogPluginList.dialogVisible"
-          :title="dialogPluginList.title"
-          :width="dialogPluginList.width"
-          :button_title="dialogPluginList.button_title"
-          :height="dialogPluginList.heigth"
-          :dialogVisible="dialogPluginList.dialogVisible"
-          :close_title="dialogPluginList.close_title"
-          :data="dialogPluginList.data"
-          @success="Return"
-      />
-</div>
+      v-if="dialogPluginList.dialogVisible"
+      v-model="dialogPluginList.dialogVisible"
+      :dialogVisible="dialogPluginList.dialogVisible"
+      :source="dialogPluginList.source"
+      @success="Return"
+    />
+  </div>
 </template>
 
 <script lang="ts" setup>
 import api from "@/api/plugin";
-import { UploadProps, ElMessage,ElMessageBox} from "element-plus";
+import { UploadProps, ElMessage, ElMessageBox } from "element-plus";
 import useUserStore from "@/store/modules/user";
 import ChangePlug from "@/components/changePlug/index.vue";
 import storage from "@/utils/storage";
@@ -646,10 +572,10 @@ const router = useRouter();
 const tabbar = useTabbar();
 const userStore = useUserStore();
 const births = ref({
-  year:'',
-  moth:'',
-  day:''
-})
+  year: "",
+  moth: "",
+  day: "",
+});
 const form: any = ref({
   id: route.params.id ?? "",
   associatedAccounJson: "",
@@ -694,11 +620,15 @@ const configJson: any = ref({
 });
 const pluginList: any = ref([]);
 
-watch(births.value,(newData:any,OldData:any)=>{
-  form.value.birth = (births.value.year || 2001)+'年'+(births.value.moth || 1)+'月'+(births.value.day || 1)+'日'
-
-
-})
+watch(births.value, (newData: any, OldData: any) => {
+  form.value.birth =
+    (births.value.year || 2001) +
+    "年" +
+    (births.value.moth || 1) +
+    "月" +
+    (births.value.day || 1) +
+    "日";
+});
 
 onMounted(() => {
   if (form.value.id !== "") {
@@ -709,7 +639,6 @@ onMounted(() => {
         },
       })
       .then((res: any) => {
-
         form.value = res.body;
         plugJson.value = JSON.parse(form.value.plugJson);
         configJson.value = JSON.parse(form.value.configJson);
@@ -776,22 +705,15 @@ const update1 = (item: any) => {
   comp.value.modelValue = false;
 };
 const delplugsName = (index: any) => {
-  ElMessageBox.confirm(
-      '是否删除该插件?',
-      '插件',
-      {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'success',
-      }
-    ).then(()=>{
-      pluginList.value.splice(index, 1);
-    })
-
-
+  ElMessageBox.confirm("是否删除该插件?", "插件", {
+    confirmButtonText: "确定",
+    cancelButtonText: "取消",
+    type: "success",
+  }).then(() => {
+    pluginList.value.splice(index, 1);
+  });
 };
 function onSubmit() {
-
   pluginList.value.forEach((item: any) => {
     item.plugsId = item.id;
     item.plugsName = item.title;
@@ -824,8 +746,6 @@ function onSubmit() {
         }
       });
   } else {
-
-
     formRef.value &&
       formRef.value.validate((valid: any) => {
         if (valid) {
@@ -873,7 +793,6 @@ const handleAvatarSuccess: UploadProps["onSuccess"] = (
   response,
   uploadFile
 ) => {
-
   imageUrl.value = URL.createObjectURL(uploadFile.raw!);
   form.value.headImg = response.body;
 };
@@ -882,7 +801,6 @@ const handleAvatarSuccess1: UploadProps["onSuccess"] = (
   response,
   uploadFile
 ) => {
-
   imageUrl1.value = URL.createObjectURL(uploadFile.raw!);
   configJson.value.shopLogo = response.body;
 };
@@ -891,7 +809,6 @@ const handleAvatarSuccess2: UploadProps["onSuccess"] = (
   response,
   uploadFile
 ) => {
-
   imageUrl2.value = URL.createObjectURL(uploadFile.raw!);
   configJson.value.shareImages = response.body;
 };
@@ -907,51 +824,37 @@ const beforeAvatarUpload: UploadProps["beforeUpload"] = (rawFile) => {
   // return true;
 };
 
-const types:any = ref('')
+const types: any = ref("");
 // 使用文件管理组件
-import dialogWindows from '@/components/FileManagement/dialogWindows.vue'
-  const dialogPluginList:any = ref({
-    dialogVisible:false,
-    title:'文件管理',
-    data:'',
-    button_title:'确定',
-    width:'1100',
-    heigth:'500',
-    close_title:"取消"
+import dialogWindows from "@/components/FileManagement/dialogWindows.vue";
+const dialogPluginList: any = ref({
+  dialogVisible: false,
+  source: 1,
+});
 
-  })
+const upload_file = (item: any) => {
+  dialogPluginList.value.dialogVisible = true;
+  dialogPluginList.value.source = 1;
+  types.value = item;
+};
 
-  const upload_file = (item:any)=>{
-    types.value = item
-    dialogPluginList.value.dialogVisible = true
+const Return = (data: any) => {
+  console.log(data, 666);
+  console.log(types.value, 666);
 
+  dialogPluginList.value.dialogVisible = false;
+  if (types.value == "touxiang") {
+    imageUrl.value = data[0];
+    form.value.headImg = data[0];
+  } else if (types.value == "dianpu") {
+    imageUrl1.value = data[0];
+    console.log(form.value.configJson);
+    configJson.value.shopLogo = data[0];
+  } else if (types.value == "share") {
+    imageUrl2.value = data[0];
+    configJson.value.shareImages = data[0];
   }
-
-  const Return = (data:any)=>{
-
-    dialogPluginList.value.dialogVisible = false
-    if(data.type == 'return'){
-      if(types.value == 'touxiang'){
-        imageUrl.value =  data.data[0].url
-        form.value.headImg =  data.data[0].url
-      }else if(types.value == 'dianpu'){
-
-        imageUrl1.value =  data.data[0].url
-        console.log(form.value.configJson);
-
-        configJson.value.shopLogo =  data.data[0].url
-
-      }else if(types.value == 'share'){
-        imageUrl2.value =  data.data[0].url
-        configJson.value.shareImages =  data.data[0].url
-      }
-
-    }
-
-  }
-
-
-
+};
 </script>
 
 <style scoped lang="scss">

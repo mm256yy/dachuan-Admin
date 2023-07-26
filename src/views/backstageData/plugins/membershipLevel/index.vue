@@ -15,7 +15,7 @@ meta:
                 <svg-icon name="i-ep:circle-plus" />
               </el-icon>
             </template>
-            会员设置
+            调整升级方式
           </el-button>
           <el-button type="primary" @click="addPlugin">
             <template #icon>
@@ -23,7 +23,7 @@ meta:
                 <svg-icon name="i-ep:circle-plus" />
               </el-icon>
             </template>
-            新增会员
+            添加会员等级
           </el-button>
           <el-button
             type="danger"
@@ -215,7 +215,7 @@ const userServiceToken = ref(storage.local.get("userServiceToken"));
 console.log(userServiceToken.value, 987777);
 
 function getlist() {
-  let data:any = {
+  let data: any = {
     page: tableobj.currentPage,
     size: tableobj.pageSize,
     adminId: storage.local.get("adminId"),
@@ -223,8 +223,8 @@ function getlist() {
     id: route.params.id,
     keyword: tableobj.keyword,
   };
-  if(route.params.admin == 'admin'){
-    data.userServiceToken = -1
+  if (route.params.admin == "admin") {
+    data.userServiceToken = -1;
   }
   api
     .get("/api/plugs/searchPlusgVipLevelList", { params: data })

@@ -1,5 +1,5 @@
 <route lang="yaml">
-meta: title:添加规格
+meta: title:会员列表
 </route>
 
 <script setup lang="ts">
@@ -262,6 +262,27 @@ const options = [
     label: "铂金VIP",
   },
 ];
+
+const types: any = ref("");
+// 使用文件管理组件
+import dialogWindows from "@/components/FileManagement/dialogWindows.vue";
+const dialogPluginList: any = ref({
+  dialogVisible: false,
+  source: 1,
+});
+
+const upload_file = () => {
+  dialogPluginList.value.dialogVisible = true;
+  dialogPluginList.value.source = 1;
+};
+
+const Return = (data: any) => {
+  console.log(data, 666);
+  console.log(types.value, 666);
+
+  dialogPluginList.value.dialogVisible = false;
+  userinfo.value.headImg = data[0];
+};
 </script>
 <template>
   <div>
@@ -437,7 +458,11 @@ const options = [
           <div style="">
             <div style="display: flex; margin: 20px; align-items: center">
               <div style="width: 80px; color: #515a6e">用户头像</div>
-              <img :src="userinfo.headImg" style="height: 64px; width: 64px" />
+              <img
+                :src="userinfo.headImg"
+                style="height: 64px; width: 64px"
+                @click="upload_file()"
+              />
             </div>
             <div style="display: flex; margin: 20px; align-items: center">
               <div style="width: 80px; color: #515a6e">手机号码</div>
@@ -462,7 +487,7 @@ const options = [
               <!-- <el-input v-model="input" placeholder="会员标签" style="width: 300px;"/> -->
               <el-select v-model="value" placeholder="Select">
                 <el-option
-                  style="width: 550px"
+                  style="width: 530px"
                   v-for="item in options"
                   :key="item.value"
                   :label="item.label"
@@ -527,6 +552,13 @@ const options = [
         </div>
       </el-dialog>
     </page-main>
+    <dialogWindows
+      v-if="dialogPluginList.dialogVisible"
+      v-model="dialogPluginList.dialogVisible"
+      :dialogVisible="dialogPluginList.dialogVisible"
+      :source="dialogPluginList.source"
+      @success="Return"
+    />
   </div>
 </template>
 

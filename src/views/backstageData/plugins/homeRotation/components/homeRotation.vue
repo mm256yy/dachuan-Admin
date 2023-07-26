@@ -48,18 +48,18 @@
           </el-form-item>
           <el-form-item label="店铺" prop="businessId">
             <el-select
-            v-if="props.id==''"
-            style="width: 680px;"
-               v-model="sleStoreList"
-                filterable
-                placeholder="选择店铺(一个或多个)"
-                multiple
-               @change="selectBusiness"
-                collapse-tags
-                collapse-tags-tooltip
-               :max-collapse-tags="4"
+              v-if="props.id == ''"
+              style="width: 680px"
+              v-model="sleStoreList"
+              filterable
+              placeholder="选择店铺(一个或多个)"
+              multiple
+              @change="selectBusiness"
+              collapse-tags
+              collapse-tags-tooltip
+              :max-collapse-tags="4"
             >
-              <el-option key="selectAll" label="全部" value="selectAll"/>
+              <el-option key="selectAll" label="全部" value="selectAll" />
               <!-- <el-option key="0" label="全部" value="0" /> -->
               <el-option
                 v-for="item in businessList"
@@ -70,10 +70,10 @@
             </el-select>
             <el-select
               v-else
-            style="width: 680px;"
-               v-model="form.businessId"
-                filterable
-                placeholder="选择店铺"
+              style="width: 680px"
+              v-model="form.businessId"
+              filterable
+              placeholder="选择店铺"
             >
               <!-- <el-option key="selectAll" label="全部" value="selectAll"/> -->
               <!-- <el-option key="0" label="全部" value="0" /> -->
@@ -112,8 +112,30 @@
               :on-success="handleAvatarSuccess"
               :before-upload="beforeAvatarUpload"
             > -->
-              <img @click="upload_image('imageUrl')" style="width:60px;height: 60px;border-radius: 8px;border: 1px solid #eee;" v-if="imageUrl" :src="imageUrl" class="avatar" />
-              <el-icon @click="upload_image('imageUrl')" style="width:60px;height: 60px;border-radius: 8px;border: 1px solid #eee;" v-else class="avatar-uploader-icon"><Plus /></el-icon>
+            <img
+              @click="upload_file('imageUrl')"
+              style="
+                width: 60px;
+                height: 60px;
+                border-radius: 8px;
+                border: 1px solid #eee;
+              "
+              v-if="imageUrl"
+              :src="imageUrl"
+              class="avatar"
+            />
+            <el-icon
+              @click="upload_file('imageUrl')"
+              style="
+                width: 60px;
+                height: 60px;
+                border-radius: 8px;
+                border: 1px solid #eee;
+              "
+              v-else
+              class="avatar-uploader-icon"
+              ><Plus
+            /></el-icon>
             <!-- </el-upload> -->
           </el-form-item>
           <el-form-item label="跳转id" prop="detailsId">
@@ -172,17 +194,12 @@
     </template>
   </el-dialog>
   <dialogWindows
-          v-if="dialogPluginList.dialogVisible"
-          v-model="dialogPluginList.dialogVisible"
-          :title="dialogPluginList.title"
-          :width="dialogPluginList.width"
-          :button_title="dialogPluginList.button_title"
-          :height="dialogPluginList.heigth"
-          :dialogVisible="dialogPluginList.dialogVisible"
-          :close_title="dialogPluginList.close_title"
-          :data="dialogPluginList.data"
-          @success="Return"
-      />
+    v-if="dialogPluginList.dialogVisible"
+    v-model="dialogPluginList.dialogVisible"
+    :dialogVisible="dialogPluginList.dialogVisible"
+    :source="dialogPluginList.source"
+    @success="Return"
+  />
 </template>
 
 <script lang="ts" setup>
@@ -236,8 +253,8 @@ const formRules = ref({
 });
 const plugsList: any = ref([]);
 const businessList: any = ref([]);
-const sleStoreList:any=ref([]);
-const selectAll:any=ref(false)
+const sleStoreList: any = ref([]);
+const selectAll: any = ref(false);
 onMounted(() => {
   let data = {
     adminId: storage.local.get("adminId"),
@@ -273,7 +290,7 @@ onMounted(() => {
         form.value.businessId = JSONBIG.stringify(form.value.businessId);
         // JSONBIG.stringify(form.value.businessId)
         // sleStoreList.value=sleStoreList.value.push( JSONBIG.stringify(res.body.businessId))
-        sleStoreList.value= res.body.businessId.split(',')
+        sleStoreList.value = res.body.businessId.split(",");
         // console.log( sleStoreList.value,'id')
         // form.value.id = res.body.id;
         // form.value.plugsDescribe = res.body.plugsDescribe;
@@ -287,41 +304,41 @@ onMounted(() => {
       });
   }
 });
-const busList:any=ref([])
-function selectBusiness(val:any){
-   if(selectAll.value){
+const busList: any = ref([]);
+function selectBusiness(val: any) {
+  if (selectAll.value) {
     selectAll.value = false;
-    if(val.indexOf('selectAll') > -1){
-      sleStoreList.value=val.filter((item:any)=>{
-        return item!='selectAll'
-      })
-    }else{
-      sleStoreList.value=[];
+    if (val.indexOf("selectAll") > -1) {
+      sleStoreList.value = val.filter((item: any) => {
+        return item != "selectAll";
+      });
+    } else {
+      sleStoreList.value = [];
     }
-   }else{
-    if(val.indexOf('selectAll') > -1){
-      const optionsValue:any = [];
-      businessList.value.forEach((item:any)=>{
-        optionsValue.push(item.businessId)
-      })
-      sleStoreList.value=['selectAll',...optionsValue]
+  } else {
+    if (val.indexOf("selectAll") > -1) {
+      const optionsValue: any = [];
+      businessList.value.forEach((item: any) => {
+        optionsValue.push(item.businessId);
+      });
+      sleStoreList.value = ["selectAll", ...optionsValue];
       selectAll.value = true;
-    }else{
-      if(val.length=== businessList.value.length){
-        const optionsValue:any = [];
-        businessList.value.forEach((item:any)=>{
-        optionsValue.push(item.businessId)
-      })
-      sleStoreList.value=['selectAll', ...optionsValue]
-      selectAll.value = true;
-      }else{
-        sleStoreList.value=val
+    } else {
+      if (val.length === businessList.value.length) {
+        const optionsValue: any = [];
+        businessList.value.forEach((item: any) => {
+          optionsValue.push(item.businessId);
+        });
+        sleStoreList.value = ["selectAll", ...optionsValue];
+        selectAll.value = true;
+      } else {
+        sleStoreList.value = val;
       }
     }
-   }
-  const realSelect= sleStoreList.value.filter((item:any)=>{
-    return item!='selectAll'
-  })
+  }
+  const realSelect = sleStoreList.value.filter((item: any) => {
+    return item != "selectAll";
+  });
   // realSelect.toString()
   // form.value.businessId=realSelect.toString();
 }
@@ -334,45 +351,42 @@ function onSubmit() {
   //             busList.value.push(str)
   //         }
   //  })
-   if(props.id==''){
-    form.value.businessId='0'
-    businessList.value.forEach((item2:any)=>{
-        sleStoreList.value.forEach((item:any)=>{
-          if(item==item2.businessId){
-              let str=item2.businessId+'_'+item2.businessName;
-              busList.value.push(str)
-          }
-      }) 
-   })
-   form.value.businessList=busList.value;
+  if (props.id == "") {
+    form.value.businessId = "0";
+    businessList.value.forEach((item2: any) => {
+      sleStoreList.value.forEach((item: any) => {
+        if (item == item2.businessId) {
+          let str = item2.businessId + "_" + item2.businessName;
+          busList.value.push(str);
+        }
+      });
+    });
+    form.value.businessList = busList.value;
     formRef.value &&
       formRef.value.validate((valid: any) => {
         if (valid) {
           http
             .post("/api/plugs/insertPlugsRecommended", form.value)
             .then((res: any) => {
-
-              if(res.code==200){
+              if (res.code == 200) {
                 ElMessage.success({
-                message: "新增成功",
-                center: true,
-              });
-              console.log(res, 787);
-              // emit("success");
-              onCancel();
-              }else{
+                  message: "新增成功",
+                  center: true,
+                });
+                console.log(res, 787);
+                // emit("success");
+                onCancel();
+              } else {
                 ElMessage.error({
-                message: res.msg,
-                center: true,
-              });
-              busList.value=[]
+                  message: res.msg,
+                  center: true,
+                });
+                busList.value = [];
               }
-              
             });
         }
       });
-  } 
-  else {
+  } else {
     console.log("xiugai", 999);
 
     formRef.value &&
@@ -386,7 +400,7 @@ function onSubmit() {
                   message: "修改成功",
                   center: true,
                 });
-                
+
                 onCancel();
               }
             });
@@ -451,42 +465,29 @@ const change = (e: any) => {
   });
 };
 
-
 // 使用文件管理组件
 
-const types:any = ref('')
+const types: any = ref("");
 
-import dialogWindows from '@/components/FileManagement/dialogWindows.vue'
-const dialogPluginList:any = ref({
-  dialogVisible:false,
-  title:'文件管理',
-  data:'',
-  button_title:'确定',
-  width:'1100',
-  heigth:'500',
-  close_title:"取消"
+import dialogWindows from "@/components/FileManagement/dialogWindows.vue";
+const dialogPluginList: any = ref({
+  dialogVisible: false,
+  source: 1,
+});
 
-})
+const upload_file = (item: any) => {
+  dialogPluginList.value.dialogVisible = true;
+  dialogPluginList.value.source = 1;
+  types.value = item;
+};
 
-const upload_image = (item:any)=>{
-  dialogPluginList.value.dialogVisible = true
-  types.value = item
-}
-
-const Return = (data:any)=>{
-  dialogPluginList.value.dialogVisible = false
-  if(data.type == 'return'){
-    if(types.value == 'imageUrl'){
-      imageUrl.value = data.data[0].url
-      form.value.activityImgUrl = data.data[0].url
-    }
-
+const Return = (data: any) => {
+  dialogPluginList.value.dialogVisible = false;
+  if (types.value == "imageUrl") {
+    imageUrl.value = data[0];
+    form.value.activityImgUrl = data[0];
   }
-
-}
-
-
-
+};
 </script>
 
 <style scoped>

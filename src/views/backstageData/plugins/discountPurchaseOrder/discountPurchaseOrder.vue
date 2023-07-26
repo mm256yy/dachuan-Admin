@@ -99,9 +99,8 @@
               >
                 <template #default="scope">
                     <div v-for="item in  businessList" :key="item.id" >
-                        <div v-if="scope.row.businessId==item.businessId" >
+                        <div v-if="scope.row.businessId==item.businessId && scope.row.businessId!=null" >
                                 {{ item.businessName}}
- 
                         </div>
                     </div>
                 </template>
@@ -230,7 +229,7 @@
       keyword: "",
     });
     const userServiceToken = ref(storage.local.get("userServiceToken"));
-    const value2 = ref < [Date, Date] > ([
+    const value2:any = ref < [Date, Date] > ([
 		new Date(2000, 10, 10, 10, 10),
 		new Date(2000, 10, 11, 10, 10),
 	])
@@ -238,9 +237,15 @@
 	// const value2 = ref('')
 	const startime: any = ref('')
 	const endtime: any = ref('')
-	function changeTime2() {
-		startime.value = value2.value[0];
-		endtime.value = value2.value[1];
+	function changeTime2(val:any) {
+    if(!val){
+      value2.value=new Date();
+      startime.value='';
+      endtime.value='';
+    }else{
+      startime.value = value2.value[0];
+		  endtime.value = value2.value[1];
+    }
 	}
     const businessId:any=ref('-1');
     const  businessList:any=ref([])

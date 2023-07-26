@@ -73,9 +73,10 @@
             align="center"
           />
 
-          <el-table-column prop="icon" label="	图片链接" align="center">
+          <el-table-column prop="icon" label="图标" align="center">
             <template #default="scope">
               <img
+                v-if="scope.row.icon"
                 style="width: 40px; height: 40px"
                 :src="scope.row.icon"
                 alt=""
@@ -93,7 +94,6 @@
                 inline-prompt
                 :active-value="0"
                 :inactive-value="1"
-                loading
                 active-text="启用"
                 inactive-text="禁用"
                 size="large"
@@ -182,7 +182,7 @@ const tableobj = reactive({
 });
 
 function getlist() {
-  let data:any = {
+  let data: any = {
     page: tableobj.currentPage,
     size: tableobj.pageSize,
     adminId: storage.local.get("adminId"),
@@ -191,8 +191,8 @@ function getlist() {
     userServiceToken: storage.local.get("userServiceToken"),
   };
 
-  if(route.params.admin == 'admin'){
-    data.userServiceToken = -1
+  if (route.params.admin == "admin") {
+    data.userServiceToken = -1;
   }
 
   api

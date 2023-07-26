@@ -85,13 +85,8 @@
   <dialogWindows
     v-if="dialogPluginList.dialogVisible"
     v-model="dialogPluginList.dialogVisible"
-    :title="dialogPluginList.title"
-    :width="dialogPluginList.width"
-    :button_title="dialogPluginList.button_title"
-    :height="dialogPluginList.heigth"
     :dialogVisible="dialogPluginList.dialogVisible"
-    :close_title="dialogPluginList.close_title"
-    :data="dialogPluginList.data"
+    :source="dialogPluginList.source"
     @success="Return"
   />
 </template>
@@ -206,25 +201,21 @@ const imageUrl = ref("");
 import dialogWindows from "@/components/FileManagement/dialogWindows.vue";
 const dialogPluginList: any = ref({
   dialogVisible: false,
-  title: "文件管理",
-  data: "",
-  button_title: "确定",
-  width: "1100",
-  heigth: "500",
-  close_title: "取消",
+  source: 1,
 });
+
 const upload_image = (item: any) => {
   dialogPluginList.value.dialogVisible = true;
+  dialogPluginList.value.source = 1;
   types.value = item;
 };
 
 const Return = (data: any) => {
   dialogPluginList.value.dialogVisible = false;
-  if (data.type == "return") {
-    if (types.value == "imageUrl") {
-      imageUrl.value = data.data[0].url;
-      form.value.formLogo = data.data[0].url;
-    }
+
+  if (types.value == "imageUrl") {
+    imageUrl.value = data[0];
+    form.value.formLogo = data[0];
   }
 };
 </script>

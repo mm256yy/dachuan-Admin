@@ -5,7 +5,7 @@ const Layout = () => import('@/layouts/index.vue')
 const routes: RouteRecordRaw = {
   path: '/backstageData/ShopManagement',
   component: Layout,
-  redirect: '/backstageData/ShopManagement/goodsList/141',
+  redirect: '/backstageData/ShopManagement/goodsList/141/:admin',
   name: 'ShopManagement',
   meta: {
     title: '商品管理',
@@ -25,6 +25,18 @@ const routes: RouteRecordRaw = {
 
       },
     },
+    {
+      path: 'addGoods/141',
+      name: 'addGoods',
+      component: () => import('@/views/backstageData/plugins/goodsList/addGoods.vue'),
+      meta: {
+        title: '新增商品',
+        sidebar: false,
+        // branch:true
+
+      },
+    },
+
     {
       path: 'shopcCategory/143/:admin',
       name: 'shopcCategory',

@@ -17,27 +17,32 @@
       </el-form-item>
       <el-form-item label="所属店铺" prop="businessId">
         <el-select
-            v-if="props.id==''"
-            style="width: 680px;"
-               v-model="sleStoreList"
-                filterable
-                placeholder="选择店铺(一个或多个)"
-                multiple
-               @change="selectBusiness"
-                collapse-tags
-                collapse-tags-tooltip
-               :max-collapse-tags="4"
-            >
-              <el-option key="selectAll" label="全部" value="selectAll"/>
-              <!-- <el-option key="0" label="全部" value="0" /> -->
-              <el-option
-                v-for="item in businessList"
-                :key="item.businessId"
-                :label="item.businessName"
-                :value="item.businessId"
-              />
-            </el-select>
-        <el-select v-else v-model="form.businessId" filterable placeholder="选择店铺">
+          v-if="props.id == ''"
+          style="width: 680px"
+          v-model="sleStoreList"
+          filterable
+          placeholder="选择店铺(一个或多个)"
+          multiple
+          @change="selectBusiness"
+          collapse-tags
+          collapse-tags-tooltip
+          :max-collapse-tags="4"
+        >
+          <el-option key="selectAll" label="全部" value="selectAll" />
+          <!-- <el-option key="0" label="全部" value="0" /> -->
+          <el-option
+            v-for="item in businessList"
+            :key="item.businessId"
+            :label="item.businessName"
+            :value="item.businessId"
+          />
+        </el-select>
+        <el-select
+          v-else
+          v-model="form.businessId"
+          filterable
+          placeholder="选择店铺"
+        >
           <el-option key="0" label="全部" value="0" />
           <el-option
             v-for="item in businessList"
@@ -73,8 +78,30 @@
           :on-success="handleAvatarSuccess"
           :before-upload="beforeAvatarUpload"
         > -->
-          <img @click="upload_image('imageUrl')" style="width:60px;height: 60px;border-radius: 8px;border: 1px solid #eee;" v-if="imageUrl" :src="imageUrl" class="avatar" />
-          <el-icon @click="upload_image('imageUrl')" style="width:60px;height: 60px;border-radius: 8px;border: 1px solid #eee;" v-else class="avatar-uploader-icon"><Plus /></el-icon>
+        <img
+          @click="upload_image('imageUrl')"
+          style="
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            border: 1px solid #eee;
+          "
+          v-if="imageUrl"
+          :src="imageUrl"
+          class="avatar"
+        />
+        <el-icon
+          @click="upload_image('imageUrl')"
+          style="
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            border: 1px solid #eee;
+          "
+          v-else
+          class="avatar-uploader-icon"
+          ><Plus
+        /></el-icon>
         <!-- </el-upload> -->
       </el-form-item>
       <el-form-item label="排序标识" prop="orders">
@@ -113,17 +140,12 @@
     </template>
   </el-dialog>
   <dialogWindows
-          v-if="dialogPluginList.dialogVisible"
-          v-model="dialogPluginList.dialogVisible"
-          :title="dialogPluginList.title"
-          :width="dialogPluginList.width"
-          :button_title="dialogPluginList.button_title"
-          :height="dialogPluginList.heigth"
-          :dialogVisible="dialogPluginList.dialogVisible"
-          :close_title="dialogPluginList.close_title"
-          :data="dialogPluginList.data"
-          @success="Return"
-      />
+    v-if="dialogPluginList.dialogVisible"
+    v-model="dialogPluginList.dialogVisible"
+    :dialogVisible="dialogPluginList.dialogVisible"
+    :source="dialogPluginList.source"
+    @success="Return"
+  />
 </template>
 
 <script lang="ts" setup>
@@ -176,43 +198,43 @@ const formRules = ref({
 });
 const plugsList: any = ref([]);
 const businessList: any = ref([]);
-const sleStoreList:any=ref([])
-const busList:any=ref([]);
-const selectAll:any=ref(false);
-function selectBusiness(val:any){
-   if(selectAll.value){
+const sleStoreList: any = ref([]);
+const busList: any = ref([]);
+const selectAll: any = ref(false);
+function selectBusiness(val: any) {
+  if (selectAll.value) {
     selectAll.value = false;
-    if(val.indexOf('selectAll') > -1){
-      sleStoreList.value=val.filter((item:any)=>{
-        return item!='selectAll'
-      })
-    }else{
-      sleStoreList.value=[];
+    if (val.indexOf("selectAll") > -1) {
+      sleStoreList.value = val.filter((item: any) => {
+        return item != "selectAll";
+      });
+    } else {
+      sleStoreList.value = [];
     }
-   }else{
-    if(val.indexOf('selectAll') > -1){
-      const optionsValue:any = [];
-      businessList.value.forEach((item:any)=>{
-        optionsValue.push(item.businessId)
-      })
-      sleStoreList.value=['selectAll',...optionsValue]
+  } else {
+    if (val.indexOf("selectAll") > -1) {
+      const optionsValue: any = [];
+      businessList.value.forEach((item: any) => {
+        optionsValue.push(item.businessId);
+      });
+      sleStoreList.value = ["selectAll", ...optionsValue];
       selectAll.value = true;
-    }else{
-      if(val.length=== businessList.value.length){
-        const optionsValue:any = [];
-        businessList.value.forEach((item:any)=>{
-        optionsValue.push(item.businessId)
-      })
-      sleStoreList.value=['selectAll', ...optionsValue]
-      selectAll.value = true;
-      }else{
-        sleStoreList.value=val
+    } else {
+      if (val.length === businessList.value.length) {
+        const optionsValue: any = [];
+        businessList.value.forEach((item: any) => {
+          optionsValue.push(item.businessId);
+        });
+        sleStoreList.value = ["selectAll", ...optionsValue];
+        selectAll.value = true;
+      } else {
+        sleStoreList.value = val;
       }
     }
-   }
-  const realSelect= sleStoreList.value.filter((item:any)=>{
-    return item!='selectAll'
-  })
+  }
+  const realSelect = sleStoreList.value.filter((item: any) => {
+    return item != "selectAll";
+  });
   // realSelect.toString()
   // form.value.businessId=realSelect.toString();
 }
@@ -266,15 +288,15 @@ function onSubmit() {
   // form.value.businessId = JSONBIG.parse(form.value.businessId);
   if (form.value.id === "") {
     // console.log(form.value.id, 999);
-    businessList.value.forEach((item2:any)=>{
-        sleStoreList.value.forEach((item:any)=>{
-          if(item==item2.businessId){
-              let str=item2.businessId+'_'+item2.businessName;
-              busList.value.push(str)
-          }
-      }) 
-   })
-   form.value.businessList=busList.value;
+    businessList.value.forEach((item2: any) => {
+      sleStoreList.value.forEach((item: any) => {
+        if (item == item2.businessId) {
+          let str = item2.businessId + "_" + item2.businessName;
+          busList.value.push(str);
+        }
+      });
+    });
+    form.value.businessList = busList.value;
     formRef.value &&
       formRef.value.validate((valid: any) => {
         if (valid) {
@@ -328,63 +350,24 @@ function onCancel() {
 // 图片上传
 
 const imageUrl = ref("");
-const header: any = reactive({
-  BGDEBUG: 0,
-  testToken: "2gq72h2qrbhx256y0167uf5wd64ls55u",
-  Authorization: userStore.token,
+
+import dialogWindows from "@/components/FileManagement/dialogWindows.vue";
+const dialogPluginList: any = ref({
+  dialogVisible: false,
+  source: 1,
 });
-const baseURL: any = "https://api.daccf.com/api/file/uploadImages";
-const handleAvatarSuccess: UploadProps["onSuccess"] = (
-  response,
-  uploadFile
-) => {
-  console.log(response, uploadFile);
-  imageUrl.value = URL.createObjectURL(uploadFile.raw!);
-  form.value.icon = response.body;
+
+const upload_image = (item: any) => {
+  dialogPluginList.value.dialogVisible = true;
+  dialogPluginList.value.source = 1;
 };
 
-const beforeAvatarUpload: UploadProps["beforeUpload"] = (rawFile) => {
-  // if (rawFile.type !== "image/jpeg") {
-  //   ElMessage.error("Avatar picture must be JPG format!");
-  //   return false;
-  // } else if (rawFile.size / 1024 / 1024 > 2) {
-  //   ElMessage.error("Avatar picture size can not exceed 2MB!");
-  //   return false;
-  // }
-  // return true;
+const Return = (data: any) => {
+  console.log(data);
+  dialogPluginList.value.dialogVisible = false;
+  imageUrl.value = data[0];
+  form.value.icon = data[0];
 };
-
-
-const types:any = ref('')
-
-import dialogWindows from '@/components/FileManagement/dialogWindows.vue'
-const dialogPluginList:any = ref({
-  dialogVisible:false,
-  title:'文件管理',
-  data:'',
-  button_title:'确定',
-  width:'1100',
-  heigth:'500',
-  close_title:"取消"
-
-})
-
-const upload_image = (item:any)=>{
-  dialogPluginList.value.dialogVisible = true
-  types.value = item
-}
-
-const Return = (data:any)=>{
-  dialogPluginList.value.dialogVisible = false
-  if(data.type == 'return'){
-    if(types.value == 'imageUrl'){
-      imageUrl.value = data.data[0].url
-      form.value.icon = data.data[0].url
-    }
-
-  }
-
-}
 </script>
 
 <style scoped>

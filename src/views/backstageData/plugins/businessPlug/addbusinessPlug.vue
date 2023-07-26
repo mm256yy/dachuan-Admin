@@ -58,18 +58,13 @@
                 <div style="display: flex">
                   <el-alert
                     title="双击图片进行删除！"
-                    style="height: 30px; margin-bottom: 5px; width: 400px"
-                    type="success"
+                    style="height: 30px; margin-bottom: 5px; width: 360px"
+                    type="info"
                     show-icon
+                    :closable="false"
                   />
                 </div>
                 <div style="display: flex">
-                  <el-icon
-                    @click="upload_image('imageUrl2')"
-                    class="avatar-uploader-icon"
-                    style="border: 1px solid #eee; border-radius: 8px"
-                    ><Plus
-                  /></el-icon>
                   <img
                     style="
                       width: 60px;
@@ -84,10 +79,15 @@
                     :src="item"
                     class="avatar"
                   />
+                  <el-icon
+                    @click="upload_image('imageUrl2')"
+                    class="avatar-uploader-icon"
+                    style="border: 1px solid #eee; border-radius: 8px"
+                    ><Plus
+                  /></el-icon>
                 </div>
               </div>
             </el-form-item>
-
             <el-form-item label="店铺微信" prop="">
               <img
                 style="
@@ -138,6 +138,7 @@
                   placeholder="请选择地址"
                   style="width: 650px"
                   clearable
+                  disabled
                 />
                 <div style="margin-left: 10px">
                   <el-button type="primary" @click="openMapPickPop"
@@ -146,22 +147,106 @@
                 </div>
               </div>
             </el-form-item>
-            <el-form-item label="维度" prop="">
+            <el-form-item label="详细地址" prop="">
               <el-input
-                v-model="info.businessAddress.latitude"
+                v-model="info.businessAddress.inDetail"
                 placeholder="请输入"
-                disabled
                 clearable
                 style="width: 650px"
               />
             </el-form-item>
-            <el-form-item label="经度" prop="">
+            <el-form-item>
+              <el-form-item label="维度" prop="">
+                <el-input
+                  v-model="info.businessAddress.latitude"
+                  placeholder="纬度"
+                  disabled
+                  clearable
+                  style="width: 405px"
+                />
+              </el-form-item>
+              <el-form-item label="经度" prop="">
+                <el-input
+                  v-model="info.businessAddress.longitude"
+                  placeholder="经度"
+                  disabled
+                  clearable
+                  style="width: 405px"
+                />
+              </el-form-item>
+            </el-form-item>
+            <el-form-item label="提现账号" prop="">
               <el-input
-                v-model="info.businessAddress.longitude"
-                placeholder="请输入"
-                disabled
+                v-model="payjson.merchantWithdrawal.withdrawalAccount"
+                placeholder="提现账号"
                 clearable
                 style="width: 650px"
+              />
+            </el-form-item>
+            <el-form-item label="备注信息" prop="">
+              <el-input
+                v-model="payjson.merchantWithdrawal.remark"
+                placeholder="备注信息"
+                clearable
+                type="textarea"
+                style="width: 650px"
+              />
+            </el-form-item>
+            <el-form-item label="提现天数" prop="">
+              <el-alert
+                title=" 当提现天数为10,代表商户10天后才可提现"
+                style="height: 30px; margin-bottom: 5px; width: 360px"
+                type="info"
+                show-icon
+                :closable="false"
+              />
+              <el-input
+                v-model="payjson.merchantWithdrawal.withdrawalDays"
+                placeholder="提现天数"
+                clearable
+                style="width: 650px"
+              />
+            </el-form-item>
+            <el-form-item label="提现比率" prop="">
+              <el-alert
+                title=" 当提现比率为70%时,商户只可提现可提现金额的百分之70(默认为0时,不可提现)"
+                style="height: 30px; margin-bottom: 5px; width: 605px"
+                type="info"
+                show-icon
+                :closable="false"
+              />
+              <el-input
+                v-model="payjson.merchantWithdrawal.proportion"
+                placeholder="提现比率"
+                clearable
+                style="width: 650px"
+              />
+            </el-form-item>
+            <el-form-item label="提现手续费" prop="">
+              <el-alert
+                title="当手续费为10时,则代表百分之1的手续费,100块钱提现手续费为1块钱"
+                style="height: 30px; margin-bottom: 5px; width: 605px"
+                type="info"
+                show-icon
+                :closable="false"
+              />
+              <el-input
+                v-model="payjson.merchantWithdrawal.commission"
+                placeholder="提现手续费"
+                clearable
+                style="width: 650px"
+              />
+            </el-form-item>
+            <el-form-item label="商户状态" prop="">
+              <el-switch
+                v-model="payjson.merchantWithdrawal.merchantStatus"
+                class="ml-2"
+                width="60"
+                inline-prompt
+                active-text="启用"
+                inactive-text="禁用"
+                active-value="0"
+                inactive-value="1"
               />
             </el-form-item>
           </el-scrollbar>
@@ -275,7 +360,6 @@
                     inactive-text="否"
                   /> </el-form-item
               ></el-col>
-
               <el-col :span="3">
                 <el-form-item label="打包费是否累加" prop="">
                   <el-switch
@@ -288,7 +372,6 @@
                   /> </el-form-item
               ></el-col>
             </el-row>
-
             <el-form-item label="全店运费" prop="">
               <el-input
                 v-model="info.shopExpressFee.allShopExpressFee"
@@ -412,7 +495,6 @@
                     step="00:15"
                     end="23:59"
                   />
-
                   <el-time-select
                     style="margin: 0px 20px"
                     v-model="item.businessEndTime"
@@ -446,13 +528,8 @@
     <dialogWindows
       v-if="dialogPluginList.dialogVisible"
       v-model="dialogPluginList.dialogVisible"
-      :title="dialogPluginList.title"
-      :width="dialogPluginList.width"
-      :button_title="dialogPluginList.button_title"
-      :height="dialogPluginList.heigth"
       :dialogVisible="dialogPluginList.dialogVisible"
-      :close_title="dialogPluginList.close_title"
-      :data="dialogPluginList.data"
+      :source="dialogPluginList.source"
       @success="Return"
     />
   </div>
@@ -489,7 +566,6 @@ const IFRAME_HTML = `<iframe id="mapPage" width="800" height="400" frameborder="
 const currentPicked: any = ref({
   latlng: {},
 });
-
 function openMapPickPop($event: any) {
   if ($event.relatedTarget) return;
   ElMessageBox({
@@ -501,20 +577,18 @@ function openMapPickPop($event: any) {
   })
     .then(() => {
       window.removeEventListener("message", handleMapPickedMessage, false);
-      info.value.businessAddress.address = currentPicked.value.poiaddress+'-'+currentPicked.value.poiname
-;
+      info.value.businessAddress.address =
+        currentPicked.value.poiaddress + "-" + currentPicked.value.poiname;
       info.value.businessAddress.latitude = currentPicked.value.latlng.lat;
       info.value.businessAddress.longitude = currentPicked.value.latlng.lng;
       info.value.businessAddress.city = currentPicked.value.cityname;
-      let data=getArea(currentPicked.value.poiaddress)
-      if(data.Province!==''){
-        info.value.businessAddress.province=data.Province;
-      }else{
-        info.value.businessAddress.province=data.City;
+      let data = getArea(currentPicked.value.poiaddress);
+      if (data.Province !== "") {
+        info.value.businessAddress.province = data.Province;
+      } else {
+        info.value.businessAddress.province = data.City;
       }
-      info.value.businessAddress. district=data.Country;
-      console.log( currentPicked.value,'选择地图0000')
-      console.log(info.value.businessAddress,'地址6666')
+      info.value.businessAddress.district = data.Country;
     })
     .catch((e) => {
       if (e != "cancel") throw e;
@@ -523,42 +597,42 @@ function openMapPickPop($event: any) {
 
   window.addEventListener("message", handleMapPickedMessage, false);
 }
-function getArea(str:any){
+function getArea(str: any) {
   let area = {
-    Province:'',
-    City:'',
-    Country:''
+    Province: "",
+    City: "",
+    Country: "",
+  };
+  let index11 = 0;
+  let index1 = str.indexOf("省");
+  if (index1 == -1) {
+    index11 = str.indexOf("自治区");
+    if (index11 != -1) {
+      area.Province = str.substring(0, index11 + 3);
+    } else {
+      area.Province = str.substring(0, 0);
+    }
+  } else {
+    area.Province = str.substring(0, index1 + 1);
   }
-    let index11 = 0
-    let index1 = str.indexOf("省")
-    if (index1 == -1) {
-      index11 = str.indexOf("自治区")
-      if (index11 != -1) {
-        area.Province = str.substring(0, index11 + 3)
-      } else {
-        area.Province = str.substring(0, 0)
-      }
+  let index2 = str.indexOf("市");
+  if (index11 == -1) {
+    area.City = str.substring(index11 + 1, index2 + 1);
+  } else {
+    if (index11 == 0) {
+      area.City = str.substring(index1 + 1, index2 + 1);
     } else {
-      area.Province = str.substring(0, index1 + 1)
+      area.City = str.substring(index11 + 3, index2 + 1);
     }
-    let index2 = str.indexOf("市")
-    if (index11 == -1) {
-      area.City = str.substring(index11 + 1, index2 + 1)
-    } else {
-      if (index11 == 0) {
-        area.City = str.substring(index1 + 1, index2 + 1)
-      } else {
-        area.City = str.substring(index11 + 3, index2 + 1)
-      }
-    }
-    let index3 = str.lastIndexOf("区")
-    if (index3 == -1) {
-      index3 = str.indexOf("县")
-      area.Country = str.substring(index2 + 1, index3 + 1)
-    } else {
-      area.Country = str.substring(index2 + 1, index3 + 1)
-    }
-    return area;
+  }
+  let index3 = str.lastIndexOf("区");
+  if (index3 == -1) {
+    index3 = str.indexOf("县");
+    area.Country = str.substring(index2 + 1, index3 + 1);
+  } else {
+    area.Country = str.substring(index2 + 1, index3 + 1);
+  }
+  return area;
 }
 function handleMapPickedMessage(event: any) {
   /**
@@ -570,6 +644,10 @@ function handleMapPickedMessage(event: any) {
   currentPicked.value = loc;
   // console.log(" currentPicked.value ", currentPicked.value );
 }
+
+// const getPerson=(data:any)=>{
+//       Object.assign(payjson, data)
+// }
 
 const info: any = ref({
   businessMobile: "",
@@ -612,6 +690,7 @@ const info: any = ref({
     district: "",
     latitude: 0,
     longitude: 0,
+    inDetail: "",
   },
   logisticsType: {
     oneselfDelivery: 0,
@@ -620,6 +699,24 @@ const info: any = ref({
   },
   automaticReceiptDay: 7,
   businessImages: [],
+  payJson: {},
+});
+const payjson: any = ref({
+  wei_chat: "0",
+  bank_card: "0",
+  alipay: "0",
+  merchantWithdrawal: {
+    merchantStatus: "0",
+    merchantCity: " ",
+    proportion: "",
+    withdrawalAccount: "",
+    merchantAddress: info.value.businessAddress.address,
+    commission: "",
+    remark: "",
+    withdrawalDays: "",
+    merchantMobile: info.value.businessMobile,
+    merchantName: info.value.businessName,
+  },
 });
 const formRef = ref();
 const formRules = ref({
@@ -639,11 +736,12 @@ onMounted(() => {
         },
       })
       .then((res: any) => {
-        console.log(res.body.jsonData, 123);
-
         info.value = JSONBIG.parse(res.body.jsonData);
-        console.log(info.value, 456);
-        console.log(info.value.businessId, 789);
+        if (info.value.payJson) {
+          payjson.value = info.value.payJson;
+        }
+        // console.log( payjson.value,'66666666666')
+        // console.log(  info.value,'44444444444')
         form.value = res.body;
         pcasName.value[0] = info.value.businessAddress.province;
         pcasName.value[1] = info.value.businessAddress.city;
@@ -651,10 +749,11 @@ onMounted(() => {
         imageUrl.value = info.value.businessLogo;
         imageUrl1.value = info.value.shareImages;
         imageUrl3.value = info.value.weChatORCodeImage;
+
         if (info.value.businessImages) {
           imageUrl2.value = JSON.parse(info.value.businessImages);
         }
-
+        console.log(info.value.businessImages, "图片");
         // emit("success");
         // onCancel();
       });
@@ -701,6 +800,7 @@ function generateSnowflakeID() {
 // 使用示例  1670742827904-17081-61215
 
 function onSubmit() {
+  info.value.payJson = payjson.value;
   // if( info.value.businessAddress. address==''){
   //   ElMessage.warning({
   //                 message: "请点击选择店铺位置",
@@ -717,10 +817,7 @@ function onSubmit() {
           info.value.businessAddress.province = pcasName.value[0];
           info.value.businessAddress.city = pcasName.value[1];
           info.value.businessAddress.district = pcasName.value[2];
-          console.log(info.value, 7878);
-
           form.value.jsonData = JSONBIG.stringify(info.value);
-
           api
             .post("/api/plugs/insertPlugsData", form.value)
             .then((res: any) => {
@@ -746,6 +843,8 @@ function onSubmit() {
       formRef.value.validate((valid: any) => {
         if (valid) {
           form.value.jsonData = JSON.stringify(info.value);
+          // console.log(JSON.parse(form.value.jsonData),'修改信息');
+          // return
           api
             .post("/api/plugs/updatePlugsData", form.value)
             .then((res: any) => {
@@ -782,105 +881,59 @@ function onCancel() {
 // 图片上传
 
 const imageUrl = ref("");
-
 const imageUrl1 = ref("");
-
-const handleAvatarSuccess1: UploadProps["onSuccess"] = (
-  response,
-  uploadFile
-) => {
-  console.log(response, uploadFile);
-  imageUrl1.value = URL.createObjectURL(uploadFile.raw!);
-  info.value.shareImages = response.body;
-};
-
 const imageUrl3 = ref("");
-
-const handleAvatarSuccess3: UploadProps["onSuccess"] = (
-  response,
-  uploadFile
-) => {
-  console.log(response, uploadFile);
-  imageUrl3.value = URL.createObjectURL(uploadFile.raw!);
-  info.value.weChatORCodeImage = response.body;
-};
 
 // 详情轮播
 const imageUrl2: any = ref([]);
 
-const handleAvatarSuccess2: UploadProps["onSuccess"] = (
-  response,
-  uploadFile
-) => {
-  console.log(response, "456465", uploadFile);
-  let obj = response.body;
-  imageUrl2.value.push(obj);
-  console.log(imageUrl2.value, 123);
-  info.value.businessImages = JSON.stringify(imageUrl2.value);
-};
 const delimg = (index: any) => {
   console.log(index);
   imageUrl2.value.splice(index, 1);
   info.value.businessImages = JSON.stringify(imageUrl2.value);
 };
-const beforeAvatarUpload: UploadProps["beforeUpload"] = (rawFile) => {
-  // if (rawFile.type !== "image/jpeg") {
-  //   ElMessage.error("Avatar picture must be JPG format!");
-  //   return false;
-  // } else if (rawFile.size / 1024 / 1024 > 2) {
-  //   ElMessage.error("Avatar picture size can not exceed 2MB!");
-  //   return false;
-  // }
-  // return true;
-};
 const activeName = ref("first");
-
 const handleClick = (tab: any, event: Event) => {
   console.log(tab, event);
 };
 
 // 使用文件管理组件
-
+// 使用文件管理组件
 const types: any = ref("");
-
 import dialogWindows from "@/components/FileManagement/dialogWindows.vue";
 const dialogPluginList: any = ref({
   dialogVisible: false,
-  title: "文件管理",
-  data: "",
-  button_title: "确定",
-  width: "1100",
-  heigth: "500",
-  close_title: "取消",
+  source: 1,
 });
-
 const upload_image = (item: any) => {
   dialogPluginList.value.dialogVisible = true;
   types.value = item;
+  if (
+    types.value == "imageUrl" ||
+    types.value == "imageUrl1" ||
+    types.value == "imageUrl3"
+  ) {
+    dialogPluginList.value.source = 1;
+  } else if (types.value == "imageUrl2") {
+    dialogPluginList.value.source = 2;
+  }
 };
 
 const Return = (data: any) => {
   dialogPluginList.value.dialogVisible = false;
-  if (data.type == "return") {
-    if (types.value == "imageUrl") {
-      imageUrl.value = data.data[0].url;
-      info.value.businessLogo = data.data[0].url;
-    } else if (types.value == "imageUrl2") {
-      data.data.forEach((item: any) => {
-        imageUrl2.value.push(item.url);
-        info.value.businessImages = JSON.stringify(imageUrl2.value);
-      });
-    } else if (types.value == "imageUrl3") {
-      data.data.forEach((item: any) => {
-        imageUrl3.value = data.data[0].url;
-        info.value.weChatORCodeImage = data.data[0].url;
-      });
-    } else if (types.value == "imageUrl1") {
-      data.data.forEach((item: any) => {
-        imageUrl1.value = data.data[0].url;
-        info.value.shareImages = data.data[0].url;
-      });
-    }
+
+  if (types.value == "imageUrl") {
+    imageUrl.value = data[0];
+    info.value.businessLogo = data[0];
+  } else if (types.value == "imageUrl2") {
+    imageUrl2.value = data;
+    info.value.businessImages = JSON.stringify(imageUrl2.value);
+  } else if (types.value == "imageUrl3") {
+    imageUrl3.value = data[0];
+    info.value.weChatORCodeImage = data[0];
+  } else if (types.value == "imageUrl1") {
+    imageUrl1.value = data[0];
+    info.value.shareImages = data[0];
   }
 };
 </script>
