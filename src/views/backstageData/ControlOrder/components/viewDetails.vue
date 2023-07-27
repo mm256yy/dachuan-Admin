@@ -108,13 +108,23 @@
                   margin-right: 30px;
                 "
               >
-               支付类型
+                支付类型
               </div>
-              <div style="" v-if="form.orderLogistics.payType==1" > 微信支付</div>
-              <div style="" v-else-if="form.orderLogistics.payType==0" > 微信支付</div>
-              <div style="" v-else-if="form.orderLogistics.payType==2" > 支付宝支付</div>
-              <div style="" v-else-if="form.orderLogistics.payType==3" > 积分支付</div>
-              <div style="" v-else-if="form.orderLogistics.payType==4" > 余额支付</div>
+              <div style="" v-if="form.orderLogistics.payType == 1">
+                微信支付
+              </div>
+              <div style="" v-else-if="form.orderLogistics.payType == 0">
+                微信支付
+              </div>
+              <div style="" v-else-if="form.orderLogistics.payType == 2">
+                支付宝支付
+              </div>
+              <div style="" v-else-if="form.orderLogistics.payType == 3">
+                积分支付
+              </div>
+              <div style="" v-else-if="form.orderLogistics.payType == 4">
+                余额支付
+              </div>
             </div>
             <div style="display: flex; width: 500px; margin: 20px">
               <div
@@ -406,43 +416,47 @@
                 {{ form.orderLogistics.receiverAddressJson.mobile }}
               </div>
             </div>
-            <div style="display: flex; width: 500px; margin: 20px;justify-content: space-between;">
-              <div v-if="form.logisticsType==3" style="display: flex;" >
+            <div
+              style="
+                display: flex;
+                width: 500px;
+                margin: 20px;
+                justify-content: space-between;
+              "
+            >
+              <div v-if="form.logisticsType == 3" style="display: flex">
                 <div
-                style="
-                  width: 100px;
-                  font-weight: 700;
-                  text-align: right;
-                  margin-right: 30px;
-                "
+                  style="
+                    width: 100px;
+                    font-weight: 700;
+                    text-align: right;
+                    margin-right: 30px;
+                  "
                 >
-                自提地址
+                  自提地址
                 </div>
-                <div style="width: 400px;">
-                {{ form.orderLogistics.receiverAddressJson.address }}
-
-                 </div>
+                <div style="width: 400px">
+                  {{ form.orderLogistics.receiverAddressJson.address }}
+                </div>
               </div>
-              <div v-else style="display: flex;" >
+              <div v-else style="display: flex">
                 <div
-                style="
-                  width: 100px;
-                  font-weight: 700;
-                  text-align: right;
-                  margin-right: 30px;
-                "
-              >
-                收货地址
+                  style="
+                    width: 100px;
+                    font-weight: 700;
+                    text-align: right;
+                    margin-right: 30px;
+                  "
+                >
+                  收货地址
+                </div>
+                <div style="width: 400px">
+                  {{ form.orderLogistics.receiverAddressJson.province }}
+                  {{ form.orderLogistics.receiverAddressJson.city }}
+                  {{ form.orderLogistics.receiverAddressJson.district }}
+                  {{ form.orderLogistics.receiverAddressJson.address }}
+                </div>
               </div>
-              <div style="width: 400px;">
-                {{ form.orderLogistics.receiverAddressJson.province }}
-                {{ form.orderLogistics.receiverAddressJson.city }}
-                {{ form.orderLogistics.receiverAddressJson.district }}
-                {{ form.orderLogistics.receiverAddressJson.address }}
-
-              </div>
-              </div>
-              
             </div>
             <div style="display: flex; width: 500px; margin: 20px">
               <div
@@ -491,35 +505,34 @@
               <el-table-column label="商品图片" align="center">
                 <template #default="scope">
                   <div>
-                    <div  v-if="form.orderType == 0 || form.orderType == 4" >
+                    <div v-if="form.orderType == 0 || form.orderType == 4">
                       <img
-                     v-if="scope.row.goodsSpecification!==null"
-                      style="width: 60px; height: 60px"
-                      :src="scope.row.goodsSpecification.specificationImages"
-                      alt=""
-                    />
-                    <img
-                     v-else
-                      style="width: 60px; height: 60px"
-                      :src="scope.row.previewUrl"
-                      alt=""
-                    />
+                        v-if="scope.row.goodsSpecification !== null"
+                        style="width: 60px; height: 60px"
+                        :src="scope.row.goodsSpecification.specificationImages"
+                        alt=""
+                      />
+                      <img
+                        v-else
+                        style="width: 60px; height: 60px"
+                        :src="scope.row.previewUrl"
+                        alt=""
+                      />
                     </div>
-                   <div  v-else-if="form.orderType == 1" >
-                    <img
-                      style="width: 60px; height: 60px"
-                      :src="scope.row.extJson.petStewardInfo.headImgUrl"
-                      alt=""
-                    />
-                   </div>
-                   <div  v-else-if="form.orderType == 2" >
-                    <img
-                     
-                      style="width: 60px; height: 60px"
-                      :src="scope.row.extJson.petFosterHome.headImgUrl"
-                      alt=""
-                    />
-                   </div>
+                    <div v-else-if="form.orderType == 1">
+                      <img
+                        style="width: 60px; height: 60px"
+                        :src="scope.row.extJson.petStewardInfo.headImgUrl"
+                        alt=""
+                      />
+                    </div>
+                    <div v-else-if="form.orderType == 2">
+                      <img
+                        style="width: 60px; height: 60px"
+                        :src="scope.row.extJson.petFosterHome.headImgUrl"
+                        alt=""
+                      />
+                    </div>
                   </div>
                 </template>
               </el-table-column>
@@ -535,8 +548,10 @@
               </el-table-column>
               <el-table-column label="商品价格" align="center">
                 <template #default="scope">
-                  <div v-if="scope.row.goodsSpecification==null" >{{ scope.row.goodsPrice }}</div>
-                  <div v-else >{{ scope.row.goodsSpecification.dealPrice}}</div>
+                  <div v-if="scope.row.goodsSpecification == null">
+                    {{ scope.row.goodsPrice }}
+                  </div>
+                  <div v-else>{{ scope.row.goodsSpecification.dealPrice }}</div>
                 </template>
               </el-table-column>
               <el-table-column label="优惠金额" align="center">
@@ -556,16 +571,16 @@
               </el-table-column>
               <el-table-column label="规格" align="center">
                 <template #default="scope">
-                  <div v-if="scope.row.goodsSpecificationName!==''" >
-                   <div
-                    style="text-align: left"
-                    v-for="(item, key) in JSON.parse(
-                      scope.row.goodsSpecificationName
-                    )"
-                  >
-                    {{ key }}: {{ item }}
-                   </div> 
-                  <!-- <div> 
+                  <div v-if="scope.row.goodsSpecificationName !== ''">
+                    <div
+                      style="text-align: left"
+                      v-for="(item, key) in JSON.parse(
+                        scope.row.goodsSpecificationName
+                      )"
+                    >
+                      {{ key }}: {{ item }}
+                    </div>
+                    <!-- <div>
                       {{scope.row.goodsSpecificationName}}
                    </div> -->
                   </div>
@@ -764,17 +779,20 @@
                   margin-right: 30px;
                 "
               >
-              配送方式
+                配送方式
               </div>
               <div style="width: 250px">
-                <div v-if="form.logisticsType==1">配送</div>
-                <div v-else-if="form.logisticsType==2">快递</div>
-                <div v-else-if="form.logisticsType==3">自提</div>
-                <div v-else-if="form.logisticsType==4">到店消费</div>
-                <div v-else-if="form.logisticsType==5">上门服务</div>
+                <div v-if="form.logisticsType == 1">配送</div>
+                <div v-else-if="form.logisticsType == 2">快递</div>
+                <div v-else-if="form.logisticsType == 3">自提</div>
+                <div v-else-if="form.logisticsType == 4">到店消费</div>
+                <div v-else-if="form.logisticsType == 5">上门服务</div>
               </div>
             </div>
-            <div style="display: flex; width: 500px; margin: 20px" v-if="form.logisticsType==3" >
+            <div
+              style="display: flex; width: 500px; margin: 20px"
+              v-if="form.logisticsType == 3"
+            >
               <div
                 style="
                   width: 100px;
@@ -785,9 +803,12 @@
               >
                 预计自提时间
               </div>
-              <div style="width: 250px">{{ logisticsInfo.expectPickTime}}</div>
+              <div style="width: 250px">{{ logisticsInfo.expectPickTime }}</div>
             </div>
-            <div style="display: flex; width: 500px; margin: 20px" v-if="form.logisticsType==2" >
+            <div
+              style="display: flex; width: 500px; margin: 20px"
+              v-if="form.logisticsType == 2"
+            >
               <div
                 style="
                   width: 100px;
@@ -798,9 +819,12 @@
               >
                 快递公司
               </div>
-              <div style="width: 250px">{{ logisticsInfo.expressName}}</div>
+              <div style="width: 250px">{{ logisticsInfo.expressName }}</div>
             </div>
-            <div style="display: flex; width: 500px; margin: 20px" v-if="form.logisticsType==2" >
+            <div
+              style="display: flex; width: 500px; margin: 20px"
+              v-if="form.logisticsType == 2"
+            >
               <div
                 style="
                   width: 100px;
@@ -811,7 +835,7 @@
               >
                 快递单号
               </div>
-              <div style="width: 250px">{{logisticsInfo.expressName}}</div>
+              <div style="width: 250px">{{ logisticsInfo.expressName }}</div>
             </div>
             <div style="display: flex; width: 500px; margin: 20px">
               <div
@@ -822,22 +846,43 @@
                   margin-right: 30px;
                 "
               >
-              配送状态
+                配送状态
               </div>
               <div style="width: 250px">
-                <div v-if="logisticsInfo.expressStatus==0">创建订单</div>
-                <div v-else-if="logisticsInfo.expressStatus==5">配送订单已创建</div>
-                <div v-else-if="logisticsInfo.expressStatus==10">订单已改派</div>
-                <div v-else-if="logisticsInfo.expressStatus==15">配送员已接单</div>
-                <div v-else-if="logisticsInfo.expressStatus==20">配送员已到店</div>
-                <div v-else-if="logisticsInfo.expressStatus==25">配送员配送中</div>
-                <div v-else-if="logisticsInfo.expressStatus==30">配送员点击订单完成</div>
-                <div v-else-if="logisticsInfo.expressStatus==50">店家取消订单</div>
-                <div v-else-if="logisticsInfo.expressStatus==55">顺丰原因取消订单</div>
-                <div v-else-if="logisticsInfo.expressStatus==66">订单异常</div>
+                <div v-if="logisticsInfo.expressStatus == 0">创建订单</div>
+                <div v-else-if="logisticsInfo.expressStatus == 5">
+                  配送订单已创建
+                </div>
+                <div v-else-if="logisticsInfo.expressStatus == 10">
+                  订单已改派
+                </div>
+                <div v-else-if="logisticsInfo.expressStatus == 15">
+                  配送员已接单
+                </div>
+                <div v-else-if="logisticsInfo.expressStatus == 20">
+                  配送员已到店
+                </div>
+                <div v-else-if="logisticsInfo.expressStatus == 25">
+                  配送员配送中
+                </div>
+                <div v-else-if="logisticsInfo.expressStatus == 30">
+                  配送员点击订单完成
+                </div>
+                <div v-else-if="logisticsInfo.expressStatus == 50">
+                  店家取消订单
+                </div>
+                <div v-else-if="logisticsInfo.expressStatus == 55">
+                  顺丰原因取消订单
+                </div>
+                <div v-else-if="logisticsInfo.expressStatus == 66">
+                  订单异常
+                </div>
               </div>
             </div>
-            <div style="display: flex; width: 500px; margin: 20px" v-if="form.logisticsType==1 || form.logisticsType==2" >
+            <div
+              style="display: flex; width: 500px; margin: 20px"
+              v-if="form.logisticsType == 1 || form.logisticsType == 2"
+            >
               <div
                 style="
                   width: 100px;
@@ -848,113 +893,115 @@
               >
                 运费/配送费
               </div>
-              <div style="width: 250px">{{logisticsInfo.realPayMoney}}</div>
+              <div style="width: 250px">{{ logisticsInfo.realPayMoney }}</div>
             </div>
             <div style="display: flex; width: 500px; margin: 20px">
               <div>
                 <div
-                v-if="form.logisticsType==1 || form.logisticsType==2"
-                style="
-                  width: 100px;
-                  font-weight: 700;
-                  text-align: right;
-                  margin-right: 30px;
-                "
-              >
-                收货人姓名
-              </div>
-              <div
-                v-else-if="form.logisticsType==3"
-                style="
-                  width: 100px;
-                  font-weight: 700;
-                  text-align: right;
-                  margin-right: 30px;
-                "
-              >
-                自提人姓名
-              </div>
-              <div
-                v-else-if="form.logisticsType==4 || form.logisticsType==5"
-                style="
-                  width: 100px;
-                  font-weight: 700;
-                  text-align: right;
-                  margin-right: 30px;
-                "
-              >
-                姓名
-              </div>
-              </div>
-              
-              <div style="width: 250px">{{logisticsInfo.receiverName}}</div>
-            </div>
-            <div style="display: flex; width: 500px; margin: 20px">
-              <div>
-                <div
-                v-if="form.logisticsType==1 || form.logisticsType==2"
-                style="
-                  width: 100px;
-                  font-weight: 700;
-                  text-align: right;
-                  margin-right: 30px;
-                "
-              >
-                收货人电话
-              </div>
-              <div
-                v-else-if="form.logisticsType==3"
-                style="
-                  width: 100px;
-                  font-weight: 700;
-                  text-align: right;
-                  margin-right: 30px;
-                "
-              >
-                自提电话
-              </div>
-              </div>
-              
-              <div style="width: 250px">{{logisticsInfo.receiverMobile}}</div>
-            </div>
-            <div style="display: flex; width: 500px; margin: 20px">
-              <div>
-                <div
-                v-if="form.logisticsType==1 || form.logisticsType==2"
-                style="
-                  width: 100px;
-                  font-weight: 700;
-                  text-align: right;
-                  margin-right: 30px;
-                "
+                  v-if="form.logisticsType == 1 || form.logisticsType == 2"
+                  style="
+                    width: 100px;
+                    font-weight: 700;
+                    text-align: right;
+                    margin-right: 30px;
+                  "
                 >
-                 收件人地址
+                  收货人姓名
                 </div>
                 <div
-                v-if="form.logisticsType==3"
-                style="
-                  width: 100px;
-                  font-weight: 700;
-                  text-align: right;
-                  margin-right: 30px;
-                "
+                  v-else-if="form.logisticsType == 3"
+                  style="
+                    width: 100px;
+                    font-weight: 700;
+                    text-align: right;
+                    margin-right: 30px;
+                  "
                 >
-                 店铺地址
+                  自提人姓名
+                </div>
+                <div
+                  v-else-if="form.logisticsType == 4 || form.logisticsType == 5"
+                  style="
+                    width: 100px;
+                    font-weight: 700;
+                    text-align: right;
+                    margin-right: 30px;
+                  "
+                >
+                  姓名
+                </div>
+              </div>
+
+              <div style="width: 250px">{{ logisticsInfo.receiverName }}</div>
+            </div>
+            <div style="display: flex; width: 500px; margin: 20px">
+              <div>
+                <div
+                  v-if="form.logisticsType == 1 || form.logisticsType == 2"
+                  style="
+                    width: 100px;
+                    font-weight: 700;
+                    text-align: right;
+                    margin-right: 30px;
+                  "
+                >
+                  收货人电话
+                </div>
+                <div
+                  v-else-if="form.logisticsType == 3"
+                  style="
+                    width: 100px;
+                    font-weight: 700;
+                    text-align: right;
+                    margin-right: 30px;
+                  "
+                >
+                  自提电话
+                </div>
+              </div>
+
+              <div style="width: 250px">{{ logisticsInfo.receiverMobile }}</div>
+            </div>
+            <div style="display: flex; width: 500px; margin: 20px">
+              <div>
+                <div
+                  v-if="form.logisticsType == 1 || form.logisticsType == 2"
+                  style="
+                    width: 100px;
+                    font-weight: 700;
+                    text-align: right;
+                    margin-right: 30px;
+                  "
+                >
+                  收件人地址
+                </div>
+                <div
+                  v-if="form.logisticsType == 3"
+                  style="
+                    width: 100px;
+                    font-weight: 700;
+                    text-align: right;
+                    margin-right: 30px;
+                  "
+                >
+                  店铺地址
                 </div>
               </div>
               <div>
-                <div style="width: 250px"  v-if="form.logisticsType==1 || form.logisticsType==2" >
-                {{logisticsInfo.receiverProvince + 
-                logisticsInfo.receiverCity+
-                logisticsInfo.receiverDistrict+
-                logisticsInfo.receiverAddressJson.address
-                }}
-               </div>
-               <div  v-if="form.logisticsType==3" >
-                {{logisticsInfo.receiverAddressJson.address }}
-               
-      
-               </div>
+                <div
+                  style="width: 250px"
+                  v-if="form.logisticsType == 1 || form.logisticsType == 2"
+                >
+                  {{
+                    logisticsInfo.receiverProvince +
+                    logisticsInfo.receiverCity +
+                    logisticsInfo.receiverDistrict +
+                    logisticsInfo.receiverAddressJson.address
+                  }}
+                </div>
+                <div v-if="form.logisticsType == 3">
+                  {{ logisticsInfo.receiverAddressJson.address }}
+                </div>
               </div>
             </div>
           </el-scrollbar>
@@ -1436,7 +1483,6 @@ const props = withDefaults(
 const activeName = ref("first");
 
 const myVisible = ref(props.modelValue);
-console.log(props.id, 999);
 const form: any = ref({
   orderLogistics: {
     receiverAddressJson: {},
@@ -1462,42 +1508,42 @@ onMounted(() => {
   getdetalis();
 });
 const userId: any = ref();
-const logisticsInfo:any=ref({
-  "businessArriveTime": "",
-  "businessId": 0,
-  "completeCode": "",
-  "couponsTotalFee": 0,
-  "deliveryDistanceMeter": 0,
-  "expectExpectTimepickupTime": "",
-  "expectPickTime": "",
-  "expectTime": "",
-  "expressName": "",
-  "expressNo": "",
-  "expressStatus": 0,
-  "expressStatusDesc": "",
-  "extJson": "",
-  "id": 0,
-  "isAppoint": 0,
-  "orderId": 0,
-  "orderNo": "",
-  "payType": 0,
-  "pickupCode": "",
-  "realPayMoney": 0,
-  "receiverAddressJson": "",
-  "receiverCity": "",
-  "receiverDistrict": "",
-  "receiverLat": 0,
-  "receiverLng": 0,
-  "receiverMobile": "",
-  "receiverName": "",
-  "receiverProvince": "",
-  "riderName": "",
-  "riderPhone": "",
-  "serviceTime": "",
-  "startTime": "",
-  "totalPayMoney": 0,
-  "userId": 0
-})
+const logisticsInfo: any = ref({
+  businessArriveTime: "",
+  businessId: 0,
+  completeCode: "",
+  couponsTotalFee: 0,
+  deliveryDistanceMeter: 0,
+  expectExpectTimepickupTime: "",
+  expectPickTime: "",
+  expectTime: "",
+  expressName: "",
+  expressNo: "",
+  expressStatus: 0,
+  expressStatusDesc: "",
+  extJson: "",
+  id: 0,
+  isAppoint: 0,
+  orderId: 0,
+  orderNo: "",
+  payType: 0,
+  pickupCode: "",
+  realPayMoney: 0,
+  receiverAddressJson: "",
+  receiverCity: "",
+  receiverDistrict: "",
+  receiverLat: 0,
+  receiverLng: 0,
+  receiverMobile: "",
+  receiverName: "",
+  receiverProvince: "",
+  riderName: "",
+  riderPhone: "",
+  serviceTime: "",
+  startTime: "",
+  totalPayMoney: 0,
+  userId: 0,
+});
 function getdetalis() {
   let data = {
     adminId: storage.local.get("adminId"),
@@ -1511,8 +1557,7 @@ function getdetalis() {
     .then((res: any) => {
       if (res.code == 200) {
         form.value = res.body;
-        logisticsInfo.value=res.body.orderLogistics;
-        console.log(logisticsInfo.value,'物流信息')
+        logisticsInfo.value = res.body.orderLogistics;
         // logisticsInfo.value.receiverAddressJson= JSON.parse(logisticsInfo.value.receiverAddressJson);
         form.value.orderLogistics.receiverAddressJson = JSON.parse(
           form.value.orderLogistics.receiverAddressJson
@@ -1521,7 +1566,6 @@ function getdetalis() {
           form.value.orderItemList[0].extJson
         );
         extJsonDetail.value = form.value.orderItemList[0].extJson;
-        console.log(form.value.orderItemList[0].extJson, 99999);
 
         if (form.value.orderItemList[0].extJson) {
           accompanyingPatientFiles.value.jsonData = JSON.parse(
@@ -1534,7 +1578,6 @@ function getdetalis() {
         }
         userId.value = form.value.orderLogistics.userId;
         goodsId.value = form.value.orderItemList[0].goodsId;
-        console.log(form.value,'订单详情8888888888888')
         searchUserInfo();
       }
     });
@@ -1562,7 +1605,6 @@ function searchUserInfo() {
       if (res.code == 200) {
         let data = res.body;
         openId.value = JSON.parse(data.associatedAccounJson).wechat_open_id;
-        // console.log(openId.value,'用户信息77777777777777777')
       }
     });
 }
@@ -1574,7 +1616,6 @@ function returndeposit() {
     type: 1,
     goodsId: goodsId.value,
   };
-  console.log(postdata, "退款信息");
   ElMessageBox.confirm(`确认退押金吗？`, "确认信息").then(() => {
     api
       .get("/api/order/weChatPayment", {
@@ -1583,8 +1624,6 @@ function returndeposit() {
       .then((res: any) => {
         if (res.code == 200) {
           let data = res.body;
-          // openId.value=JSON.parse(data.associatedAccounJson).wechat_open_id
-          console.log(openId.value, "用户信息77777777777777777");
         }
       });
   });
@@ -1604,7 +1643,6 @@ const open = () => {
         applyRemark: value,
       };
       http.post("/api/order/shopApplyOrderRefund", data).then((res: any) => {
-        console.log(res);
         if (res.code == 200) {
           ElMessage({
             type: "success",
@@ -1627,9 +1665,8 @@ const open = () => {
         pass: 1,
         applyRemark: value,
       };
-      console.log(data);
+
       http.post("/api/order/shopApplyOrderRefund", data).then((res: any) => {
-        console.log(res);
         if (res.code == 200) {
           ElMessage({
             type: "success",

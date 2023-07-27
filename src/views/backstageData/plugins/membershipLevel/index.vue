@@ -212,7 +212,6 @@ const tableobj = reactive({
   keyword: "",
 });
 const userServiceToken = ref(storage.local.get("userServiceToken"));
-console.log(userServiceToken.value, 987777);
 
 function getlist() {
   let data: any = {
@@ -264,7 +263,6 @@ const handleSelectionChange = (val: any) => {
   idlist.value = multipleSelection.value.map((item: any) => {
     return item.id;
   });
-  console.log();
 };
 
 const delPlugin = () => {
@@ -294,7 +292,6 @@ const delPlugin = () => {
 
 // 删除插件
 const handleClick = (e: any) => {
-  console.log(e);
   let data = {
     ids: e,
   };

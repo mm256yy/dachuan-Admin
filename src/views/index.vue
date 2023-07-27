@@ -14,11 +14,10 @@ const router = useRouter();
 const size = ref<"default" | "jt" | "jt">("jt");
 
 onMounted(() => {
-  showorders();
-  showorders1();
-  showorders2();
-  showorders3();
-
+  // showorders();
+  // showorders1();
+  // showorders2();
+  // showorders3();
 });
 
 function showorders() {
@@ -196,57 +195,57 @@ function showorders3() {
     <page-main>
       <div style="margin: 10px 0">
         <div style="margin-top: 10px; display: flex; flex-direction: column">
-          <el-radio-group v-model="size" label="size control" size="small">
-            <el-radio-button label="jt">今天</el-radio-button>
-            <el-radio-button label="zt">昨天</el-radio-button>
-            <el-radio-button label="7t">最近7天</el-radio-button>
-            <el-radio-button label="30t">最近30天</el-radio-button>
-          </el-radio-group>
-          <page-main>
-            <el-row :gutter="20">
-              <el-col :md="6">
-                <ColorfulCard
-                  header="交易金额"
-                  :num="0"
-                  tip="昨天全天0"
-                  icon="ant-design:money-collect-filled"
-                />
-              </el-col>
-              <el-col :md="6">
-                <ColorfulCard
-                  color-from="#fbaaa2"
-                  color-to="#fc5286"
-                  header="订单数量(个)"
-                  :num="0"
-                  tip="昨天全天0"
-                  icon="ri:pages-line"
-                />
-              </el-col>
-              <el-col :md="6">
-                <ColorfulCard
-                  color-from="#ff763b"
-                  color-to="#ffc480"
-                  header="待付款订单(个)"
-                  :num="0"
-                  tip="昨天全天0"
-                  icon="ant-design:clock-circle-outlined"
-                />
-              </el-col>
-              <el-col :md="6">
-                <ColorfulCard
-                  color-from="#6a8eff"
-                  color-to="#0e4cfd"
-                  header="访问人数(个)"
-                  :num="0"
-                  tip="昨天全天0"
-                  icon="ep:link"
-                />
-              </el-col>
-              <!-- <el-col :md="5">
+          <div style="margin: 20px 0">
+            <el-radio-group v-model="size" label="size control">
+              <el-radio-button label="jt">今天</el-radio-button>
+              <el-radio-button label="zt">昨天</el-radio-button>
+              <el-radio-button label="7t">最近7天</el-radio-button>
+              <el-radio-button label="30t">最近30天</el-radio-button>
+            </el-radio-group>
+          </div>
+          <el-row :gutter="20">
+            <el-col :md="6">
+              <ColorfulCard
+                header="交易金额"
+                :num="0"
+                tip="昨天全天0"
+                icon="ant-design:money-collect-filled"
+              />
+            </el-col>
+            <el-col :md="6">
+              <ColorfulCard
+                color-from="#fbaaa2"
+                color-to="#fc5286"
+                header="订单数量(个)"
+                :num="0"
+                tip="昨天全天0"
+                icon="ri:pages-line"
+              />
+            </el-col>
+            <el-col :md="6">
+              <ColorfulCard
+                color-from="#ff763b"
+                color-to="#ffc480"
+                header="待付款订单(个)"
+                :num="0"
+                tip="昨天全天0"
+                icon="ant-design:clock-circle-outlined"
+              />
+            </el-col>
+            <el-col :md="6">
+              <ColorfulCard
+                color-from="#6a8eff"
+                color-to="#0e4cfd"
+                header="访问人数(个)"
+                :num="0"
+                tip="昨天全天0"
+                icon="ep:link"
+              />
+            </el-col>
+            <!-- <el-col :md="5">
                     <ColorfulCard color-from="#6a8eff" color-to="#0e4cfd" header="访问人数(个)" :num="0" tip="昨天全天0" icon="ep:link" />
                   </el-col> -->
-            </el-row>
-          </page-main>
+          </el-row>
           <!-- <div style="display: flex">
                 <div
                   class="content"
@@ -330,7 +329,7 @@ function showorders3() {
                 </div>
               </div> -->
         </div>
-        <div style="width: 100%; display: flex; flex-direction: column">
+        <!-- <div style="width: 100%; display: flex; flex-direction: column">
           <div style="display: flex; width: 100%">
             <div id="showorders" style="width: 50%; height: 500px"></div>
             <div id="showorders1" style="width: 50%; height: 500px"></div>
@@ -339,7 +338,7 @@ function showorders3() {
             <div id="showorders2" style="width: 50%; height: 500px"></div>
             <div id="showorders3" style="width: 50%; height: 500px"></div>
           </div>
-        </div>
+        </div> -->
       </div>
     </page-main>
   </div>

@@ -92,7 +92,12 @@ meta: title:菜单列表
       </el-table>
     </div>
 
-    <el-dialog v-model="data.menuShow" title="添加角色" width="550px">
+    <el-dialog
+      v-model="data.menuShow"
+      title="添加角色"
+      width="550px"
+      :before-close="handleClose"
+    >
       <div style="padding: 20px">
         <div style="display: flex; align-items: center; margin: 10px">
           <div style="width: 100px">
@@ -238,33 +243,17 @@ const isIndeterminate1: any = ref(true);
 const cities1: any = ref([]);
 
 const handleCheckAllChange = (val: any) => {
-  console.log(val, citiesAll.value);
-
   if (val) {
-    console.log(aa.value);
-    console.log(bb.value);
-
-    // cities.value = cities_.value;
     checkedCities.value = aa.value;
     checkedCities1.value = bb.value;
 
-    // for (let index = 0; index < cities.value.length; index++) {
-    //   console.log(cities.value[index].id);
-    //   j.push(cities.value[index].id);
-    // }
-    // console.log(j);
-
-    // checkedCities.value = j;
     isIndeterminate.value = false;
   } else {
     checkedCities.value = [];
     checkedCities1.value = [];
   }
-
-  // checkedCities.value = val ? cities.value : []
 };
 const handleCheckedCitiesChange = (value: any[]) => {
-  console.log(value);
   const checkedCount = value.length;
   checkAll.value = checkedCount === cities.value.length;
   isIndeterminate.value =
@@ -272,7 +261,6 @@ const handleCheckedCitiesChange = (value: any[]) => {
 };
 
 const handleCheckedCitiesChange1 = (value: any[]) => {
-  console.log(value);
   const checkedCount = value.length;
   checkAll1.value = checkedCount === cities1.value.length;
   isIndeterminate1.value =
@@ -287,7 +275,6 @@ const delet: any = ref("");
 const auto: any = ref("");
 
 const buttonauto = () => {
-  // console.log("123",localStorage.getItem('fa_menuList'));
   const btnList = JSON.parse(localStorage.getItem("fa_menuList") || "");
   const adminId = Number(localStorage.getItem("fa_adminId"));
 
@@ -312,10 +299,7 @@ const buttonauto = () => {
                 params: ds,
               })
               .then((res1: any) => {
-                console.log("213213", res1);
-
                 const buttonlt: any = buttonParse.split(",");
-                console.log("12000", buttonlt);
 
                 res1.body.forEach((item: any) => {
                   for (let index = 0; index < buttonlt.length; index++) {
@@ -352,7 +336,6 @@ onMounted(() => {
 
 const listMenu = () => {
   api.get("/api/admin/searchAdminRoleList").then((res: any) => {
-    console.log(res);
     if (res.code == 200) {
       tableData.value = res.body.list;
     }
@@ -407,7 +390,6 @@ const shot = (item: any) => {
       roleMenu: data.value.menuList.roleMenu,
       roleName: data.value.menuList.roleName,
     };
-    // console.log(ll);
     http.post("/api/admin/updateAdminRole", ll).then((res: any) => {
       if (res.code == 200) {
         ElMessage({
@@ -426,7 +408,6 @@ const shot = (item: any) => {
 };
 
 const edit = (item: any) => {
-  console.log(item.menuStatus);
   if (item.menuStatus == 0) {
     data.value.menuStatus = true;
   } else {
@@ -442,11 +423,9 @@ const get_menu = (item: any) => {
   let menuListsplit: any = item.roleMenu.split(",");
   let buttonListsplit: any = item.roleBotton.split(",");
   menuListsplit.filter((val: any) => {
-    // console.log(val);
     if (val == 0 || val == null) {
     } else {
       let dd: any = Number(val);
-      console.log(dd);
       checkedCities.value.push(dd);
     }
   });
@@ -454,8 +433,6 @@ const get_menu = (item: any) => {
   buttonListsplit.filter((val: any) => {
     if (val == 0 || val == null) {
     } else {
-      console.log(val);
-
       let dd: any = Number(val);
       checkedCities1.value.push(dd);
     }
@@ -473,42 +450,45 @@ const menuauth = (item: any) => {
   get_menu(item);
 
   let menuData: any = "";
-  api.get("/api/admin/searchPowerMenusList").then((res: any) => {
-    if (res.code == 200) {
-      menuData = res.body.list;
+  let data1: any = {
+    page: 1,
+    size: 1000,
+  };
+  api
+    .get("/api/admin/searchPowerMenusList", { params: data1 })
+    .then((res: any) => {
+      if (res.code == 200) {
+        menuData = res.body.list;
 
-      for (let index = 0; index < menuData.length; index++) {
-        for (
-          let index1 = 0;
-          index1 < menuData[index].menusList.length;
-          index1++
-        ) {
-          console.log("213", menuData[index].menusList[index1].id);
-
-          aa.value.push(menuData[index].menusList[index1].id);
-          let d: any = {
-            menuId: menuData[index].menusList[index1].id,
-          };
-          api
-            .get("/api/admin/getPowerButtonsByMenuId", {
-              params: d,
-            })
-            .then((res1: any) => {
-              menuData[index].menusList[index1]["buttonList"] = res1.body;
-              for (let index2 = 0; index2 < res1.body.length; index2++) {
-                bb.value.push(res1.body[index2].id);
-              }
-            });
+        for (let index = 0; index < menuData.length; index++) {
+          for (
+            let index1 = 0;
+            index1 < menuData[index].menusList.length;
+            index1++
+          ) {
+            aa.value.push(menuData[index].menusList[index1].id);
+            let d: any = {
+              menuId: menuData[index].menusList[index1].id,
+            };
+            api
+              .get("/api/admin/getPowerButtonsByMenuId", {
+                params: d,
+              })
+              .then((res1: any) => {
+                menuData[index].menusList[index1]["buttonList"] = res1.body;
+                for (let index2 = 0; index2 < res1.body.length; index2++) {
+                  bb.value.push(res1.body[index2].id);
+                }
+              });
+          }
         }
-      }
 
-      setTimeout(() => {
-        cities.value = menuData;
-        cities_.value = menuData;
-        console.log(aa.value);
-      }, 500);
-    }
-  });
+        setTimeout(() => {
+          cities.value = menuData;
+          cities_.value = menuData;
+        }, 500);
+      }
+    });
 };
 
 const menuFenpei = () => {
@@ -530,14 +510,12 @@ const menuFenpei = () => {
     }
   }
 
-  // console.log(ll);
   let data1: any = {
     roleName: data.value.fenpei.roleName,
     id: data.value.fenpei.id,
     roleBotton: ll1,
     roleMenu: ll,
   };
-  console.log("1232", auto);
 
   if (auto.value.buttonsName && auto.value.id && auto.value.menusId != 0) {
     http.post("/api/admin/updateAdminRole", data1).then((res: any) => {

@@ -64,37 +64,53 @@
           <el-table-column prop="id" label="ID" align="left" width="180" />
           <!-- <el-table-column prop="plugsId" label="插件ID" align="center"  /> -->
 
-          <el-table-column prop="icon" label="店铺logo" width="200" align="left">
+          <el-table-column
+            prop="icon"
+            label="店铺logo"
+            width="200"
+            align="left"
+          >
             <template #default="scope">
               <img
-                style="width: 60px; height: 60px;object-fit: contain;"
+                v-if="scope.row.jsonViewData.businessLogo"
+                style="width: 60px; height: 60px; object-fit: contain"
                 :src="scope.row.jsonViewData.businessLogo"
                 alt=""
               />
             </template>
           </el-table-column>
-          <el-table-column prop="icon" label="店铺名称" width="280" align="left">
+          <el-table-column
+            prop="icon"
+            label="店铺名称"
+            width="280"
+            align="left"
+          >
             <template #default="scope">
               {{ scope.row.jsonViewData.businessName }}
             </template>
           </el-table-column>
-          <el-table-column prop="icon" show-overflow-tooltip label="店铺地址" align="left">
+          <el-table-column
+            prop="icon"
+            show-overflow-tooltip
+            label="店铺地址"
+            align="left"
+          >
             <template #default="scope">
               {{ scope.row.jsonViewData.businessAddress.address }}
             </template>
           </el-table-column>
-          <el-table-column prop="title" label="店铺电话" width="180" align="left">
+          <el-table-column
+            prop="title"
+            label="店铺电话"
+            width="180"
+            align="left"
+          >
             <template #default="scope">
               {{ scope.row.jsonViewData.businessMobile }}
             </template>
           </el-table-column>
 
-          <el-table-column
-            fixed="right"
-            label="操作"
-            width="160"
-            align="left"
-          >
+          <el-table-column fixed="right" label="操作" width="160" align="left">
             <template #default="scope">
               <el-button
                 link
@@ -164,7 +180,7 @@ const tableobj: any = reactive({
 });
 
 function getlist() {
-  let data:any = {
+  let data: any = {
     page: tableobj.currentPage,
     size: tableobj.pageSize,
     adminId: storage.local.get("adminId"),
@@ -172,10 +188,9 @@ function getlist() {
     plugsId: route.params.id,
     keyword: tableobj.keyword,
   };
-  console.log(route.params);
 
-  if(route.params.admin == 'admin'){
-    data.userServiceToken = -1
+  if (route.params.admin == "admin") {
+    data.userServiceToken = -1;
   }
 
   api
@@ -184,7 +199,6 @@ function getlist() {
       if (res.code == 200) {
         tableData.value = res.body.list;
         total.value = res.body.total;
-        console.log(tableData.value);
         // tableobj.keyword = "";
       }
     });
@@ -205,7 +219,6 @@ function addPlugin() {
     name: "addbusinessPlug",
     params: {
       plugsId: 135,
-
     },
   });
 }
@@ -217,7 +230,6 @@ const handleSelectionChange = (val: any) => {
   idlist.value = multipleSelection.value.map((item: any) => {
     return item.id;
   });
-  console.log();
 };
 
 const delPlugin = () => {
@@ -247,7 +259,6 @@ const delPlugin = () => {
 };
 // 删除插件
 const handleClick = (e: any) => {
-  console.log(e);
   let data = {
     ids: e,
   };

@@ -247,7 +247,6 @@ function getMallSetting() {
 
     for (var a = 0; wx_form.value.familyMember.length > a; a++) {
       for (let key in config.weiXinConfig) {
-        // console.log(key,wx_form.value.familyMember[a].label)
         if (key == wx_form.value.familyMember[a].label) {
           if (config.weiXinConfig[key] == 0) {
           } else {
@@ -267,20 +266,15 @@ function getMallSetting() {
 
     for (var a = 0; wx_form.value.cunchu.length > a; a++) {
       for (let key in config.qiniuYunConfig) {
-        // console.log(key)
-        // console.log(key,wx_form.value.familyMember[a].label)
         if (key == wx_form.value.cunchu[a].label) {
           if (config.qiniuYunConfig[key] == "0") {
           } else {
-            // console.log('123',config.qiniuYunConfig[key])
             wx_form.value.cunchu[a].data = config.qiniuYunConfig[key];
             break;
           }
         }
       }
     }
-
-    console.log(wx_form);
 
     getUserList();
   } catch (error) {}
@@ -404,8 +398,6 @@ const handleAvatarSuccess1: UploadProps["onSuccess"] = (
   response,
   uploadFile
 ) => {
-  console.log("resss", response, uploadFile);
-
   wx_form.value.dianpu[1].data = response.body;
   var b: any = {
     userServiceToken: storage.local.get("userServiceToken"),
@@ -544,8 +536,6 @@ const upload_file = (item: any) => {
   types.value = item;
   dialogPluginList.value.dialogVisible = true;
   dialogPluginList.value.source = 1;
-
-  console.log(item, 964544);
 };
 
 const Return = (data: any) => {

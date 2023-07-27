@@ -208,7 +208,6 @@ const tableobj = reactive({
   keyword: "",
 });
 const userServiceToken = ref(storage.local.get("userServiceToken"));
-console.log(userServiceToken.value, 987777);
 
 function getlist() {
   let data = {
@@ -258,7 +257,6 @@ const handleSelectionChange = (val: any) => {
   idlist.value = multipleSelection.value.map((item: any) => {
     return item.id;
   });
-  console.log();
 };
 
 const delPlugin = () => {
@@ -287,8 +285,6 @@ const delPlugin = () => {
 };
 // 审核
 const shenheClick = (e: any) => {
-  console.log(e);
-
   ElMessageBox.confirm(`确认审核通过成功？`, "审核信息")
     .then(() => {
       e.withdrawStatus = "1";
@@ -312,7 +308,6 @@ const shenheClick = (e: any) => {
 };
 // 删除插件
 const handleClick = (e: any) => {
-  console.log(e);
   let data = {
     ids: e,
   };

@@ -47,25 +47,25 @@ meta:
         </el-form-item>
         <el-form-item label="店铺ID" prop="businessId">
           <el-select
-            style="width: 680px;"
-               v-model="sleStoreList"
-                filterable
-                placeholder="选择店铺(一个或多个)"
-                multiple
-               @change="selectBusiness"
-                collapse-tags
-                collapse-tags-tooltip
-               :max-collapse-tags="4"
-            >
-              <el-option key="selectAll" label="全部" value="selectAll"/>
-              <!-- <el-option key="0" label="全部" value="0" /> -->
-              <el-option
-                v-for="item in businessList"
-                :key="item.businessId"
-                :label="item.businessName"
-                :value="item.businessId"
-              />
-            </el-select>
+            style="width: 680px"
+            v-model="sleStoreList"
+            filterable
+            placeholder="选择店铺(一个或多个)"
+            multiple
+            @change="selectBusiness"
+            collapse-tags
+            collapse-tags-tooltip
+            :max-collapse-tags="4"
+          >
+            <el-option key="selectAll" label="全部" value="selectAll" />
+            <!-- <el-option key="0" label="全部" value="0" /> -->
+            <el-option
+              v-for="item in businessList"
+              :key="item.businessId"
+              :label="item.businessName"
+              :value="item.businessId"
+            />
+          </el-select>
           <!-- <el-select
             v-model="form.businessId"
             filterable
@@ -124,42 +124,42 @@ const formRules = ref({
 });
 const plugsList: any = ref([]);
 const businessList: any = ref([]);
-const sleStoreList:any=ref([]);
-const selectAll:any=ref(false);
-function selectBusiness(val:any){
-   if(selectAll.value){
+const sleStoreList: any = ref([]);
+const selectAll: any = ref(false);
+function selectBusiness(val: any) {
+  if (selectAll.value) {
     selectAll.value = false;
-    if(val.indexOf('selectAll') > -1){
-      sleStoreList.value=val.filter((item:any)=>{
-        return item!='selectAll'
-      })
-    }else{
-      sleStoreList.value=[];
+    if (val.indexOf("selectAll") > -1) {
+      sleStoreList.value = val.filter((item: any) => {
+        return item != "selectAll";
+      });
+    } else {
+      sleStoreList.value = [];
     }
-   }else{
-    if(val.indexOf('selectAll') > -1){
-      const optionsValue:any = [];
-      businessList.value.forEach((item:any)=>{
-        optionsValue.push(item.businessId)
-      })
-      sleStoreList.value=['selectAll',...optionsValue]
+  } else {
+    if (val.indexOf("selectAll") > -1) {
+      const optionsValue: any = [];
+      businessList.value.forEach((item: any) => {
+        optionsValue.push(item.businessId);
+      });
+      sleStoreList.value = ["selectAll", ...optionsValue];
       selectAll.value = true;
-    }else{
-      if(val.length=== businessList.value.length){
-        const optionsValue:any = [];
-        businessList.value.forEach((item:any)=>{
-        optionsValue.push(item.businessId)
-      })
-      sleStoreList.value=['selectAll', ...optionsValue]
-      selectAll.value = true;
-      }else{
-        sleStoreList.value=val
+    } else {
+      if (val.length === businessList.value.length) {
+        const optionsValue: any = [];
+        businessList.value.forEach((item: any) => {
+          optionsValue.push(item.businessId);
+        });
+        sleStoreList.value = ["selectAll", ...optionsValue];
+        selectAll.value = true;
+      } else {
+        sleStoreList.value = val;
       }
     }
-   }
-  const realSelect= sleStoreList.value.filter((item:any)=>{
-    return item!='selectAll'
-  })
+  }
+  const realSelect = sleStoreList.value.filter((item: any) => {
+    return item != "selectAll";
+  });
   // realSelect.toString()
   // form.value.businessId=realSelect.toString();
 }
@@ -187,22 +187,20 @@ onMounted(() => {
   });
 });
 // 获取店铺
-const busList:any=ref([]);
+const busList: any = ref([]);
 function onSubmit() {
-  // console.log(form.value);
-  form.value.businessId='0'
-    businessList.value.forEach((item2:any)=>{
-        sleStoreList.value.forEach((item:any)=>{
-          if(item==item2.businessId){
-              let str=item2.businessId+'_'+item2.businessName;
-              busList.value.push(str)
-          }
-      }) 
-   })
-   form.value.businessList=busList.value;
+  form.value.businessId = "0";
+  businessList.value.forEach((item2: any) => {
+    sleStoreList.value.forEach((item: any) => {
+      if (item == item2.businessId) {
+        let str = item2.businessId + "_" + item2.businessName;
+        busList.value.push(str);
+      }
+    });
+  });
+  form.value.businessList = busList.value;
   formRef.value &&
     formRef.value.validate((valid: any) => {
-
       if (valid) {
         api
           .post("/api/plugs/insertPlugsHomeData", form.value)
@@ -212,7 +210,7 @@ function onSubmit() {
                 message: "新增成功",
                 center: true,
               });
-              console.log(res, 787);
+
               onCancel();
             } else {
               ElMessage.error({
@@ -230,7 +228,7 @@ function onCancel() {
     name: "homeData",
     params: {
       id: route.params.plugsId,
-      admin:'user'
+      admin: "user",
     },
   });
 }

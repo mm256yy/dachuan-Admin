@@ -48,25 +48,25 @@ meta:
         <el-form-item label="所属店铺" prop="businessId">
           <el-select
             v-if="!route.params.id"
-            style="width: 680px;"
-               v-model="sleStoreList"
-                filterable
-                placeholder="选择店铺(一个或多个)"
-                multiple
-               @change="selectBusiness"
-                collapse-tags
-                collapse-tags-tooltip
-               :max-collapse-tags="4"
-            >
-              <el-option key="selectAll" label="全部" value="selectAll"/>
-              <!-- <el-option key="0" label="全部" value="0" /> -->
-              <el-option
-                v-for="item in businessList"
-                :key="item.businessId"
-                :label="item.businessName"
-                :value="item.businessId"
-              />
-            </el-select>
+            style="width: 680px"
+            v-model="sleStoreList"
+            filterable
+            placeholder="选择店铺(一个或多个)"
+            multiple
+            @change="selectBusiness"
+            collapse-tags
+            collapse-tags-tooltip
+            :max-collapse-tags="4"
+          >
+            <el-option key="selectAll" label="全部" value="selectAll" />
+            <!-- <el-option key="0" label="全部" value="0" /> -->
+            <el-option
+              v-for="item in businessList"
+              :key="item.businessId"
+              :label="item.businessName"
+              :value="item.businessId"
+            />
+          </el-select>
           <el-select
             v-else
             v-model="form.businessId"
@@ -185,47 +185,45 @@ const usersadd: any = ref("");
 const bianji: any = ref("");
 const delet: any = ref("");
 const pliginadd: any = ref("");
-const sleStoreList:any=ref([])
-const selectAll:any=ref(false);
-const busList:any=ref([])
-function selectBusiness(val:any){
-   if(selectAll.value){
+const sleStoreList: any = ref([]);
+const selectAll: any = ref(false);
+const busList: any = ref([]);
+function selectBusiness(val: any) {
+  if (selectAll.value) {
     selectAll.value = false;
-    if(val.indexOf('selectAll') > -1){
-      sleStoreList.value=val.filter((item:any)=>{
-        return item!='selectAll'
-      })
-    }else{
-      sleStoreList.value=[];
+    if (val.indexOf("selectAll") > -1) {
+      sleStoreList.value = val.filter((item: any) => {
+        return item != "selectAll";
+      });
+    } else {
+      sleStoreList.value = [];
     }
-   }else{
-    if(val.indexOf('selectAll') > -1){
-      const optionsValue:any = [];
-      businessList.value.forEach((item:any)=>{
-        optionsValue.push(item.businessId)
-      })
-      sleStoreList.value=['selectAll',...optionsValue]
+  } else {
+    if (val.indexOf("selectAll") > -1) {
+      const optionsValue: any = [];
+      businessList.value.forEach((item: any) => {
+        optionsValue.push(item.businessId);
+      });
+      sleStoreList.value = ["selectAll", ...optionsValue];
       selectAll.value = true;
-    }else{
-      if(val.length=== businessList.value.length){
-        const optionsValue:any = [];
-        businessList.value.forEach((item:any)=>{
-        optionsValue.push(item.businessId)
-      })
-      sleStoreList.value=['selectAll', ...optionsValue]
-      selectAll.value = true;
-      }else{
-        sleStoreList.value=val
+    } else {
+      if (val.length === businessList.value.length) {
+        const optionsValue: any = [];
+        businessList.value.forEach((item: any) => {
+          optionsValue.push(item.businessId);
+        });
+        sleStoreList.value = ["selectAll", ...optionsValue];
+        selectAll.value = true;
+      } else {
+        sleStoreList.value = val;
       }
     }
-   }
-  const realSelect= sleStoreList.value.filter((item:any)=>{
-    return item!='selectAll'
-  })
-  // form.value.businessId=realSelect.toString();
+  }
+  const realSelect = sleStoreList.value.filter((item: any) => {
+    return item != "selectAll";
+  });
 }
 const buttonauto = () => {
-  // console.log("123",localStorage.getItem('fa_menuList'));
   const btnList = JSON.parse(localStorage.getItem("fa_menuList") || "");
   const adminId = Number(localStorage.getItem("fa_adminId"));
 
@@ -250,8 +248,6 @@ const buttonauto = () => {
                 params: ds,
               })
               .then((res1: any) => {
-                console.log(res1);
-
                 const buttonlt: any = buttonParse.split(",");
                 res1.body.forEach((item: any) => {
                   for (let index = 0; index < buttonlt.length; index++) {
@@ -300,15 +296,13 @@ onMounted(() => {
     if (res.code == 200) {
       res.body.forEach((item: any) => {
         item.jsonViewData.businessId = item.jsonViewData.businessId.toString();
-        console.log(item.jsonViewData.businessId, 99999);
 
         businessList.value.push(item.jsonViewData);
       });
     }
   });
-  console.log(form.value.id, 999);
+
   if (form.value.id !== "") {
-    console.log("我用了你");
     api
       .get("/api/plugs/searchPlugsMockDataById", {
         params: {
@@ -318,7 +312,6 @@ onMounted(() => {
       .then((res: any) => {
         if (res.code == 200) {
           form.value = res.body;
-          console.log(form.value);
           form.value.jsonData = JSON.parse(res.body.jsonData);
 
           // form.value.jsonData.forEach((item)=>{
@@ -337,19 +330,18 @@ onMounted(() => {
 });
 
 function onSubmit() {
-  console.log(form.value);
   form.value.jsonData = JSON.stringify(form.value.jsonData);
   if (form.value.id === "") {
-    form.value.businessId='0'
-    businessList.value.forEach((item2:any)=>{
-        sleStoreList.value.forEach((item:any)=>{
-          if(item==item2.businessId){
-              let str=item2.businessId+'_'+item2.businessName;
-              busList.value.push(str)
-          }
-      }) 
-   })
-   form.value.businessList=busList.value;
+    form.value.businessId = "0";
+    businessList.value.forEach((item2: any) => {
+      sleStoreList.value.forEach((item: any) => {
+        if (item == item2.businessId) {
+          let str = item2.businessId + "_" + item2.businessName;
+          busList.value.push(str);
+        }
+      });
+    });
+    form.value.businessList = busList.value;
     formRef.value &&
       formRef.value.validate((valid: any) => {
         if (valid) {
@@ -361,7 +353,7 @@ function onSubmit() {
                   message: "新增成功",
                   center: true,
                 });
-                console.log(res, 787);
+
                 onCancel();
               } else {
                 ElMessage.error({
@@ -403,7 +395,6 @@ const changeGoods = () => {
   comp.value.modelValue = true;
 };
 const update = (item: any) => {
-  console.log(item, 456);
   if (item) {
     form.value.jsonData.parms = item.join();
   }
@@ -415,7 +406,7 @@ function onCancel() {
     name: "mockData",
     params: {
       id: route.params.plugsId,
-      admin:'user'
+      admin: "user",
     },
   });
 }

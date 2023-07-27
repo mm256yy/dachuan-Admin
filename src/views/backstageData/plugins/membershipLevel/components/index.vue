@@ -127,7 +127,6 @@ const props = withDefaults(
   }
 );
 const myVisible = ref(props.modelValue);
-console.log(props, 999);
 
 const title = computed(() => (props.id === "" ? "新增" : "修改"));
 const pcasName: any = ref([]);
@@ -175,7 +174,6 @@ onMounted(() => {
     });
 
   if (props.id !== "") {
-    console.log("我用了你");
     api
       .get("/api/plugs/searchPlusgVipLevelById", {
         params: {
@@ -190,8 +188,6 @@ onMounted(() => {
 
 function onSubmit() {
   if (form.value.id === "") {
-    console.log(form.value.id, 999);
-
     formRef.value &&
       formRef.value.validate((valid: any) => {
         if (valid) {
@@ -202,15 +198,13 @@ function onSubmit() {
                 message: "新增成功",
                 center: true,
               });
-              console.log(res, 787);
+
               // emit("success");
               onCancel();
             });
         }
       });
   } else {
-    console.log("xiugai", 999);
-
     formRef.value &&
       formRef.value.validate((valid: any) => {
         if (valid) {

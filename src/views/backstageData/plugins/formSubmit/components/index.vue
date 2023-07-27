@@ -110,7 +110,6 @@ const props = withDefaults(
   }
 );
 const myVisible = ref(props.modelValue);
-console.log(props, 999);
 
 const title = computed(() => (props.id === "" ? "新增表单" : "修改表单"));
 const form = ref({
@@ -131,7 +130,6 @@ const formRules = ref({
 });
 onMounted(() => {
   if (props.id !== "") {
-    console.log("我用了你");
     api
       .get("/api/plugs/searchPlugsFormById", {
         params: {
@@ -169,7 +167,6 @@ function onSubmit() {
         }
       });
   } else {
-    console.log("xiugai", 999);
     formRef.value &&
       formRef.value.validate((valid: any) => {
         if (valid) {

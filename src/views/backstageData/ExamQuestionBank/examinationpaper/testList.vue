@@ -179,7 +179,6 @@ function getlist() {
           center: true,
         });
       }
-      // console.log(tableData.value, 123);
     });
 }
 
@@ -207,7 +206,6 @@ const handleSelectionChange = (val: any) => {
   idlist.value = multipleSelection.value.map((item: any) => {
     return item.id;
   });
-  console.log();
 };
 
 const delPlugin = () => {
@@ -237,7 +235,6 @@ const delPlugin = () => {
 };
 // 删除
 const handleClick = (e: any) => {
-  console.log(e);
   let data = {
     ids: e,
   };

@@ -9,94 +9,164 @@
     append-to-body
     destroy-on-close
   >
-    <div class="content" >
-        <!-- <div style="display: flex;align-items: center;" >
+    <div class="content">
+      <!-- <div style="display: flex;align-items: center;" >
           <div style="margin-right:6px ;" >发票抬头</div>
           <div>{{ form2.jsonData.invoiceHeader }}</div>
         </div> -->
-        <div style="display: flex; margin: 10px 20px">
-              <div style="font-weight: bolder; font-size: 14px; width: 100px;text-align: right;">
-                发票抬头：
-              </div>
-              <div style="font-size: 13px; display: flex; align-items: center">
-                <div>{{ form2.jsonData.invoiceHeader}}</div>
-              </div>
+      <div style="display: flex; margin: 10px 20px">
+        <div
+          style="
+            font-weight: bolder;
+            font-size: 14px;
+            width: 100px;
+            text-align: right;
+          "
+        >
+          发票抬头：
         </div>
-        <div style="display: flex; margin: 10px 20px">
-              <div style="font-weight: bolder; font-size: 14px; width: 100px;text-align: right;">
-                发票类型：
-              </div>
-              <div style="font-size: 13px; display: flex; align-items: center">
-                <div v-if="form2.jsonData.invoiceType==1" >企业</div>
-                <div v-else-if="form2.jsonData.invoiceType==2" >个人/飞企业性单位</div>
-              </div>
+        <div style="font-size: 13px; display: flex; align-items: center">
+          <div>{{ form2.jsonData.invoiceHeader }}</div>
         </div>
-        <div style="display: flex; margin: 10px 20px">
-              <div style="font-weight: bolder; font-size: 14px; width: 100px;text-align: right;">
-                纳税编号：
-              </div>
-              <div style="font-size: 13px; display: flex; align-items: center">
-                <div>{{ form2.jsonData.dutyParagraph}}</div>
-              </div>
+      </div>
+      <div style="display: flex; margin: 10px 20px">
+        <div
+          style="
+            font-weight: bolder;
+            font-size: 14px;
+            width: 100px;
+            text-align: right;
+          "
+        >
+          发票类型：
         </div>
-        <div style="display: flex; margin: 10px 20px">
-              <div style="font-weight: bolder; font-size: 14px; width: 100px;text-align: right;">
-                卡号：
-              </div>
-              <div style="font-size: 13px; display: flex; align-items: center">
-                <div>{{ form2.jsonData.bankAccount}}</div>
-              </div>
+        <div style="font-size: 13px; display: flex; align-items: center">
+          <div v-if="form2.jsonData.invoiceType == 1">企业</div>
+          <div v-else-if="form2.jsonData.invoiceType == 2">
+            个人/飞企业性单位
+          </div>
         </div>
-        <div style="display: flex; margin: 10px 20px">
-              <div style="font-weight: bolder; font-size: 14px; width: 100px;text-align: right;">
-                企业联系方式：
-              </div>
-              <div style="font-size: 13px; display: flex; align-items: center">
-                <div>{{ form2.jsonData.enterpriseMobile
-}}</div>
-              </div>
+      </div>
+      <div style="display: flex; margin: 10px 20px">
+        <div
+          style="
+            font-weight: bolder;
+            font-size: 14px;
+            width: 100px;
+            text-align: right;
+          "
+        >
+          纳税编号：
         </div>
-        <div style="display: flex; margin: 10px 20px">
-              <div style="font-weight: bolder; font-size: 14px; width: 100px;text-align: right;">
-                开票金额：
-              </div>
-              <div style="font-size: 13px; display: flex; align-items: center">
-                <div>{{ form2.jsonData.money
-}}</div>
-              </div>
+        <div style="font-size: 13px; display: flex; align-items: center">
+          <div>{{ form2.jsonData.dutyParagraph }}</div>
         </div>
-        <div style="display: flex; margin: 10px 20px">
-              <div style="font-weight: bolder; font-size: 14px; width: 100px;text-align: right;">
-                企业地址：
-              </div>
-              <div style="font-size: 13px; display: flex; align-items: center">
-                <div>{{ form2.jsonData.enterpriseAddress}}</div>
-              </div>
+      </div>
+      <div style="display: flex; margin: 10px 20px">
+        <div
+          style="
+            font-weight: bolder;
+            font-size: 14px;
+            width: 100px;
+            text-align: right;
+          "
+        >
+          卡号：
         </div>
-        <div style="display: flex; margin: 10px 20px">
-              <div style="font-weight: bolder; font-size: 14px; width: 100px;text-align: right;">
-                开户银行：
-              </div>
-              <div style="font-size: 13px; display: flex; align-items: center">
-                <div>{{ form2.jsonData.openBankDeposit}}</div>
-              </div>
+        <div style="font-size: 13px; display: flex; align-items: center">
+          <div>{{ form2.jsonData.bankAccount }}</div>
         </div>
-        <div style="display: flex; margin: 10px 20px">
-              <div style="font-weight: bolder; font-size: 14px; width: 100px;text-align: right;">
-                邮箱：
-              </div>
-              <div style="font-size: 13px; display: flex; align-items: center">
-                <div>{{ form2.jsonData.Email}}</div>
-              </div>
+      </div>
+      <div style="display: flex; margin: 10px 20px">
+        <div
+          style="
+            font-weight: bolder;
+            font-size: 14px;
+            width: 100px;
+            text-align: right;
+          "
+        >
+          企业联系方式：
         </div>
-        <div style="display: flex; margin: 10px 20px">
-              <div style="font-weight: bolder; font-size: 14px; width: 100px;text-align: right;">
-               个人联系方式：
-              </div>
-              <div style="font-size: 13px; display: flex; align-items: center">
-                <div>{{ form2.jsonData.Mobile}}</div>
-              </div>
+        <div style="font-size: 13px; display: flex; align-items: center">
+          <div>{{ form2.jsonData.enterpriseMobile }}</div>
         </div>
+      </div>
+      <div style="display: flex; margin: 10px 20px">
+        <div
+          style="
+            font-weight: bolder;
+            font-size: 14px;
+            width: 100px;
+            text-align: right;
+          "
+        >
+          开票金额：
+        </div>
+        <div style="font-size: 13px; display: flex; align-items: center">
+          <div>{{ form2.jsonData.money }}</div>
+        </div>
+      </div>
+      <div style="display: flex; margin: 10px 20px">
+        <div
+          style="
+            font-weight: bolder;
+            font-size: 14px;
+            width: 100px;
+            text-align: right;
+          "
+        >
+          企业地址：
+        </div>
+        <div style="font-size: 13px; display: flex; align-items: center">
+          <div>{{ form2.jsonData.enterpriseAddress }}</div>
+        </div>
+      </div>
+      <div style="display: flex; margin: 10px 20px">
+        <div
+          style="
+            font-weight: bolder;
+            font-size: 14px;
+            width: 100px;
+            text-align: right;
+          "
+        >
+          开户银行：
+        </div>
+        <div style="font-size: 13px; display: flex; align-items: center">
+          <div>{{ form2.jsonData.openBankDeposit }}</div>
+        </div>
+      </div>
+      <div style="display: flex; margin: 10px 20px">
+        <div
+          style="
+            font-weight: bolder;
+            font-size: 14px;
+            width: 100px;
+            text-align: right;
+          "
+        >
+          邮箱：
+        </div>
+        <div style="font-size: 13px; display: flex; align-items: center">
+          <div>{{ form2.jsonData.Email }}</div>
+        </div>
+      </div>
+      <div style="display: flex; margin: 10px 20px">
+        <div
+          style="
+            font-weight: bolder;
+            font-size: 14px;
+            width: 100px;
+            text-align: right;
+          "
+        >
+          个人联系方式：
+        </div>
+        <div style="font-size: 13px; display: flex; align-items: center">
+          <div>{{ form2.jsonData.Mobile }}</div>
+        </div>
+      </div>
     </div>
     <template #footer>
       <el-button size="large" @click="onCancel"> 取消 </el-button>
@@ -127,53 +197,47 @@ const props = withDefaults(
   }
 );
 const myVisible = ref(props.modelValue);
-console.log(props, 999);
 
 const title = computed(() => (props.id === "" ? "开票信息" : "开票信息"));
 
-
-const form2:any=ref({
-  adminId:'',
-  businessId:'',
-  createTime:'',
-  distance:'',
-  id:'',
-  jsonData:{
-    "invoiceHeader": "发票抬头",
-   "dutyParagraph": "纳税编号",
-    "bankAccount": "卡号",
-     "enterpriseMobile": "联系方式",
-    "money": 1000,
-      "enterpriseAddress": "企业地址",
-    "openBankDeposit": "开户银行",
-    "Email":"邮箱",
-     "Mobile":"联系电话",
-    "invoiceType": 1,
-    "orderList": []
+const form2: any = ref({
+  adminId: "",
+  businessId: "",
+  createTime: "",
+  distance: "",
+  id: "",
+  jsonData: {
+    invoiceHeader: "发票抬头",
+    dutyParagraph: "纳税编号",
+    bankAccount: "卡号",
+    enterpriseMobile: "联系方式",
+    money: 1000,
+    enterpriseAddress: "企业地址",
+    openBankDeposit: "开户银行",
+    Email: "邮箱",
+    Mobile: "联系电话",
+    invoiceType: 1,
+    orderList: [],
   },
-  jsonViewData:'',
-  plugsId:'',
-  updateTime:'',
-  userId:'',
-  userServiceToken:''
-})
-
-onMounted(() => {
-    api
-      .get("/api/plugs/searchPlugsDataById", {
-        params: {
-          id:  props.id,
-        },
-      })
-      .then((res: any) => {
-        form2.value = res.body;
-        form2.value.jsonData=JSON.parse(form2.value.jsonData)
-        console.log(form2.value,'form.valueform.valueform.valueform.value')
-       
-      });
-  
+  jsonViewData: "",
+  plugsId: "",
+  updateTime: "",
+  userId: "",
+  userServiceToken: "",
 });
 
+onMounted(() => {
+  api
+    .get("/api/plugs/searchPlugsDataById", {
+      params: {
+        id: props.id,
+      },
+    })
+    .then((res: any) => {
+      form2.value = res.body;
+      form2.value.jsonData = JSON.parse(form2.value.jsonData);
+    });
+});
 
 const emit = defineEmits(["success"]);
 
@@ -193,11 +257,6 @@ const header: any = reactive({
 // const baseURL: any = "http://192.168.31.47:7001/api/file/uploadImages";
 
 const baseURL: any = "https://api.daccf.com/api/file/uploadImages";
-
-
-
-
-
 </script>
 
 <style scoped>

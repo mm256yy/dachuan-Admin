@@ -39,23 +39,22 @@ const value2 = ref("");
 const starttime: any = ref("");
 const endtime: any = ref("");
 const loadingType: any = ref("-1");
-  // 日期范围
-  const value4:any = ref<[Date, Date]>([
+// 日期范围
+const value4: any = ref<[Date, Date]>([
   new Date(2000, 10, 10, 10, 10),
   new Date(2000, 10, 11, 10, 10),
 ]);
-function changeTime4(val:any) {
-  if(!val){
-    value4.value=new Date();
-    starttime.value= '';
-    endtime.value='';
-  }else{
-    starttime.value= value4.value[0];
-    endtime.value= value4.value[1];
+function changeTime4(val: any) {
+  if (!val) {
+    value4.value = new Date();
+    starttime.value = "";
+    endtime.value = "";
+  } else {
+    starttime.value = value4.value[0];
+    endtime.value = value4.value[1];
   }
   // getMallSetting()
 }
-
 
 function exportOrders() {
   loadingType.value = 1;
@@ -112,7 +111,7 @@ function changeformat(val: any) {
 }
 // 导出表格数据
 const DialogVisible2: any = ref({
-  visible:false
+  visible: false,
 });
 const exportStatus: any = ref("0");
 const datas: any = reactive({
@@ -138,7 +137,6 @@ const orderItemInfo: any = ref({
   orderMark: "",
 });
 
-
 const businessList: any = ref([]);
 const businessList2: any = ref([]);
 
@@ -161,8 +159,8 @@ onBeforeMount(() => {
 function saleTotal() {
   DialogVisible2.value.visible = true;
 }
-function salessummary(e:any){
-  DialogVisible2.value.visible=false;
+function salessummary(e: any) {
+  DialogVisible2.value.visible = false;
 }
 
 // 批量发货
@@ -193,12 +191,11 @@ function deliverGoods() {
   });
 }
 function exportOrder33() {
-  formModeProps2.value.visible=true;
-  // console.log(formModeProps2.value,'导出状态')
+  formModeProps2.value.visible = true;
 }
-function exportOrderChange(e:any){
-  loading.value=e.loading;
-  formModeProps2.value.visible=e.myVisible;
+function exportOrderChange(e: any) {
+  loading.value = e.loading;
+  formModeProps2.value.visible = e.myVisible;
 }
 
 function getMallSetting() {
@@ -291,7 +288,6 @@ const delPlugin = () => {
 };
 // 删除
 const handleClick = (e: any) => {
-  console.log(e);
   let data = {
     ids: e,
   };
@@ -406,20 +402,16 @@ const editClick = (item: any) => {
       params: data,
     })
     .then((res: any) => {
-      console.log(res);
       if (res.code == 200) {
         content.value = res.body;
       }
     });
 };
 const change = (done: any) => {
-  console.log(done);
   content.value.orderStatus = done;
-  console.log(content.value);
 };
 const handleClose = () => {
   http.post("/api/order/updateOrder", content.value).then((res: any) => {
-    console.log(res);
     if (res.code == 200) {
       dialogVisible.value = false;
       getMallSetting();
@@ -434,8 +426,6 @@ const changeClick = () => {
 
 <template>
   <div>
-
-  
     <div>
       <page-main>
         <el-tabs
@@ -545,14 +535,14 @@ const changeClick = () => {
             <div style="display: flex">
               <div>
                 <el-date-picker
-                style="width: 352px;"
-                v-model="value4"
-                value-format="YYYY-MM-DD HH:mm:ss"
-                type="datetimerange"
-                range-separator="-"
-                start-placeholder="开始日期"
-                end-placeholder="结束日期"
-                @change="changeTime4"
+                  style="width: 352px"
+                  v-model="value4"
+                  value-format="YYYY-MM-DD HH:mm:ss"
+                  type="datetimerange"
+                  range-separator="-"
+                  start-placeholder="开始日期"
+                  end-placeholder="结束日期"
+                  @change="changeTime4"
                 />
               </div>
               <el-select
@@ -575,7 +565,7 @@ const changeClick = () => {
                 placeholder="请输入"
                 @keyup.enter.native="getMallSetting"
               />
-              <el-button :icon="Search" type="primary"  @click="getMallSetting()"
+              <el-button :icon="Search" type="primary" @click="getMallSetting()"
                 >搜索</el-button
               >
             </div>
@@ -654,8 +644,12 @@ const changeClick = () => {
                             </div>
                             <div>
                               <p>{{ item.goodName }}</p>
-                              <p v-for="(item2,key) in JSON.parse(item.goodsSpecificationName)" >
-                                  {{key}}:{{item2}}
+                              <p
+                                v-for="(item2, key) in JSON.parse(
+                                  item.goodsSpecificationName
+                                )"
+                              >
+                                {{ key }}:{{ item2 }}
                               </p>
                               <!-- <p>{{ item.goodsSpecificationName }}</p> -->
                             </div>
@@ -818,19 +812,23 @@ const changeClick = () => {
                   <div v-else-if="scope.row.logisticsType == 0">快递</div>
                 </template>
               </el-table-column>
-              <el-table-column label="店铺" align="left" width="270" show-overflow-tooltip >
+              <el-table-column
+                label="店铺"
+                align="left"
+                width="270"
+                show-overflow-tooltip
+              >
                 <template #default="scope">
-                  <div v-for="item in businessList" :key="item.businessId" >
-                      <div v-if="scope.row.businessId==item.businessId">
-                          {{item.businessName}}
-                      </div>
+                  <div v-for="item in businessList" :key="item.businessId">
+                    <div v-if="scope.row.businessId == item.businessId">
+                      {{ item.businessName }}
+                    </div>
                   </div>
                 </template>
               </el-table-column>
               <el-table-column label="商品数量" width="140" align="left">
                 <template #default="scope">
-                  <div
-                  >
+                  <div>
                     {{ scope.row.goodsTotalNum }}
                   </div>
                 </template>
@@ -860,7 +858,6 @@ const changeClick = () => {
               </el-table-column>
               <el-table-column
                 label="订单状态"
-               
                 align="left"
                 fixed="right"
                 width="100"
@@ -943,40 +940,40 @@ const changeClick = () => {
             </el-table>
           </div>
           <!-- 订单详情 -->
-          <div v-if="dialogVisible" >
+          <div v-if="dialogVisible">
             <el-dialog v-model="dialogVisible" title="Tips" width="30%">
-            <div
-              style="
-                display: flex;
-                justify-content: center;
-                align-items: center;
-              "
-            >
-              <el-select
-                v-model="orderStatus"
-                filterable
-                placeholder="请选择"
-                @change="change(orderStatus)"
+              <div
+                style="
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                "
               >
-                <el-option
-                  v-for="item in statusList"
-                  :key="item.id"
-                  :label="item.name"
-                  :value="item.id"
-                />
-              </el-select>
-            </div>
-            <template #footer>
-              <span class="dialog-footer">
-                <el-button @click="dialogVisible = false">取消</el-button>
-                <el-button type="primary" @click="handleClose">
-                  确定
-                </el-button>
-              </span>
-            </template>
+                <el-select
+                  v-model="orderStatus"
+                  filterable
+                  placeholder="请选择"
+                  @change="change(orderStatus)"
+                >
+                  <el-option
+                    v-for="item in statusList"
+                    :key="item.id"
+                    :label="item.name"
+                    :value="item.id"
+                  />
+                </el-select>
+              </div>
+              <template #footer>
+                <span class="dialog-footer">
+                  <el-button @click="dialogVisible = false">取消</el-button>
+                  <el-button type="primary" @click="handleClose">
+                    确定
+                  </el-button>
+                </span>
+              </template>
             </el-dialog>
           </div>
-         
+
           <div
             style="
               display: flex;
@@ -1002,30 +999,35 @@ const changeClick = () => {
       </page-main>
     </div>
     <div>
-      <div  v-if="formModeProps.visible" >
-      <EditDetails
-        v-model="formModeProps.visible"
-        :id="formModeProps.id"
-        @success="update"
-      ></EditDetails>
+      <div v-if="formModeProps.visible">
+        <EditDetails
+          v-model="formModeProps.visible"
+          :id="formModeProps.id"
+          @success="update"
+        ></EditDetails>
+      </div>
+      <div v-if="formModeProps.visible1">
+        <ViewDetails
+          v-model="formModeProps.visible1"
+          :id="formModeProps.id1"
+          @success="update1"
+        ></ViewDetails>
+      </div>
+      <div v-if="formModeProps2.visible">
+        <Exportorder
+          v-model="formModeProps2.visible"
+          @exportOrderChange="exportOrderChange"
+        >
+        </Exportorder>
+      </div>
+      <div v-if="DialogVisible2.visible">
+        <Salessummary
+          v-model="DialogVisible2.visible"
+          @salessummary="salessummary"
+        >
+        </Salessummary>
+      </div>
     </div>
-    <div  v-if="formModeProps.visible1" >
-      <ViewDetails
-        v-model="formModeProps.visible1"
-        :id="formModeProps.id1"
-        @success="update1"
-      ></ViewDetails>
-    </div>
-    <div v-if="formModeProps2.visible" >
-      <Exportorder  v-model="formModeProps2.visible" @exportOrderChange="exportOrderChange" >
-			</Exportorder>
-    </div>
-    <div v-if="DialogVisible2.visible" >
-       <Salessummary  v-model="DialogVisible2.visible"   @salessummary="salessummary">
-       </Salessummary>
-     </div>
-    </div>
-
   </div>
 </template>
 <style scoped>

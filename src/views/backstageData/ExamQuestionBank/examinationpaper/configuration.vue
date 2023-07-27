@@ -254,7 +254,6 @@ function getlist() {
           center: true,
         });
       }
-      // console.log(tableData.value, 123);
     });
 
   let datas: any = {
@@ -275,7 +274,6 @@ function getlist() {
           center: true,
         });
       }
-      // console.log(tableData.value, 123);
     });
 }
 
@@ -292,13 +290,11 @@ function handleCurrentChange(val: any) {
 const multipleSelection: any = ref([]);
 const idlist: any = ref([]);
 const handleSelectionChange = (val: any) => {
-  console.log(val);
-
   multipleSelection.value = val;
   // idlist.value = multipleSelection.value.map((item: any) => {
   //   return item.id;
   // });
-  // console.log();
+  //
 };
 const addpaper = () => {
   multipleSelection.value.forEach((item: any) => {

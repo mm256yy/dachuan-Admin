@@ -26,9 +26,7 @@ const useUserStore = defineStore(
           retn = true
         }
       }
-      // console.log(account.value, token,failure_time.value,8888);
 
-      // console.log(new Date().getTime(),parseInt(failure_time.value),retn,123)
       return retn
     })
 
@@ -46,7 +44,6 @@ const useUserStore = defineStore(
       const res:any = await api.get('/api/admin/adminUserLogin',{ params:data})
       // failure_time.value = res.body.failure_time
       if(res.code==200){
-        // console.log(res.code,789)
         storage.local.set('account', res.body.userName)
         storage.local.set('token', res.body.accessToken)
         storage.local.set('adminId', res.body.id)
@@ -107,7 +104,6 @@ const useUserStore = defineStore(
       //   },
       // })
       // permissions.value = res.data.permissions
-      // console.log(permissions.value,9636)
       // return permissions.value
       return []
     }

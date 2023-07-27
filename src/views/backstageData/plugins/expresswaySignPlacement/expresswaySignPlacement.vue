@@ -148,7 +148,7 @@ const tableobj = reactive({
 });
 
 function getlist() {
-  let data:any = {
+  let data: any = {
     page: tableobj.currentPage,
     size: tableobj.pageSize,
     adminId: storage.local.get("adminId"),
@@ -157,8 +157,8 @@ function getlist() {
     keyword: tableobj.keyword,
   };
 
-  if(route.params.admin == 'admin'){
-    data.userServiceToken = -1
+  if (route.params.admin == "admin") {
+    data.userServiceToken = -1;
   }
 
   api
@@ -168,7 +168,6 @@ function getlist() {
       // tableData.value.forEach((item: any) => {
       //   item.jsonData = JSON.parse(item.jsonData);
       // });
-      console.log(tableData.value);
 
       total.value = res.body.total;
       tableobj.keyword = "";
@@ -198,7 +197,6 @@ const handleSelectionChange = (val: any) => {
   idlist.value = multipleSelection.value.map((item: any) => {
     return item.id;
   });
-  console.log();
 };
 
 const delPlugin = () => {
@@ -227,7 +225,6 @@ const delPlugin = () => {
 };
 // 删除插件
 const handleClick = (e: any) => {
-  console.log(e);
   let data = {
     ids: e,
   };

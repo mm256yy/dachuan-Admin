@@ -209,7 +209,6 @@ onMounted(() => {
 const get_group = () => {
   api.get("/api/file/getFileByGroupTitle").then((res: any) => {
     if (res.code == 200) {
-      console.log(res.body);
       FileList.value = res.body || [];
       // menuActive.value = res.body[0].filegroupname;
       getImageList();
@@ -239,7 +238,6 @@ const getImageList = () => {
 };
 const fullscreenLoading = ref(false);
 const addUpload = (e: any) => {
-  console.log(e.target.files[0]);
   // 手写的input需要一个对象将本地图片转换为对应的格式来上传
   let formData = new FormData();
   // e.target.files就是选中的文件的一个数组
@@ -247,7 +245,6 @@ const addUpload = (e: any) => {
   formData.append("fileGroupName", menuActive.value);
   fullscreenLoading.value = true;
   api.post("/api/file/uploadFile", formData).then((res: any) => {
-    console.log(res);
     if (res.code == 200) {
       getImageList();
     }
@@ -412,8 +409,6 @@ function handleCurrentChange(val: any) {
 const emit = defineEmits(["success"]);
 
 const changesure = () => {
-  console.log(emutlist.value);
-  console.log(dellist.value);
   dialogVisibles.value = false;
   emit("success", emutlist.value);
   dellist.value = [];
@@ -443,8 +438,6 @@ const editTitle = () => {
     });
 };
 const delFile = (item: any, index: any) => {
-  console.log(item, index);
-
   ElMessageBox.confirm(
     "如果分组下有附件数据则不能删除该分组，是否继续删除？",
     "删除提示",
@@ -467,8 +460,6 @@ const delFile = (item: any, index: any) => {
         .then((res: any) => {
           if (res.code == 200) {
             if (res.body.list.length == 0) {
-              console.log(456);
-
               let data = {
                 groupName: item.filegroupname,
               };

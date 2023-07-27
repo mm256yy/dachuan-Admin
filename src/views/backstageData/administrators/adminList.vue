@@ -390,7 +390,6 @@ const data: any = ref({
 const roleList: any = ref([]);
 const select_role = (item: any) => {
   // roleList.value.push(item)
-  console.log(item);
 };
 
 // 按钮权限
@@ -403,7 +402,6 @@ const delet: any = ref("");
 const autofenpei: any = ref("");
 
 const buttonauto = () => {
-  // console.log("123",localStorage.getItem('fa_menuList'));
   const btnList = JSON.parse(localStorage.getItem("fa_menuList") || "");
   const adminId = Number(localStorage.getItem("fa_adminId"));
 
@@ -418,7 +416,7 @@ const buttonauto = () => {
       if (res.code == 200) {
         const buttonParse = JSON.parse(res.body.powerJson)["buttonId"];
         btnList.forEach((element: any, index: any) => {
-          if (element.menuName == "管理员") {
+          if (element.menuName == "商家列表") {
             let ds: any = {
               menuId: Number(element.id),
             };
@@ -428,8 +426,6 @@ const buttonauto = () => {
                 params: ds,
               })
               .then((res1: any) => {
-                // console.log(res1);
-
                 const buttonlt: any = buttonParse.split(",");
                 res1.body.forEach((item: any) => {
                   for (let index = 0; index < buttonlt.length; index++) {
@@ -477,8 +473,6 @@ onMounted(() => {
       },
     })
     .then((res: any) => {
-      // console.log(res);
-
       if (res.code == 200) {
         userList.value = res.body.list;
       }
@@ -567,7 +561,6 @@ const handleSelectionChange = (val: any) => {
       return item.id;
     }
   });
-  // console.log();
 };
 
 const delPlugin = () => {
@@ -699,10 +692,8 @@ const fenpeirole = (item: any) => {
   valueStrictly.value = [];
   if (item.powerJson) {
     let role: any = JSON.parse(item.powerJson).roleId.split(",");
-    // console.log(role);
     if (role.length) {
       for (let index = 0; index < role.length; index++) {
-        // console.log(role[index])
         if (role[index] == "0" || role[index] == 0) {
         } else valueStrictly.value.push(Number(role[index]));
       }
@@ -718,7 +709,6 @@ const fenpeirole = (item: any) => {
 const menuList_: any = ref([]);
 
 const shotRole = () => {
-  // console.log(valueStrictly.value)
   let xx: any = "";
   let yy: any = "";
   let d: any = "";
@@ -733,7 +723,6 @@ const shotRole = () => {
         params: da,
       })
       .then((res: any) => {
-        // console.log(res.body.roleMenu);
         menuList = menuList + res.body.roleMenu + ",";
         buttonList = menuList + res.body.roleBotton + ",";
       });
@@ -785,7 +774,6 @@ const shotRole = () => {
 
     usrList.value.powerJson = JSON.stringify(powerJson);
     http.post("/api/admin/updateAdminUser", usrList.value).then((res: any) => {
-      console.log(res);
       if (res.code == 200) {
         ElMessage({
           type: "success",
@@ -814,34 +802,18 @@ const handleClose = (done: () => void) => {
 };
 
 const handleCheckAllChange = (val: any) => {
-  // console.log(val, citiesAll.value);
-
   if (val) {
-    // console.log(aa.value);
-    // console.log(bb.value);
-
-    // cities.value = cities_.value;
     checkedCities.value = aa.value;
     checkedCities1.value = bb.value;
 
-    // for (let index = 0; index < cities.value.length; index++) {
-    //   console.log(cities.value[index].id);
-    //   j.push(cities.value[index].id);
-    // }
-    // console.log(j);
-
-    // checkedCities.value = j;
     isIndeterminate.value = false;
   } else {
     checkedCities.value = [];
     checkedCities1.value = [];
   }
-
-  // checkedCities.value = val ? cities.value : []
 };
 
 const handleCheckedCitiesChange = (value: any[]) => {
-  // console.log(value);
   const checkedCount = value.length;
   checkAll.value = checkedCount === cities.value.length;
   isIndeterminate.value =
@@ -849,7 +821,6 @@ const handleCheckedCitiesChange = (value: any[]) => {
 };
 
 const handleCheckedCitiesChange1 = (value: any[]) => {
-  console.log(value);
   const checkedCount = value.length;
   checkAll1.value = checkedCount === cities1.value.length;
   isIndeterminate1.value =
@@ -858,14 +829,6 @@ const handleCheckedCitiesChange1 = (value: any[]) => {
 
 const menuFenpei = () => {
   let roleJson: any = JSON.parse(data.value.fenpei.powerJson);
-
-  //   const buttonList:any = ref([])
-  // const rolefnepei:any = ref('')
-  // const usersadd:any = ref('')
-  // const bianji:any = ref('')
-  // const delet:any = ref('')
-  // const autofenpei:any = ref('')
-  // console.log(autofenpei.value.id  ,autofenpei.buttonsName, autofenpei.menusId != 0);
 
   if (
     autofenpei.value.id &&
@@ -937,7 +900,6 @@ const menuauth = (item: any) => {
   bb.value = [];
   checkedCities.value = [];
   checkedCities1.value = [];
-  // console.log(item);
 
   data.value.fenpei = item;
   data.value.ruleShow = !data.value.ruleShow;
@@ -945,63 +907,46 @@ const menuauth = (item: any) => {
   get_menu(item);
 
   let menuData: any = "";
-  api.get("/api/admin/searchPowerMenusList").then((res: any) => {
-    if (res.code == 200) {
-      menuData = res.body.list;
-      // console.log("12321",menuData);
-      // cities.value = menuData
+  let data1: any = {
+    page: 1,
+    size: 1000,
+  };
 
-      for (let index = 0; index < menuData.length; index++) {
-        // console.log(menuData[index]);
+  api
+    .get("/api/admin/searchPowerMenusList", { params: data1 })
+    .then((res: any) => {
+      if (res.code == 200) {
+        menuData = res.body.list;
 
-        for (
-          let index1 = 0;
-          index1 < menuData[index].menusList.length;
-          index1++
-        ) {
-          // console.log(menuData[index].menusList[index1].id);
-
-          aa.value.push(menuData[index].menusList[index1].id);
-          let d: any = {
-            menuId: menuData[index].menusList[index1].id,
-          };
-          api
-            .get("/api/admin/getPowerButtonsByMenuId", {
-              params: d,
-            })
-            .then((res1: any) => {
-              menuData[index].menusList[index1]["buttonList"] = res1.body;
-              for (let index2 = 0; index2 < res1.body.length; index2++) {
-                bb.value.push(res1.body[index2].id);
-              }
-            });
+        for (let index = 0; index < menuData.length; index++) {
+          for (
+            let index1 = 0;
+            index1 < menuData[index].menusList.length;
+            index1++
+          ) {
+            aa.value.push(menuData[index].menusList[index1].id);
+            let d: any = {
+              menuId: menuData[index].menusList[index1].id,
+            };
+            api
+              .get("/api/admin/getPowerButtonsByMenuId", {
+                params: d,
+              })
+              .then((res1: any) => {
+                menuData[index].menusList[index1]["buttonList"] = res1.body;
+                for (let index2 = 0; index2 < res1.body.length; index2++) {
+                  bb.value.push(res1.body[index2].id);
+                }
+              });
+          }
         }
+
+        setTimeout(() => {
+          cities.value = menuData;
+          cities_.value = menuData;
+        }, 500);
       }
-
-      setTimeout(() => {
-        cities.value = menuData;
-        cities_.value = menuData;
-        // console.log("312321", cities.value);
-      }, 500);
-    }
-  });
-
-  // data.value.fenpei = item;
-  // let menuListsplit: any = item.roleMenu.split(",");
-  // checkedCities.value = [];
-  // menuListsplit.filter((val: any) => {
-  //   let dd: any = Number(val);
-  //   checkedCities.value.push(dd);
-  // });
-
-  // api.get("/api/admin/searchPowerMenusList").then((res: any) => {
-  //   console.log(res);
-  //   if (res.code == 200) {
-  //     cities.value = res.body.list;
-  //     citiesAll.value = res.body.list;
-  //   }
-  // });
-  // data.value.ruleShow = !data.value.ruleShow;
+    });
 };
 </script>
 

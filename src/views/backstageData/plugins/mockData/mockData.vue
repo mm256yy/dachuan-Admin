@@ -49,29 +49,29 @@
           </el-button> -->
         </div>
         <div class="header-right">
-          <div style="margin-right:30px;" >
-                <el-select
-                    size="large"
-                    v-model="selbusinessId"
-                    style="width: 200px;"
-                    filterable
-                    placeholder="选择店铺"
-                  >
-                  <!-- <el-select
+          <div style="margin-right: 30px">
+            <el-select
+              size="large"
+              v-model="selbusinessId"
+              style="width: 200px"
+              filterable
+              placeholder="选择店铺"
+            >
+              <!-- <el-select
                     v-model="form.businessId"
                     style="width: 480px"
                     filterable
                     placeholder="选择店铺(一个或多个)"
                     @change=""
                   > -->
-                  <el-option key="-1" label="全部" value="-1"/>
-                    <el-option
-                      v-for="item in businessList"
-                      :key="item.businessId"
-                      :label="item.businessName"
-                      :value="item.businessId"
-                    />
-                  </el-select>
+              <el-option key="-1" label="全部" value="-1" />
+              <el-option
+                v-for="item in businessList"
+                :key="item.businessId"
+                :label="item.businessName"
+                :value="item.businessId"
+              />
+            </el-select>
           </div>
           <div class="lang">
             <el-input
@@ -107,18 +107,20 @@
         >
           <el-table-column type="selection" />
           <el-table-column prop="id" label="ID" align="center" />
-          <el-table-column label="所属店铺"  show-overflow-tooltip align="center">
+          <el-table-column
+            label="所属店铺"
+            show-overflow-tooltip
+            align="center"
+          >
             <template #default="scope">
               <div>
-                <div v-if="scope.row.businessId==0" >
-                    全部
-                </div>
-                <div v-else >
-                    <div v-for="item in businessList" :key="item.businessId" >
-                        <div v-if="item.businessId==scope.row.businessId" >
-                          {{item.businessName}}
-                        </div>
+                <div v-if="scope.row.businessId == 0">全部</div>
+                <div v-else>
+                  <div v-for="item in businessList" :key="item.businessId">
+                    <div v-if="item.businessId == scope.row.businessId">
+                      {{ item.businessName }}
                     </div>
+                  </div>
                 </div>
               </div>
             </template>
@@ -216,10 +218,10 @@ const data = ref({
 
 onMounted(() => {
   getlist();
-  getBusinessInfo()
+  getBusinessInfo();
 });
 const businessList: any = ref([]);
-function getBusinessInfo(){
+function getBusinessInfo() {
   let data = {
     adminId: storage.local.get("adminId"),
     userServiceToken: storage.local.get("userServiceToken"),
@@ -253,7 +255,7 @@ const tableobj = reactive({
   currentPage: 1,
   pageSize: 10,
 });
-const selbusinessId:any=ref('-1')
+const selbusinessId: any = ref("-1");
 function getlist() {
   let data: any = {
     page: tableobj.currentPage,
@@ -261,7 +263,7 @@ function getlist() {
     adminId: storage.local.get("adminId"),
     userServiceToken: storage.local.get("userServiceToken"),
     id: route.params.id,
-    businessId:selbusinessId.value
+    businessId: selbusinessId.value,
   };
 
   if (route.params.admin == "admin") {
@@ -322,7 +324,6 @@ const handleSelectionChange = (val: any) => {
   idlist.value = multipleSelection.value.map((item: any) => {
     return item.id;
   });
-  console.log();
 };
 
 const delPlugin = () => {

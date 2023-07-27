@@ -1,7 +1,7 @@
 <route lang="yaml">
 name: homeRotation
 meta:
-  title: 首页轮播
+  title: 宠物
   icon: ant-design:home-twotone
 </route>
 <template>
@@ -9,9 +9,7 @@ meta:
     <div class="content">
       <div class="header" style="margin-bottom: 20px">
         <div class="header-left">
-          <el-button type="primary" @click="addPlugin"
-                >新增数据
-          </el-button>
+          <el-button type="primary" @click="addPlugin">新增数据 </el-button>
           <el-button
             type="danger"
             @click="delPlugin"
@@ -64,11 +62,7 @@ meta:
 
           <el-table-column prop="id" label="ID" align="center" width="70" />
 
-          <el-table-column
-            prop="icon"
-            label="宠物头像"
-            align="center"
-          >
+          <el-table-column prop="icon" label="宠物头像" align="center">
             <template #default="scope">
               <img
                 style="width: 40px; height: 40px"
@@ -92,73 +86,45 @@ meta:
           /> -->
           <!-- <el-table-column prop="plugsId" label="插件ID" align="center" /> -->
           <!-- <el-table-column prop="showHide" label="	是否显示" align="center" /> -->
-          <el-table-column
-            prop="name"
-            label="名字"
-            align="center"
-          />
-          <el-table-column
-            prop="breed"
-            label="品种"
-            align="center"
-          />
-          <el-table-column
-            prop="birthDay"
-            label="生日"
-            align="center"
-          />
-		  <el-table-column
-		    prop="icon"
-		    label="性别"
-		    align="center"
-		  >
-		    <template #default="scope">
-		      <!-- <img
+          <el-table-column prop="name" label="名字" align="center" />
+          <el-table-column prop="breed" label="品种" align="center" />
+          <el-table-column prop="birthDay" label="生日" align="center" />
+          <el-table-column prop="icon" label="性别" align="center">
+            <template #default="scope">
+              <!-- <img
 		        style="width: 40px; height: 40px"
 		        :src="scope.row.headImgUrl"
 		        alt=""
 		      /> -->
-			  <div v-if="scope.row.sex==0" >雌性</div>
-			  <div v-if="scope.row.sex==1" >雄性</div>
-		    </template>
-		  </el-table-column>
-		  <el-table-column
-		    prop="icon"
-		    label="疫苗"
-		    align="center"
-		  >
-		    <template #default="scope">
-		      <!-- <img
+              <div v-if="scope.row.sex == 0">雌性</div>
+              <div v-if="scope.row.sex == 1">雄性</div>
+            </template>
+          </el-table-column>
+          <el-table-column prop="icon" label="疫苗" align="center">
+            <template #default="scope">
+              <!-- <img
 		        style="width: 40px; height: 40px"
 		        :src="scope.row.headImgUrl"
 		        alt=""
 		      /> -->
-		  			  <div v-if="scope.row.vaccineStatus==0" >已打</div>
+              <div v-if="scope.row.vaccineStatus == 0">已打</div>
 
-		  			  <div v-if="scope.row.vaccineStatus==1" >未打</div>
-		    </template>
-		  </el-table-column>
-		  <el-table-column
-		    prop="icon"
-		    label="绝育"
-		    align="center"
-		  >
-		    <template #default="scope">
-		      <!-- <img
+              <div v-if="scope.row.vaccineStatus == 1">未打</div>
+            </template>
+          </el-table-column>
+          <el-table-column prop="icon" label="绝育" align="center">
+            <template #default="scope">
+              <!-- <img
 		        style="width: 40px; height: 40px"
 		        :src="scope.row.headImgUrl"
 		        alt=""
 		      /> -->
-		  			  <div v-if="scope.row.neuterStatus==0" >已绝育</div>
+              <div v-if="scope.row.neuterStatus == 0">已绝育</div>
 
-		  			  <div v-if="scope.row.neuterStatus==1" >未绝育</div>
-		    </template>
-		  </el-table-column>
-		  <el-table-column
-		    prop="weightExtJson"
-		    label="体重"
-		    align="center"
-		  />
+              <div v-if="scope.row.neuterStatus == 1">未绝育</div>
+            </template>
+          </el-table-column>
+          <el-table-column prop="weightExtJson" label="体重" align="center" />
           <!-- <el-table-column
             prop="userServiceToken"
             label="	用户服务标识"
@@ -246,10 +212,9 @@ const tableobj = reactive({
   keyword: "",
 });
 const userServiceToken = ref(storage.local.get("userServiceToken"));
-console.log(userServiceToken.value, 987777);
 
 function getlist() {
-  let data:any = {
+  let data: any = {
     page: tableobj.currentPage,
     size: tableobj.pageSize,
     adminId: storage.local.get("adminId"),
@@ -258,8 +223,8 @@ function getlist() {
     keyword: tableobj.keyword,
   };
 
-  if(route.params.admin == 'admin'){
-    data.userServiceToken = -1
+  if (route.params.admin == "admin") {
+    data.userServiceToken = -1;
   }
 
   api
@@ -267,7 +232,6 @@ function getlist() {
     .then((res: any) => {
       tableData.value = res.body.list;
       total.value = res.body.total;
-	  console.log(res,'宠物档案列表');
       tableobj.keyword = "";
     });
 }
@@ -295,7 +259,6 @@ const handleSelectionChange = (val: any) => {
   idlist.value = multipleSelection.value.map((item: any) => {
     return item.id;
   });
-  console.log();
 };
 
 const delPlugin = () => {
@@ -324,7 +287,6 @@ const delPlugin = () => {
 };
 // 删除插件
 const handleClick = (e: any) => {
-  console.log(e);
   let data = {
     ids: e,
   };

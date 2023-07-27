@@ -1,6 +1,7 @@
 import watermark from '../watermark'
 import useSettingsStore from '@/store/modules/settings'
 import useUserStore from '@/store/modules/user'
+import storage from '@/utils/storage'
 
 export default function useWatermark() {
   const settingsStore = useSettingsStore()
@@ -27,13 +28,15 @@ export default function useWatermark() {
   function loadWatermark() {
     // 水印更多设置请查看 watermark.ts
     init({
-      text: `大川长风 页面水印 ${userStore.account}`,
+      // text: `大川长风 页面水印 ${userStore.account}`,
+      text: ` ID:${storage.local.get('adminId')}${userStore.account}`,
       width: 150,
+      rows:2,
       x: 0,
       y: 0,
       x_space: 50,
       y_space: 50,
-      alpha: 0.1,
+      alpha: 0.05,
       color: settingsStore.settings.app.colorScheme === 'light' ? 'black' : 'white',
     })
   }

@@ -144,7 +144,6 @@ const getUser = () => {
         res.body.configJson = JSON.parse(res.body.configJson);
 
         users.value = res.body;
-        // console.log(users.value);
         weiXinConfig();
       }
     });
@@ -159,7 +158,6 @@ const weiXinConfig = () => {
       },
     })
     .then((res: any) => {
-      console.log(JSON.parse(res.body));
       if (res.code == 200) {
         info.value = JSON.parse(res.body);
         info.value.authorizer_info.qrcode_url = String(

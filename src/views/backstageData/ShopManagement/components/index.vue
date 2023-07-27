@@ -107,7 +107,7 @@ const props = withDefaults(
   }
 );
 const myVisible = ref(props.modelValue);
-console.log(props, 999);
+
 const num = ref(0);
 const changeNum = (item: any, index: any) => {
   num.value = index;
@@ -156,7 +156,6 @@ onMounted(() => {
       }
     });
   if (props.id !== "") {
-    console.log("我用了你");
     api
       .get("/api/plugs/searchPlugsPracticeClassById", {
         params: {
@@ -193,7 +192,6 @@ function onSubmit() {
         }
       });
   } else {
-    console.log("xiugai", 999);
     formRef.value &&
       formRef.value.validate((valid: any) => {
         if (valid) {

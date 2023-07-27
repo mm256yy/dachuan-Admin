@@ -29,7 +29,6 @@ const handleSelectionChange = (val: any) => {
       return item.id;
     }
   });
-  console.log();
 };
 
 const total = ref(0);
@@ -60,7 +59,6 @@ function getUser() {
       params: data,
     })
     .then((res: any) => {
-      console.log(res);
       if (res.code == 200) {
         for (let index = 0; index < res.body.list.length; index++) {
           res.body.list[index].userState = !res.body.list[index].userState;
@@ -106,7 +104,6 @@ function update(swithcs: any) {
     let dd: any = tableData.value[index.value];
     dd.powerJson = JSON.stringify(userTag.value);
     api.post("/api/user/adminUpdateUserInfo", dd).then((res: any) => {
-      console.log(res);
       if (res.code == 200) {
         visible.value = false;
         getUser();
@@ -148,7 +145,6 @@ const delPlugin = () => {
   // ids.push(idlist.value);
 };
 const handleClick = (e: any) => {
-  console.log(e);
   let data = {
     ids: e,
   };
@@ -196,27 +192,21 @@ function formatDate(value: any) {
 }
 const index = ref();
 function select(e: any) {
-  console.log(e.createTime);
   userinfo.value = e;
   if (userinfo.value.powerJson != null) {
     userTag.value = JSON.parse(userinfo.value.powerJson);
   }
-  console.log(e, "编辑的88888888888");
   visible.value = !visible.value;
 }
 
 function switchs(row: any, index1: any) {
-  console.log(row.userState);
   index.value = index1;
   if (row.userState) {
     row.userState = true;
   } else {
     row.userState = false;
   }
-  console.log("sdaf");
   update("switchs");
-  // console.log(row.userState)
-  // console.log(val)
 }
 
 const visible = ref(false);
@@ -277,9 +267,6 @@ const upload_file = () => {
 };
 
 const Return = (data: any) => {
-  console.log(data, 666);
-  console.log(types.value, 666);
-
   dialogPluginList.value.dialogVisible = false;
   userinfo.value.headImg = data[0];
 };

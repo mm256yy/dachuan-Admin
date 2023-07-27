@@ -642,7 +642,7 @@ function handleMapPickedMessage(event: any) {
   // 防止其他应用也会向该页面post信息，需判断module是否为'locationPicker'
   if (loc && loc.module != "locationPicker") return;
   currentPicked.value = loc;
-  // console.log(" currentPicked.value ", currentPicked.value );
+  //(" currentPicked.value ", currentPicked.value );
 }
 
 // const getPerson=(data:any)=>{
@@ -727,7 +727,6 @@ const formRules = ref({
   // value: [{ required: true, message: "请输入字典项键值" }],
 });
 onMounted(() => {
-  console.log(generateSnowflakeID());
   if (form.value.id !== "") {
     api
       .get("/api/plugs/searchPlugsDataById", {
@@ -740,8 +739,6 @@ onMounted(() => {
         if (info.value.payJson) {
           payjson.value = info.value.payJson;
         }
-        // console.log( payjson.value,'66666666666')
-        // console.log(  info.value,'44444444444')
         form.value = res.body;
         pcasName.value[0] = info.value.businessAddress.province;
         pcasName.value[1] = info.value.businessAddress.city;
@@ -753,7 +750,6 @@ onMounted(() => {
         if (info.value.businessImages) {
           imageUrl2.value = JSON.parse(info.value.businessImages);
         }
-        console.log(info.value.businessImages, "图片");
         // emit("success");
         // onCancel();
       });
@@ -780,7 +776,6 @@ function getWorkerID() {
   var code_fill_str = ["000000", "00000", "0000", "000", "00", "0", ""];
   var code: any = "" + parseInt((Math.random() * 1000000).toString());
   code = code_fill_str[code.length] + code;
-  console.log(code);
   return code;
 }
 // 生成一个随机的序列号
@@ -826,7 +821,6 @@ function onSubmit() {
                   message: "新增成功",
                   center: true,
                 });
-                console.log(res, 787);
                 // emit("success");
                 onCancel();
               } else {
@@ -843,7 +837,6 @@ function onSubmit() {
       formRef.value.validate((valid: any) => {
         if (valid) {
           form.value.jsonData = JSON.stringify(info.value);
-          // console.log(JSON.parse(form.value.jsonData),'修改信息');
           // return
           api
             .post("/api/plugs/updatePlugsData", form.value)
@@ -888,14 +881,11 @@ const imageUrl3 = ref("");
 const imageUrl2: any = ref([]);
 
 const delimg = (index: any) => {
-  console.log(index);
   imageUrl2.value.splice(index, 1);
   info.value.businessImages = JSON.stringify(imageUrl2.value);
 };
 const activeName = ref("first");
-const handleClick = (tab: any, event: Event) => {
-  console.log(tab, event);
-};
+const handleClick = (tab: any, event: Event) => {};
 
 // 使用文件管理组件
 // 使用文件管理组件
@@ -905,6 +895,7 @@ const dialogPluginList: any = ref({
   dialogVisible: false,
   source: 1,
 });
+
 const upload_image = (item: any) => {
   dialogPluginList.value.dialogVisible = true;
   types.value = item;

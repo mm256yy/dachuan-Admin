@@ -114,7 +114,6 @@ const props = withDefaults(
 );
 const tableData: any = ref([]);
 const categoryList: any = ref([]);
-console.log(props);
 
 const myVisible: any = ref(props.modelValue);
 onMounted(() => {
@@ -127,8 +126,6 @@ const tableobj = reactive({
   keyword: "",
 });
 function getlist() {
-  console.log(123);
-
   let data = {
     page: tableobj.currentPage,
     size: tableobj.pageSize,
@@ -143,7 +140,6 @@ function getlist() {
     .then((res: any) => {
       if (res.code == 200) {
         tableData.value = res.body.list;
-        console.log(tableData.value, 456);
         tableobj.keyword = "";
         // 获取分类
         total.value = res.body.total;
@@ -161,7 +157,6 @@ const multipleSelection: any = ref([]);
 const idlist: any = ref([]);
 const handleSelectionChange = (val: any) => {
   multipleSelection.value = val;
-  console.log(multipleSelection.value);
   idlist.value = multipleSelection.value;
 };
 function handleSizeChange(val: any) {

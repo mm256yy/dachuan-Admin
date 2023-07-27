@@ -55,8 +55,7 @@
           />
         </el-form-item>
 
-        <el-form-item label="身份证正面照片" prop="activityImgUrl"
-          >
+        <el-form-item label="身份证正面照片" prop="activityImgUrl">
           <!-- <el-upload
             class="avatar-uploader"
             :action="baseURL"
@@ -68,12 +67,33 @@
             :on-success="handleAvatarSuccess"
             :before-upload="beforeAvatarUpload"
           > -->
-            <img @click="upload_image('imageUrl')" style="border-radius: 8px;border:1px solid #eee;width:64px;heigth:64px" v-if="imageUrl" :src="imageUrl" class="avatar" />
-            <el-icon @click="upload_image('imageUrl')" style="border-radius: 8px;border:1px solid #eee;width:64px;heigth:64px" v-else class="avatar-uploader-icon"><Plus /></el-icon>
+          <img
+            @click="upload_image('imageUrl')"
+            style="
+              border-radius: 8px;
+              border: 1px solid #eee;
+              width: 64px;
+              heigth: 64px;
+            "
+            v-if="imageUrl"
+            :src="imageUrl"
+            class="avatar"
+          />
+          <el-icon
+            @click="upload_image('imageUrl')"
+            style="
+              border-radius: 8px;
+              border: 1px solid #eee;
+              width: 64px;
+              heigth: 64px;
+            "
+            v-else
+            class="avatar-uploader-icon"
+            ><Plus
+          /></el-icon>
           <!-- </el-upload> -->
         </el-form-item>
-        <el-form-item label="身份证反面照片" prop="activityImgUrl"
-          >
+        <el-form-item label="身份证反面照片" prop="activityImgUrl">
           <!-- <el-upload
             class="avatar-uploader"
             :action="baseURL"
@@ -85,8 +105,30 @@
             :on-success="handleAvatarSuccess1"
             :before-upload="beforeAvatarUpload"
           > -->
-            <img @click="upload_image('imageUrl1')" style="border-radius: 8px;border:1px solid #eee;width:64px;heigth:64px" v-if="imageUrl1" :src="imageUrl1" class="avatar" />
-            <el-icon @click="upload_image('imageUrl1')" style="border-radius: 8px;border:1px solid #eee;width:64px;heigth:64px" v-else class="avatar-uploader-icon"><Plus /></el-icon>
+          <img
+            @click="upload_image('imageUrl1')"
+            style="
+              border-radius: 8px;
+              border: 1px solid #eee;
+              width: 64px;
+              heigth: 64px;
+            "
+            v-if="imageUrl1"
+            :src="imageUrl1"
+            class="avatar"
+          />
+          <el-icon
+            @click="upload_image('imageUrl1')"
+            style="
+              border-radius: 8px;
+              border: 1px solid #eee;
+              width: 64px;
+              heigth: 64px;
+            "
+            v-else
+            class="avatar-uploader-icon"
+            ><Plus
+          /></el-icon>
           <!-- </el-upload> -->
         </el-form-item>
 
@@ -139,17 +181,12 @@
     </template>
   </el-dialog>
   <dialogWindows
-          v-if="dialogPluginList.dialogVisible"
-          v-model="dialogPluginList.dialogVisible"
-          :title="dialogPluginList.title"
-          :width="dialogPluginList.width"
-          :button_title="dialogPluginList.button_title"
-          :height="dialogPluginList.heigth"
-          :dialogVisible="dialogPluginList.dialogVisible"
-          :close_title="dialogPluginList.close_title"
-          :data="dialogPluginList.data"
-          @success="Return"
-      />
+    v-if="dialogPluginList.dialogVisible"
+    v-model="dialogPluginList.dialogVisible"
+    :dialogVisible="dialogPluginList.dialogVisible"
+    :source="dialogPluginList.source"
+    @success="Return"
+  />
 </template>
 
 <script lang="ts" setup>
@@ -249,7 +286,6 @@ onMounted(() => {
     }
   });
   if (props.id !== "") {
-    console.log("我用了你");
     api
       .get("/api/plugs/searchPlugsDataById", {
         params: {
@@ -275,8 +311,6 @@ function onSubmit() {
   jsonData.value.address.district = pcasName.value[2];
   form.value.jsonData = JSON.stringify(jsonData.value);
   if (form.value.id === "") {
-    console.log(form.value.id, 999);
-
     formRef.value &&
       formRef.value.validate((valid: any) => {
         if (valid) {
@@ -287,15 +321,12 @@ function onSubmit() {
                 message: "新增成功",
                 center: true,
               });
-              console.log(res, 787);
               // emit("success");
               onCancel();
             });
         }
       });
   } else {
-    console.log("xiugai", 999);
-
     formRef.value &&
       formRef.value.validate((valid: any) => {
         if (valid) {
@@ -324,89 +355,35 @@ function onCancel() {
 
 // 图片上传
 
-const header: any = reactive({
-  BGDEBUG: 0,
-  testToken: "2gq72h2qrbhx256y0167uf5wd64ls55u",
-  Authorization: userStore.token,
-});
-// const baseURL: any = "http://192.168.31.47:7001/api/file/uploadImages";
-
-const baseURL: any = "https://api.daccf.com/api/file/uploadImages";
 const imageUrl = ref("");
-const handleAvatarSuccess: UploadProps["onSuccess"] = (
-  response,
-  uploadFile
-) => {
-  console.log(response, uploadFile);
-  imageUrl.value = URL.createObjectURL(uploadFile.raw!);
-  jsonData.value.idCarImageFront = response.body;
-};
 
 const imageUrl1 = ref("");
-const handleAvatarSuccess1: UploadProps["onSuccess"] = (
-  response,
-  uploadFile
-) => {
-  console.log(response, uploadFile);
-  imageUrl1.value = URL.createObjectURL(uploadFile.raw!);
-  jsonData.value.idCarImageOpposite = response.body;
+
+// 使用文件管理组件
+
+const types: any = ref("");
+import dialogWindows from "@/components/FileManagement/dialogWindows.vue";
+const dialogPluginList: any = ref({
+  dialogVisible: false,
+  source: 1,
+});
+
+const upload_image = (item: any) => {
+  dialogPluginList.value.dialogVisible = true;
+  types.value = item;
+  dialogPluginList.value.source = 1;
 };
 
-const beforeAvatarUpload: UploadProps["beforeUpload"] = (rawFile) => {};
-const handleRemove: UploadProps["onRemove"] = (uploadFile, uploadFiles) => {
-  console.log(uploadFile, uploadFiles);
-};
-
- // 使用文件管理组件
-
- const types:any = ref('')
-
-import dialogWindows from '@/components/FileManagement/dialogWindows.vue'
-const dialogPluginList:any = ref({
-  dialogVisible:false,
-  title:'文件管理',
-  data:'',
-  button_title:'确定',
-  width:'1100',
-  heigth:'500',
-  close_title:"取消"
-
-})
-
-const upload_image = (item:any)=>{
-  dialogPluginList.value.dialogVisible = true
-  types.value = item
-}
-
-const Return = (data:any)=>{
-  dialogPluginList.value.dialogVisible = false
-  if(data.type == 'return'){
-    if(types.value == 'imageUrl'){
-      imageUrl.value = data.data[0].url
-      jsonData.value.idCarImageFront = data.data[0].url
-    }else if(types.value == 'imageUrl2'){
-      data.data.forEach((item:any) => {
-        imageUrl2.value.push(item.url)
-        info.value.businessImages = JSON.stringify(imageUrl2.value);
-      });
-
-    }else if(types.value == 'imageUrl3'){
-      data.data.forEach((item:any) => {
-        imageUrl3.value = data.data[0].url
-        info.value.weChatORCodeImage = data.data[0].url
-      });
-
-    }else if(types.value == 'imageUrl1'){
-        imageUrl1.value = data.data[0].url
-        jsonData.value.idCarImageOpposite = data.data[0].url
-
-    }
-
+const Return = (data: any) => {
+  dialogPluginList.value.dialogVisible = false;
+  if (types.value == "imageUrl") {
+    imageUrl.value = data[0];
+    jsonData.value.idCarImageFront = data[0];
+  } else if (types.value == "imageUrl1") {
+    imageUrl1.value = data[0];
+    jsonData.value.idCarImageOpposite = data[0];
   }
-
-}
-
-
+};
 </script>
 
 <style scoped>

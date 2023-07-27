@@ -52,7 +52,16 @@ const routes: RouteRecordRaw = {
 
       },
     },
+    {
+      path: 'ThemeSettings',
+      name: 'ThemeSettings',
+      component: () => import('@/views/backstageData/ControlSys/ThemeSettings.vue'),
+      meta: {
+        title: '主题设置',
+        sidebar: false,
 
+      },
+    },
 
   ],
 }

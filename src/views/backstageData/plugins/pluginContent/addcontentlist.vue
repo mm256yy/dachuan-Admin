@@ -93,9 +93,7 @@ onMounted(() => {
     }
   });
 
-  console.log(form.value.id, 999);
   if (form.value.id !== "") {
-    console.log("我用了你");
     api
       .get("/api/plugs/searchPlugsConfigById", {
         params: {
@@ -105,7 +103,6 @@ onMounted(() => {
       .then((res: any) => {
         if (res.code == 200) {
           form.value = res.body;
-          console.log(form.value);
 
           // form.value.jsonData.forEach((item)=>{
           //   item.key_description=
@@ -122,7 +119,6 @@ onMounted(() => {
 });
 
 function onSubmit() {
-  console.log(form.value);
   if (form.value.id === "") {
     formRef.value &&
       formRef.value.validate((valid: any) => {
@@ -135,7 +131,7 @@ function onSubmit() {
                   message: "新增成功",
                   center: true,
                 });
-                console.log(res, 787);
+
                 onCancel();
               } else {
                 ElMessage.error({

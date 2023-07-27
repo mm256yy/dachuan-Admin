@@ -62,7 +62,6 @@ const defaultSetting = ref({
       formData.append("file", blobInfo.blob());
       formData.append("type", "1");
       api.post("/api/file/uploadImages", formData).then((res: any) => {
-        console.log(res);
         const img = res.body;
         resolve(img);
       });
@@ -77,15 +76,12 @@ const props = withDefaults(
     form: {},
   }
 );
-console.log(props.form.questionStemExtJson, 655);
 
 content.value = props.form.questionStemExtJson;
 onMounted(() => {
   tinymce.init({});
 });
 const add = () => {
-  console.log(content.value);
-
   emit("success", content.value);
 };
 

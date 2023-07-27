@@ -157,7 +157,6 @@ const props = withDefaults(
   }
 );
 const myVisible = ref(props.modelValue);
-console.log(props, 999);
 
 const title = computed(() => (props.id === "" ? "新增考卷" : "修改考卷"));
 const form = ref({
@@ -199,7 +198,6 @@ onMounted(() => {
       }
     });
   if (props.id !== "") {
-    console.log("我用了你");
     api
       .get("/api/plugs/searchPlugsPracticeTestPaperById", {
         params: {
@@ -239,7 +237,6 @@ function onSubmit() {
         }
       });
   } else {
-    console.log("xiugai", 999);
     formRef.value &&
       formRef.value.validate((valid: any) => {
         if (valid) {

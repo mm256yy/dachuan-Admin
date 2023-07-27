@@ -76,15 +76,30 @@
                   :on-success="handleAvatarSuccess"
                   :before-upload="beforeAvatarUpload"
                 > -->
-                  <img style="width:60px;height: 60px;border-radius: 8px;border: 1px solid #eee;" @click="upload_image(scope.$index)" v-if="scope.row.l2" :src="scope.row.l2" class="avatar" />
-                  <el-icon
-                  style="width:60px;height: 60px;border-radius: 8px;border: 1px solid #eee;"
-                    @click="upload_image(scope.$index)"
-                    v-else
-                    class="avatar-uploader-icon"
-
-                    ><Plus
-                  /></el-icon>
+                <img
+                  style="
+                    width: 60px;
+                    height: 60px;
+                    border-radius: 8px;
+                    border: 1px solid #eee;
+                  "
+                  @click="upload_image(scope.$index)"
+                  v-if="scope.row.l2"
+                  :src="scope.row.l2"
+                  class="avatar"
+                />
+                <el-icon
+                  style="
+                    width: 60px;
+                    height: 60px;
+                    border-radius: 8px;
+                    border: 1px solid #eee;
+                  "
+                  @click="upload_image(scope.$index)"
+                  v-else
+                  class="avatar-uploader-icon"
+                  ><Plus
+                /></el-icon>
                 <!-- </el-upload> -->
               </template>
             </el-table-column>
@@ -131,17 +146,17 @@
   </el-dialog>
 
   <dialogWindows
-          v-if="dialogPluginList.dialogVisible"
-          v-model="dialogPluginList.dialogVisible"
-          :title="dialogPluginList.title"
-          :width="dialogPluginList.width"
-          :button_title="dialogPluginList.button_title"
-          :height="dialogPluginList.heigth"
-          :dialogVisible="dialogPluginList.dialogVisible"
-          :close_title="dialogPluginList.close_title"
-          :data="dialogPluginList.data"
-          @success="Return"
-      />
+    v-if="dialogPluginList.dialogVisible"
+    v-model="dialogPluginList.dialogVisible"
+    :title="dialogPluginList.title"
+    :width="dialogPluginList.width"
+    :button_title="dialogPluginList.button_title"
+    :height="dialogPluginList.heigth"
+    :dialogVisible="dialogPluginList.dialogVisible"
+    :close_title="dialogPluginList.close_title"
+    :data="dialogPluginList.data"
+    @success="Return"
+  />
 </template>
 
 <script lang="ts" setup>
@@ -164,7 +179,7 @@ const props = withDefaults(
   }
 );
 const myVisible = ref(props.modelValue);
-console.log(props, 999);
+
 const tableData: any = ref({
   list: [],
   title: "",
@@ -191,7 +206,6 @@ const formRules = ref({
 });
 onMounted(() => {
   if (props.id !== "") {
-    console.log("我用了你");
     api
       .get("/api/plugs/searchPlugsDataById", {
         params: {
@@ -201,7 +215,6 @@ onMounted(() => {
       .then((res: any) => {
         form.value = res.body;
         let jsonData = JSON.parse(form.value.jsonData);
-        // console.log(jsonData);
         // tableData.value = JSON.parse(form.value.jsonData);
 
         tableData.value.title = jsonData.title;
@@ -223,7 +236,7 @@ function onSubmit() {
                 message: "新增成功",
                 center: true,
               });
-              console.log(res, 787);
+
               // emit("success");
               onCancel();
             });
@@ -279,7 +292,6 @@ const header: any = reactive({
 });
 const num: any = ref(0);
 const changeFile = (index: any) => {
-  console.log(index, 456);
   num.value = index;
 };
 const baseURL: any = "https://api.daccf.com/api/file/uploadImages";
@@ -287,7 +299,6 @@ const handleAvatarSuccess: UploadProps["onSuccess"] = (
   response,
   uploadFile
 ) => {
-  console.log(response);
   tableData.value.list[num.value].l2 = response.body;
 };
 
@@ -301,43 +312,34 @@ const beforeAvatarUpload: UploadProps["beforeUpload"] = (rawFile) => {
   // }
   // return true;
 };
-const handleRemove: UploadProps["onRemove"] = (uploadFile, uploadFiles) => {
-  console.log(uploadFile, uploadFiles);
+const handleRemove: UploadProps["onRemove"] = (uploadFile, uploadFiles) => {};
+
+// 使用文件管理组件
+
+const types: any = ref("");
+
+import dialogWindows from "@/components/FileManagement/dialogWindows.vue";
+const dialogPluginList: any = ref({
+  dialogVisible: false,
+  title: "文件管理",
+  data: "",
+  button_title: "确定",
+  width: "1100",
+  heigth: "500",
+  close_title: "取消",
+});
+
+const upload_image = (item: any) => {
+  dialogPluginList.value.dialogVisible = true;
+  types.value = item;
 };
 
- // 使用文件管理组件
-
- const types:any = ref('')
-
-import dialogWindows from '@/components/FileManagement/dialogWindows.vue'
-const dialogPluginList:any = ref({
-  dialogVisible:false,
-  title:'文件管理',
-  data:'',
-  button_title:'确定',
-  width:'1100',
-  heigth:'500',
-  close_title:"取消"
-
-})
-
-const upload_image = (item:any)=>{
-  dialogPluginList.value.dialogVisible = true
-  types.value = item
-}
-
-const Return = (data:any)=>{
-  dialogPluginList.value.dialogVisible = false
-  if(data.type == 'return'){
-
-    tableData.value.list[types.value].l2  = data.data[0].url
-
-
-
+const Return = (data: any) => {
+  dialogPluginList.value.dialogVisible = false;
+  if (data.type == "return") {
+    tableData.value.list[types.value].l2 = data.data[0].url;
   }
-
-}
-
+};
 </script>
 
 <style scoped>

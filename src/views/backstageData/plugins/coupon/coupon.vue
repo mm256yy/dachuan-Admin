@@ -69,16 +69,13 @@ meta:
           }"
         >
           <el-table-column type="selection" />
-          <el-table-column prop="id" label="ID" align="center" width="70"/>
-          <el-table-column
-            label="类型"
-            align="center"
-          >
+          <el-table-column prop="id" label="ID" align="center" width="70" />
+          <el-table-column label="类型" align="center">
             <template #default="scope">
-             <div v-if="scope.row.couponType==0">普通优惠券</div>
-             <div v-else-if="scope.row.couponType==1">口令优惠券</div>
-             <div v-else-if="scope.row.couponType==2">积分优惠券</div>
-             <div v-else-if="scope.row.couponType==3">折扣优惠券</div>
+              <div v-if="scope.row.couponType == 0">普通优惠券</div>
+              <div v-else-if="scope.row.couponType == 1">口令优惠券</div>
+              <div v-else-if="scope.row.couponType == 2">积分优惠券</div>
+              <div v-else-if="scope.row.couponType == 3">折扣优惠券</div>
             </template>
           </el-table-column>
 
@@ -88,12 +85,9 @@ meta:
             align="center"
             show-overflow-tooltip
           />
-          <el-table-column
-            label="使用/领取条件"
-            align="center"
-          >
+          <el-table-column label="使用/领取条件" align="center">
             <template #default="scope">
-             <div>满{{scope.row.howMuchFullMoney}}可用</div>
+              <div>满{{ scope.row.howMuchFullMoney }}可用</div>
             </template>
           </el-table-column>
           <el-table-column
@@ -101,46 +95,42 @@ meta:
             label="面额"
             align="center"
           />
-		  <el-table-column
-		    prop="number"
-		    label="发放量"
-		    align="center"
-		  />
-		  <el-table-column
-		    label="有效期"
-		    align="center"
-			 show-overflow-tooltip
-			 width="210"
-		  >
-		    <template #default="scope">
-		     <div  v-if="scope.row.timeType==1" >{{formatDate(scope.row.startTime)}}~{{formatDate(scope.row.endTime)}}有效</div>
-			  <div v-else-if="scope.row.timeType==2" >领取后{{scope.row.timeDay}}天内有效</div>
-		    </template>
-		  </el-table-column>
-		  <el-table-column
-		    label="状态"
-		    align="center"
-		  >
-		    <template #default="scope">
-		     <div v-if="scope.row.status==0" >正常</div>
-		  	<div v-else-if="scope.row.status==1" >已过期</div>
-			<div v-else-if="scope.row.status==2" >已领完</div>
-		    </template>
-		  </el-table-column>
-		  <el-table-column
-		    label="可用商品类型"
-		    align="center"
-		  >
-		    <template #default="scope">
-		     <div v-if="scope.row.goodsType==1" >全部商品</div>
-		  	<div v-else-if="scope.row.goodsType==2" >指定商品</div>
-		    </template>
-		  </el-table-column>
-		  <el-table-column
-		    prop="maxNumber"
-		    label="每人限领/张"
-		    align="center"
-		  />
+          <el-table-column prop="number" label="发放量" align="center" />
+          <el-table-column
+            label="有效期"
+            align="center"
+            show-overflow-tooltip
+            width="210"
+          >
+            <template #default="scope">
+              <div v-if="scope.row.timeType == 1">
+                {{ formatDate(scope.row.startTime) }}~{{
+                  formatDate(scope.row.endTime)
+                }}有效
+              </div>
+              <div v-else-if="scope.row.timeType == 2">
+                领取后{{ scope.row.timeDay }}天内有效
+              </div>
+            </template>
+          </el-table-column>
+          <el-table-column label="状态" align="center">
+            <template #default="scope">
+              <div v-if="scope.row.status == 0">正常</div>
+              <div v-else-if="scope.row.status == 1">已过期</div>
+              <div v-else-if="scope.row.status == 2">已领完</div>
+            </template>
+          </el-table-column>
+          <el-table-column label="可用商品类型" align="center">
+            <template #default="scope">
+              <div v-if="scope.row.goodsType == 1">全部商品</div>
+              <div v-else-if="scope.row.goodsType == 2">指定商品</div>
+            </template>
+          </el-table-column>
+          <el-table-column
+            prop="maxNumber"
+            label="每人限领/张"
+            align="center"
+          />
           <!-- <el-table-column
             prop="userServiceToken"
             label="	用户服务标识"
@@ -228,10 +218,9 @@ const tableobj = reactive({
   keyword: "",
 });
 const userServiceToken = ref(storage.local.get("userServiceToken"));
-console.log(userServiceToken.value, 987777);
 
 function getlist() {
-  let data:any = {
+  let data: any = {
     page: tableobj.currentPage,
     size: tableobj.pageSize,
     adminId: storage.local.get("adminId"),
@@ -239,13 +228,12 @@ function getlist() {
     id: route.params.id,
     keyword: tableobj.keyword,
   };
-  if(route.params.admin == 'admin'){
-    data.userServiceToken = -1
+  if (route.params.admin == "admin") {
+    data.userServiceToken = -1;
   }
   api
     .get("/api/plugs/searchPlugsCouponsList", { params: data })
     .then((res: any) => {
-
       tableData.value = res.body.list;
       total.value = res.body.total;
       tableobj.keyword = "";
@@ -261,22 +249,22 @@ function handleCurrentChange(val: any) {
   getlist();
 }
 // 格式化日期
-	function formatDate(value: any) {
-	  let date = new Date(value);
-	  let y = date.getFullYear();
-	  let MM = (date.getMonth() + 1) as number;
-	  MM = MM < 10 ? (("0" + MM) as unknown as number) : MM;
-	  let d = date.getDate();
-	  d = d < 10 ? (("0" + d) as unknown as number) : d;
-	  let h = date.getHours();
-	  h = h < 10 ? (("0" + h) as unknown as number) : h;
-	  let m = date.getMinutes();
-	  m = m < 10 ? (("0" + m) as unknown as number) : m;
-	  let s = date.getSeconds();
-	  s = s < 10 ? (("0" + s) as unknown as number) : s;
-	  return y + "-" + MM + "-" + d;
-		// y + "-" + MM + "-" + d + " " + h + ":" + m + ":" + s;
-	}
+function formatDate(value: any) {
+  let date = new Date(value);
+  let y = date.getFullYear();
+  let MM = (date.getMonth() + 1) as number;
+  MM = MM < 10 ? (("0" + MM) as unknown as number) : MM;
+  let d = date.getDate();
+  d = d < 10 ? (("0" + d) as unknown as number) : d;
+  let h = date.getHours();
+  h = h < 10 ? (("0" + h) as unknown as number) : h;
+  let m = date.getMinutes();
+  m = m < 10 ? (("0" + m) as unknown as number) : m;
+  let s = date.getSeconds();
+  s = s < 10 ? (("0" + s) as unknown as number) : s;
+  return y + "-" + MM + "-" + d;
+  // y + "-" + MM + "-" + d + " " + h + ":" + m + ":" + s;
+}
 // 新增插件
 function addPlugin() {
   data.value.formModeProps.visible = true;
@@ -291,7 +279,6 @@ const handleSelectionChange = (val: any) => {
   idlist.value = multipleSelection.value.map((item: any) => {
     return item.id;
   });
-  console.log();
 };
 
 const delPlugin = () => {
@@ -320,7 +307,6 @@ const delPlugin = () => {
 };
 // 删除插件
 const handleClick = (e: any) => {
-  console.log(e);
   let data = {
     ids: e,
   };

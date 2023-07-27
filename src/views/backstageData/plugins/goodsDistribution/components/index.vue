@@ -158,7 +158,6 @@ const props = withDefaults(
   }
 );
 const myVisible = ref(props.modelValue);
-console.log(props, 999);
 
 const title = computed(() => (props.id === "" ? "新增" : "修改"));
 const pcasName: any = ref([]);
@@ -248,7 +247,6 @@ onMounted(() => {
     }
   });
   if (props.id !== "") {
-    console.log("我用了你");
     api
       .get("/api/plugs/searchPlugsRebateById", {
         params: {
@@ -274,8 +272,6 @@ function onSubmit() {
   jsonData.value.address.district = pcasName.value[2];
   form.value.jsonData = JSON.stringify(jsonData.value);
   if (form.value.id === "") {
-    console.log(form.value.id, 999);
-
     formRef.value &&
       formRef.value.validate((valid: any) => {
         if (valid) {
@@ -286,15 +282,13 @@ function onSubmit() {
                 message: "新增成功",
                 center: true,
               });
-              console.log(res, 787);
+
               // emit("success");
               onCancel();
             });
         }
       });
   } else {
-    console.log("xiugai", 999);
-
     formRef.value &&
       formRef.value.validate((valid: any) => {
         if (valid) {
@@ -334,7 +328,6 @@ const handleAvatarSuccess: UploadProps["onSuccess"] = (
   response,
   uploadFile
 ) => {
-  console.log(response, uploadFile);
   imageUrl.value = URL.createObjectURL(uploadFile.raw!);
   jsonData.value.idCarImageFront = response.body;
 };
@@ -344,15 +337,12 @@ const handleAvatarSuccess1: UploadProps["onSuccess"] = (
   response,
   uploadFile
 ) => {
-  console.log(response, uploadFile);
   imageUrl1.value = URL.createObjectURL(uploadFile.raw!);
   jsonData.value.idCarImageOpposite = response.body;
 };
 
 const beforeAvatarUpload: UploadProps["beforeUpload"] = (rawFile) => {};
-const handleRemove: UploadProps["onRemove"] = (uploadFile, uploadFiles) => {
-  console.log(uploadFile, uploadFiles);
-};
+const handleRemove: UploadProps["onRemove"] = (uploadFile, uploadFiles) => {};
 </script>
 
 <style scoped>

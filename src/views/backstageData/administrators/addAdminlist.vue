@@ -604,9 +604,7 @@ const form: any = ref({
 });
 const activeName = ref("first");
 
-const handleClick = (tab: any, event: Event) => {
-  console.log(tab, event);
-};
+const handleClick = (tab: any, event: Event) => {};
 const formRef = ref();
 const formRules = ref({
   title: [{ required: true, message: "请输入插件名称" }],
@@ -645,11 +643,9 @@ onMounted(() => {
         imageUrl1.value = configJson.value.shopLogo;
         imageUrl2.value = configJson.value.shareImages;
 
-        // console.log(configJson.value, 998);
         imageUrl.value = form.value.headImg;
 
         let arr: any = [];
-        console.log(plugJson.value, 999);
 
         if (plugJson.value) {
           plugJson.value.forEach((i: any) => {
@@ -687,9 +683,7 @@ const addchangeplug = () => {
 };
 const update = (item: any) => {
   let arr: any = [];
-  console.log(item, 456);
   arr = [...item, ...pluginList.value];
-  // console.log(arr, 999);
 
   let obj: any = {};
 
@@ -733,7 +727,6 @@ function onSubmit() {
                   message: "新增成功",
                   center: true,
                 });
-                console.log(res, 787);
                 // emit("success");
                 onCancel();
               } else {
@@ -839,16 +832,12 @@ const upload_file = (item: any) => {
 };
 
 const Return = (data: any) => {
-  console.log(data, 666);
-  console.log(types.value, 666);
-
   dialogPluginList.value.dialogVisible = false;
   if (types.value == "touxiang") {
     imageUrl.value = data[0];
     form.value.headImg = data[0];
   } else if (types.value == "dianpu") {
     imageUrl1.value = data[0];
-    console.log(form.value.configJson);
     configJson.value.shopLogo = data[0];
   } else if (types.value == "share") {
     imageUrl2.value = data[0];

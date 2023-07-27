@@ -262,7 +262,6 @@ onMounted(() => {
     }
   });
   if (props.id !== "") {
-    console.log("我用了你");
     api
       .get("/api/plugs/searchPlugsGoodCategoryById", {
         params: {
@@ -287,7 +286,7 @@ function onSubmit() {
   // }
   // form.value.businessId = JSONBIG.parse(form.value.businessId);
   if (form.value.id === "") {
-    // console.log(form.value.id, 999);
+    //
     businessList.value.forEach((item2: any) => {
       sleStoreList.value.forEach((item: any) => {
         if (item == item2.businessId) {
@@ -319,7 +318,7 @@ function onSubmit() {
         }
       });
   } else {
-    // console.log("xiugai", 999);
+    //
     form.value.businessId = JSONBIG.parse(form.value.businessId);
     formRef.value &&
       formRef.value.validate((valid: any) => {
@@ -363,7 +362,6 @@ const upload_image = (item: any) => {
 };
 
 const Return = (data: any) => {
-  console.log(data);
   dialogPluginList.value.dialogVisible = false;
   imageUrl.value = data[0];
   form.value.icon = data[0];

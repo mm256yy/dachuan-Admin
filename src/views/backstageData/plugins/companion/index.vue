@@ -230,10 +230,9 @@ const tableobj = reactive({
   keyword: "",
 });
 const userServiceToken = ref(storage.local.get("userServiceToken"));
-console.log(userServiceToken.value, 987777);
 
 function getlist() {
-  let data:any = {
+  let data: any = {
     page: tableobj.currentPage,
     size: tableobj.pageSize,
     adminId: storage.local.get("adminId"),
@@ -241,8 +240,8 @@ function getlist() {
     plugsId: route.params.id,
     keyword: tableobj.keyword,
   };
-  if(route.params.admin == 'admin'){
-    data.userServiceToken = -1
+  if (route.params.admin == "admin") {
+    data.userServiceToken = -1;
   }
   api
     .get("/api/plugs/searchPlugsDataList", { params: data })
@@ -276,7 +275,6 @@ const handleSelectionChange = (val: any) => {
   idlist.value = multipleSelection.value.map((item: any) => {
     return item.id;
   });
-  console.log();
 };
 
 const delPlugin = () => {
@@ -305,8 +303,6 @@ const delPlugin = () => {
 };
 // 审核
 const shenheClick = (e: any) => {
-  console.log(e.jsonViewData.examineStatus);
-
   ElMessageBox.confirm(`确认让其成为陪诊员吗？`, "审核信息")
     .then(() => {
       e.jsonViewData.examineStatus = "1";
@@ -330,7 +326,6 @@ const shenheClick = (e: any) => {
 };
 // 删除插件
 const handleClick = (e: any) => {
-  console.log(e);
   let data = {
     ids: e,
   };

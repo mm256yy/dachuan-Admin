@@ -158,8 +158,6 @@ const handleSelectionChange = (val: any) => {
 };
 
 const Addpinter = () => {
-  console.log(data_list.value, data_list1);
-
   data_list.value = data_list1.value;
   dialogPluginList.value.dialogVisible = false;
 
@@ -246,7 +244,6 @@ const delPlugin = () => {
 };
 
 const del = (item: any) => {
-  console.log(item);
   let data = {
     ids: item.id,
   };
@@ -272,7 +269,6 @@ const del = (item: any) => {
 
 // 刷新组件
 function update(data: any) {
-  console.log(data);
   if (data == "add") {
     get_data();
   } else if (data == "update") {

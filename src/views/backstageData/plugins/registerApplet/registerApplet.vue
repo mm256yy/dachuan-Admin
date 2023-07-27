@@ -290,7 +290,7 @@ const tableobj = reactive({
 });
 const route = useRoute();
 function getlist() {
-  let data:any = {
+  let data: any = {
     page: tableobj.currentPage,
     size: tableobj.pageSize,
     adminId: storage.local.get("adminId"),
@@ -298,8 +298,8 @@ function getlist() {
     userServiceToken: storage.local.get("userServiceToken"),
   };
 
-  if(route.params.admin == 'admin'){
-    data.userServiceToken = -1
+  if (route.params.admin == "admin") {
+    data.userServiceToken = -1;
   }
 
   api
@@ -333,7 +333,6 @@ const handleSelectionChange = (val: any) => {
   idlist.value = multipleSelection.value.map((item: any) => {
     return item.id;
   });
-  console.log();
 };
 
 const delPlugin = () => {
@@ -412,7 +411,6 @@ const viewClick = (item: any) => {
 };
 
 const change = (val: any) => {
-  // console.log(val);
   api
     .get("/api/admin/searchAdminUserById", {
       params: {
@@ -421,13 +419,10 @@ const change = (val: any) => {
     })
     .then((res: any) => {
       if (res.code == 200) {
-        // console.log(plugJson.value, 123);
-
         let arr: any = [];
         arr = JSON.parse(res.body.plugJson);
         arr.push(obj.value);
         plugJson.value = arr;
-        // console.log(plugJson.value);
       }
     });
 };

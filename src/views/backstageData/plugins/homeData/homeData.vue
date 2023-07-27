@@ -25,29 +25,29 @@
           </el-button> -->
         </div>
         <div class="header-right">
-          <div style="margin-right:30px;" >
-                <el-select
-                    size="large"
-                    v-model="selbusinessId"
-                    style="width: 200px;"
-                    filterable
-                    placeholder="选择店铺"
-                  >
-                  <!-- <el-select
+          <div style="margin-right: 30px">
+            <el-select
+              size="large"
+              v-model="selbusinessId"
+              style="width: 200px"
+              filterable
+              placeholder="选择店铺"
+            >
+              <!-- <el-select
                     v-model="form.businessId"
                     style="width: 480px"
                     filterable
                     placeholder="选择店铺(一个或多个)"
                     @change=""
                   > -->
-                  <el-option key="-1" label="全部" value="-1"/>
-                    <el-option
-                      v-for="item in businessList"
-                      :key="item.businessId"
-                      :label="item.businessName"
-                      :value="item.businessId"
-                    />
-                  </el-select>
+              <el-option key="-1" label="全部" value="-1" />
+              <el-option
+                v-for="item in businessList"
+                :key="item.businessId"
+                :label="item.businessName"
+                :value="item.businessId"
+              />
+            </el-select>
           </div>
           <div class="lang">
             <el-input
@@ -223,10 +223,10 @@ const tableobj = reactive({
   currentPage: 1,
   pageSize: 10,
 });
-const keywords:any=ref('');
-const selbusinessId:any=ref('-1')
+const keywords: any = ref("");
+const selbusinessId: any = ref("-1");
 const businessList: any = ref([]);
-function getBusinessInfo(){
+function getBusinessInfo() {
   let datas = {
     adminId: storage.local.get("adminId"),
     userServiceToken: storage.local.get("userServiceToken"),
@@ -237,19 +237,17 @@ function getBusinessInfo(){
         item.jsonViewData.businessId = item.jsonViewData.businessId.toString();
         businessList.value.push(item.jsonViewData);
       });
-      console.log(businessList.value, 456);
     }
   });
 }
 function getlist() {
-
   let data: any = {
     page: tableobj.currentPage,
     size: tableobj.pageSize,
     adminId: storage.local.get("adminId"),
     userServiceToken: storage.local.get("userServiceToken"),
-    keyword:keywords.value,
-    businessId:selbusinessId.value,
+    keyword: keywords.value,
+    businessId: selbusinessId.value,
     id: route.params.id,
   };
   if (route.params.admin == "admin") {
@@ -313,7 +311,6 @@ const handleSelectionChange = (val: any) => {
   idlist.value = multipleSelection.value.map((item: any) => {
     return item.id;
   });
-  console.log();
 };
 
 const delPlugin = () => {

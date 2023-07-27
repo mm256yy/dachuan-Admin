@@ -74,7 +74,6 @@ const props = withDefaults(
   }
 );
 const myVisible = ref(props.modelValue);
-console.log(props, 999);
 
 const title = computed(() =>
   props.id === "" ? "新增商品规格" : "修改商品规格"
@@ -97,7 +96,6 @@ const formRules = ref({
 });
 onMounted(() => {
   if (props.id !== "") {
-    console.log("我用了你");
     api
       .get("/api/plugs/searchPlugsGoodsSpecificationById", {
         params: {
@@ -124,8 +122,6 @@ onMounted(() => {
 
 function onSubmit() {
   if (form.value.id === "") {
-    console.log(form.value.id, 999);
-
     formRef.value &&
       formRef.value.validate((valid: any) => {
         if (valid) {
@@ -148,8 +144,6 @@ function onSubmit() {
         }
       });
   } else {
-    console.log("xiugai", 999);
-
     formRef.value &&
       formRef.value.validate((valid: any) => {
         if (valid) {
@@ -193,7 +187,6 @@ const handleAvatarSuccess: UploadProps["onSuccess"] = (
   response,
   uploadFile
 ) => {
-  console.log(response, uploadFile);
   imageUrl.value = URL.createObjectURL(uploadFile.raw!);
 };
 

@@ -59,7 +59,6 @@ const props = withDefaults(
   }
 );
 const myVisible = ref(props.modelValue);
-console.log(props, 999);
 
 const title = computed(() => (props.id === "" ? "新增" : "修改"));
 
@@ -112,7 +111,7 @@ function onSubmit() {
                 message: "新增成功",
                 center: true,
               });
-              console.log(res, 787);
+
               // emit("success");
               onCancel();
             });

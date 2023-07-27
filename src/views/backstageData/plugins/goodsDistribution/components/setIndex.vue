@@ -8,7 +8,7 @@
     append-to-body
     destroy-on-close
   >
-    <div class="content" style="margin: 20px;position: relative;right: 25px;">
+    <div class="content" style="margin: 20px; position: relative; right: 25px">
       <el-form
         ref="formRef"
         :model="form"
@@ -17,14 +17,13 @@
       >
         <el-form-item label="分销比例" prop="title">
           <el-input
-
-            style="width: 200px;position: relative;bottom: 4px;"
+            style="width: 200px; position: relative; bottom: 4px"
             v-model="form.plugsConfigJson.ratio"
             placeholder="请输入"
             clearable
           >
-          <template #append>%</template>
-        </el-input>
+            <template #append>%</template>
+          </el-input>
         </el-form-item>
       </el-form>
     </div>
@@ -33,7 +32,6 @@
       <el-button type="primary" size="large" @click="onSubmit">
         确定
       </el-button>
-
     </template>
   </el-dialog>
 </template>
@@ -57,10 +55,8 @@ const props = withDefaults(
     plugsId: "",
   }
 );
-console.log(props.modelValue,456);
 
 const myVisible = ref(props.modelValue);
-
 
 const title = computed(() => (props.id === "" ? "分销设置" : "修改"));
 
@@ -89,11 +85,11 @@ onMounted(() => {
     .then((res: any) => {
       if (res.code == 200) {
         if (res.body) {
-
           form.value = res.body;
           form.value.plugsConfigJson = JSON.parse(form.value.plugsConfigJson);
-          form.value.plugsConfigJson.ratio = Number(form.value.plugsConfigJson.ratio * 100)
-
+          form.value.plugsConfigJson.ratio = Number(
+            form.value.plugsConfigJson.ratio * 100
+          );
 
           formId.value = 1;
         } else {
@@ -104,8 +100,9 @@ onMounted(() => {
 });
 
 function onSubmit() {
-
-  form.value.plugsConfigJson['ratio'] =  (Number(form.value.plugsConfigJson.ratio) / 100).toFixed(2)
+  form.value.plugsConfigJson["ratio"] = (
+    Number(form.value.plugsConfigJson.ratio) / 100
+  ).toFixed(2);
   form.value.plugsConfigJson = JSON.stringify(form.value.plugsConfigJson);
   if (formId.value == 0) {
     formRef.value &&

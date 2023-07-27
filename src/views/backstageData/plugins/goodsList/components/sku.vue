@@ -221,10 +221,8 @@ const value1: any = ref("");
 const value2: any = ref("");
 const value3: any = ref("");
 if (props.goodId) {
-  console.log(123);
   goodId.value = props.goodId;
 }
-console.log(goodId.value, 99666);
 const tableData: any = ref([]); //表格的数据
 const tableData1: any = ref([]); //表格的数据
 const guige: any = ref([
@@ -245,32 +243,14 @@ const InputRef = ref<InstanceType<typeof ElInput>>();
 const indexNum: any = ref(0);
 
 const changeindex = (index: any) => {
-  console.log(index);
   indexNum.value = index;
-  console.log(tableData.value[indexNum.value]);
 };
 const changedel = (index: any) => {
-  console.log(index);
   indexNum.value = index;
   tableData.value[indexNum.value].specificationImages = "";
 };
 
 const fullscreenLoading = ref(false);
-const change = (e: any) => {
-  console.log(456);
-  console.log(e.target.files[0]);
-  // 手写的input需要一个对象将本地图片转换为对应的格式来上传
-  let formData = new FormData();
-  // e.target.files就是选中的文件的一个数组
-  formData.append("file", e.target.files[0]);
-  formData.append("type", "1");
-  fullscreenLoading.value = true;
-  api.post("/api/file/uploadImages", formData).then((res: any) => {
-    console.log(res);
-    // form.value.detailsImgAndPageUrl = res.body;
-    tableData.value[indexNum.value].specificationImages = res.body;
-  });
-};
 
 onMounted(() => {
   if (goodId.value !== 0) {
@@ -294,17 +274,13 @@ onMounted(() => {
                 show: false,
                 children: Object.values(item)[0],
               };
-              console.log(item, 456);
               arr.push(obj1);
             }
             arr.forEach((item) => {
-              console.log(item.children, 7777);
               item.children.forEach((ress: any) => {
-                console.log(ress.attributeValue);
                 item.value.push(ress.attributeValue);
               });
             });
-            console.log(arr, 789);
             guige.value = arr;
             let arr1: any = [];
             res.body.plugsGoodsSpecificationList.forEach((item: any) => {
@@ -333,8 +309,6 @@ onMounted(() => {
 watch(
   () => [...tableData.value],
   (newData: any, oldData: any) => {
-    // console.log(newData, 111111111111111111111);
-    console.log(oldData, 2222222222222);
     if (oldData != "[]" && oldData) {
       oldData.forEach((item: any) => {
         tableData.value.forEach((element: any) => {
@@ -369,7 +343,6 @@ const add = () => {
 };
 const del = (index: any) => {
   guige.value.splice(index, 1);
-  console.log(guige.value.length);
 
   if (guige.value.length == 0) {
     tableData.value = [];
@@ -380,7 +353,6 @@ const del = (index: any) => {
   }
 };
 const handleClose = (tag: string, index: any) => {
-  console.log(guige.value[index].value.indexOf(tag), tag, 456);
   guige.value[index].value.splice(guige.value[index].value.indexOf(tag), 1);
   handleInputConfirm(index);
 };
@@ -393,14 +365,11 @@ const showInput = (index: any) => {
 };
 
 const handleInputConfirm = (index: any) => {
-  console.log(index);
   if (guige.value[index].title) {
     guige.value[index].value.push(guige.value[index].title);
   }
   guige.value[index].show = false;
   guige.value[index].title = "";
-
-  console.log(guige.value);
 
   getTbable();
   // emit("success", guige.value, tableData.value);
@@ -430,11 +399,9 @@ const getTbable = () => {
     obj[guige.value[sum].name] = guige.value[sum].value;
   }
   tableData.value = permutation(obj);
-  console.log(tableData.value);
 
   let arr: any = [];
   tableData.value.forEach((item: any, index: any) => {
-    console.log(JSON.stringify(item));
     let name = {
       specificationName: "",
     };
@@ -482,7 +449,6 @@ const upload_file = (item: any) => {
 };
 
 const Return = (data: any) => {
-  console.log(types.value);
   dialogPluginList.value.dialogVisible = false;
   tableData.value[types.value].specificationImages = data[0];
 };

@@ -233,7 +233,6 @@ function configJson() {
     })
     .then((res: any) => {
       info.value = res.body.configJson;
-      console.log(info.value);
       getMallSetting();
     });
 }
@@ -242,15 +241,8 @@ function getMallSetting() {
   try {
     let config: any = JSON.parse(info.value);
 
-    console.log(config.smallRoutine);
-    console.log(config.shopLogo);
-    console.log(config.shopMobile);
-    console.log(config.shareTitle);
-    console.log(config.shareImages);
-
     for (var a = 0; wx_form.value.familyMember.length > a; a++) {
       for (let key in config.weiXinConfig) {
-        // console.log(key,wx_form.value.familyMember[a].label)
         if (key == wx_form.value.familyMember[a].label) {
           if (config.weiXinConfig[key] == 0) {
           } else {
@@ -278,8 +270,6 @@ function getMallSetting() {
         }
       }
     }
-
-    console.log(wx_form);
 
     getUserList();
   } catch (error) {}
@@ -403,8 +393,6 @@ const handleAvatarSuccess1: UploadProps["onSuccess"] = (
   response,
   uploadFile
 ) => {
-  console.log("resss", response, uploadFile);
-
   wx_form.value.dianpu[1].data = response.body;
   var b: any = {
     userServiceToken: storage.local.get("userServiceToken"),

@@ -72,7 +72,6 @@ const props = withDefaults(
   }
 );
 const myVisible = ref(props.modelValue);
-console.log(props, 999);
 
 const title = computed(() => (props.id === "" ? "新增班级" : "修改班级"));
 const form = ref({
@@ -105,7 +104,6 @@ onMounted(() => {
       }
     });
   if (props.id !== "") {
-    console.log("我用了你");
     api
       .get("/api/plugs/searchPlugsPracticeClassById", {
         params: {
@@ -142,7 +140,6 @@ function onSubmit() {
         }
       });
   } else {
-    console.log("xiugai", 999);
     formRef.value &&
       formRef.value.validate((valid: any) => {
         if (valid) {

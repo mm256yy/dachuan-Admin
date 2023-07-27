@@ -126,7 +126,6 @@ const props = withDefaults(
   }
 );
 const myVisible = ref(props.modelValue);
-console.log(props, 999);
 
 const title = computed(() => (props.id === "" ? "新增插件" : "修改插件"));
 const form = ref({
@@ -147,7 +146,6 @@ const formRules = ref({
 });
 onMounted(() => {
   if (props.id !== "") {
-    console.log("我用了你");
     api
       .get("/api/plugs/searchPlugsInfoById", {
         params: {
@@ -172,8 +170,6 @@ onMounted(() => {
 
 function onSubmit() {
   if (form.value.id === "") {
-    console.log(form.value.id, 999);
-
     formRef.value &&
       formRef.value.validate((valid: any) => {
         if (valid) {
@@ -185,7 +181,7 @@ function onSubmit() {
                   message: "新增成功",
                   center: true,
                 });
-                console.log(res, 787);
+
                 // emit("success");
                 onCancel();
               } else {
@@ -198,8 +194,6 @@ function onSubmit() {
         }
       });
   } else {
-    console.log("xiugai", 999);
-
     formRef.value &&
       formRef.value.validate((valid: any) => {
         if (valid) {
@@ -234,32 +228,6 @@ function onCancel() {
 // 图片上传
 
 const imageUrl = ref("");
-const header: any = reactive({
-  BGDEBUG: 0,
-  testToken: "2gq72h2qrbhx256y0167uf5wd64ls55u",
-  Authorization: userStore.token,
-});
-
-const baseURL: any = "https://api.daccf.com/api/file/uploadImages";
-const handleAvatarSuccess: UploadProps["onSuccess"] = (
-  response,
-  uploadFile
-) => {
-  console.log(response, uploadFile);
-  imageUrl.value = URL.createObjectURL(uploadFile.raw!);
-  form.value.icon = response.body;
-};
-
-const beforeAvatarUpload: UploadProps["beforeUpload"] = (rawFile) => {
-  // if (rawFile.type !== "image/jpeg") {
-  //   ElMessage.error("Avatar picture must be JPG format!");
-  //   return false;
-  // } else if (rawFile.size / 1024 / 1024 > 2) {
-  //   ElMessage.error("Avatar picture size can not exceed 2MB!");
-  //   return false;
-  // }
-  // return true;
-};
 
 const types: any = ref("");
 // 使用文件管理组件

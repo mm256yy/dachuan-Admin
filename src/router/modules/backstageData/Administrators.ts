@@ -8,7 +8,7 @@ const routes: RouteRecordRaw = {
   redirect: '/backstageData/Administrators/adminList',
   name: 'Administrators',
   meta: {
-    title: '管理员设置',
+    title: '超级管理',
     i18n: 'route.multimenu.root',
     icon: 'heroicons-solid:menu-alt-3',
     sidebar:false
@@ -19,7 +19,7 @@ const routes: RouteRecordRaw = {
       name: 'adminList',
       component: () => import('@/views/backstageData/Administrators/adminList.vue'),
       meta: {
-        title: '管理员',sidebar: false,
+        title: '商家列表',sidebar: false,
       },
     },
     {

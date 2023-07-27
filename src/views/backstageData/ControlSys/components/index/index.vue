@@ -80,7 +80,6 @@ const props = withDefaults(
   }
 );
 const myVisible = ref(props.modelValue);
-console.log(props, 999);
 
 const title = computed(() =>
   props.id === "" ? "创建运费模板" : "修改运费模板"
@@ -116,7 +115,6 @@ onMounted(() => {
     }
   });
   if (props.id !== "") {
-    console.log("我用了你");
     api
       .get("/api/platform/searchExpressfeeTemplateById", {
         params: {
@@ -126,7 +124,6 @@ onMounted(() => {
       .then((res: any) => {
         form.value = res.body;
         form.value.businessId = form.value.businessId.toString();
-        console.log(form.value.businessId);
       });
   }
 });
@@ -156,7 +153,6 @@ function onSubmit() {
                 message: "新增成功",
                 center: true,
               });
-              console.log(res, 787);
               // emit("success");
               onCancel();
             });

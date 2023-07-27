@@ -437,9 +437,7 @@ const handleCheckChange = (
   indeterminate: boolean
 ) => {
   const res = tree.value.getCheckedNodes();
-  console.log(res.length, data);
 
-  // console.log(res[0].value.length);
   if (res.length === 1) {
     if (res[0].value.length == 2) {
       codelist.value = [];
@@ -482,7 +480,6 @@ const handleCheckChange = (
     }
   } else if (res.length > 1) {
     res.forEach((item: any) => {
-      console.log(item);
       if (item.value.length === 2) {
         api
           .get("/api/platform/searchCityList", {
@@ -529,10 +526,8 @@ const handleCheckChange = (
 };
 
 const change = (e: any, a: any, b: any) => {
-  console.log(value.value, 99888);
   const res = tree.value.getCheckedNodes();
   if (res.length == 1) {
-    console.log(456456);
     api
       .get("/api/platform/searchCityList", {
         params: { provinceCode: e.value },
@@ -572,12 +567,9 @@ const change = (e: any, a: any, b: any) => {
         }
       });
   } else if (res.length > 1) {
-    console.log(456);
     codelist.value = [];
 
     res.forEach((item: any) => {
-      console.log(item);
-
       api
         .get("/api/platform/searchCityList", {
           params: { provinceCode: item.value },
@@ -608,12 +600,9 @@ const change = (e: any, a: any, b: any) => {
 };
 
 const loadNode = (node: any, resolve: (data: any) => void) => {
-  console.log(node, 9999999);
-
   if (node.level === 0) {
     return resolve(ProvinceList.value);
   } else if (node.level === 1) {
-    console.log(node.data.label);
     setTimeout(() => {
       let data: any = [];
       api
@@ -622,19 +611,16 @@ const loadNode = (node: any, resolve: (data: any) => void) => {
         })
         .then((res: any) => {
           if (res.code == 200) {
-            console.log(res.body.cityAll);
             res.body.cityAll.forEach((item: any) => {
               item.provinceName = item.cityName;
               item.value = item.cityCode;
               data.push(item);
             });
-            console.log(data, 456);
             resolve(data);
           }
         });
     }, 500);
   } else if (node.level === 2) {
-    console.log(node.data);
     setTimeout(() => {
       let data: any = [];
       api
@@ -643,13 +629,11 @@ const loadNode = (node: any, resolve: (data: any) => void) => {
         })
         .then((res: any) => {
           if (res.code == 200) {
-            console.log(res.body.cityAll);
             res.body.forEach((item: any) => {
               item.provinceName = item.areaName;
               item.value = item.areaCode;
               data.push(item);
             });
-            console.log(data, 456);
             resolve(data);
           }
         });
@@ -661,7 +645,7 @@ onMounted(() => {
   // if (!storage.local.get("ProvinceList")) {
   //   getProvinceList();
   // } else {
-  //   console.log();
+  //
   //   ProvinceList.value=JSON.parse(storage.local.get("ProvinceList"))
   // }
   getProvinceList();
@@ -770,7 +754,6 @@ function getlist() {
           }
         });
       }
-      console.log(tableData.value);
 
       loading.close();
       total.value = res.body.total;
@@ -803,8 +786,6 @@ function findMostFrequentId(arr: any, item: any) {
   return mostFrequentId;
 }
 
-// const mostFrequentId = findMostFrequentId(arr);
-// console.log(mostFrequentId, 999); // 输出 3
 // 新增插件
 function addPlugin() {
   data.value.formModeProps.visible = true;
@@ -872,7 +853,6 @@ const Confirm = () => {
     });
     return;
   }
-  console.log(codelist.value);
   const loading = ElLoading.service({
     lock: true,
     text: "模板信息正在初始化",
@@ -899,7 +879,6 @@ const Confirm = () => {
   // group(list1, 200);
   list2 = group(list1, 500);
   list2.forEach((elements: any, index: any) => {
-    console.log(index);
     http
       .post("/api/platform/insertExpressfeeConf", elements)
       .then((res: any) => {

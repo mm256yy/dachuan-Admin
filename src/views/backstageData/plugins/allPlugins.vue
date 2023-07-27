@@ -174,7 +174,6 @@ const multiplyData: any = (newArrData: any) => {
 onMounted(() => {});
 
 const handleClose = (tag: string, index: any) => {
-  console.log(guige.value[index].value.indexOf(tag), tag, 456);
   guige.value[index].value.splice(guige.value[index].value.indexOf(tag), 1);
   handleInputConfirm(index);
 };
@@ -187,8 +186,6 @@ const showInput = (index: any) => {
 };
 
 const handleInputConfirm = (index: any) => {
-  console.log(index);
-
   list.value = [];
   changetableData.value = [];
   if (guige.value[index].title) {
@@ -197,53 +194,12 @@ const handleInputConfirm = (index: any) => {
   guige.value[index].show = false;
   guige.value[index].title = "";
 
-  console.log(guige.value);
-
   arr.value = [];
   for (let sum = 0; sum < guige.value.length; sum++) {
     arr.value.push(guige.value[sum].value);
   }
-  console.log(arr.value);
 
   tableData.value = multiplyData(arr.value);
-  console.log(tableData.value, 9999);
-
-  // for (let aa: any = 0; aa < guige.value.length; aa++) {
-  //   list.value.push(guige.value[aa].name);
-  // }
-
-  // tableData.value.forEach((element: any) => {
-  //   // element.specificationName = element.join();
-  //   changetableData.value.push(getnewarr(list.value, element));
-  //   element.specificationImages = "";
-  //   element.scribePrice = 499;
-  //   element.dealPrice = 279;
-  //   element.stockNum = 20;
-  // });
-  // console.log(tableData.value, 888);
-  // console.log(changetableData.value, 999);
-
-  // let tableData1 = deepCopy(tableData.value);
-
-  // for (let aa: any = 0; aa < guige.value.length; aa++) {
-  //   tableData1.forEach((item: any) => {
-  //     for (let index = 0; index < item.length; index++) {
-  //       if (aa === index) {
-  //         item.splice(index, 2);
-  //         item.specificationName = item.specificationName.split(",");
-
-  //         // getnewarr(a, b);
-  //         console.log(getnewarr(list.value, item.specificationName), 9999);
-  //         changetableData.value.push(
-  //           getnewarr(list.value, item.specificationName)
-  //         );
-  //       }
-  //     }
-  //   });
-  // }
-  // console.log("data", tableData.value, 666);
-
-  // console.log("data", changetableData.value, 777);
 };
 function getnewarr(keyArr: any, valueArr: any) {
   const arr1: any = [];
@@ -270,7 +226,6 @@ const deepCopy = (obj: any) => {
 const adddd = () => {
   for (let index = 0; index < tableData.value.length; index++) {
     changetableData.value.forEach((element: any, inx: any) => {
-      // console.log(inx);
       if (index == inx) {
         element.specificationName = JSON.stringify(element);
         element.specificationImages =
@@ -281,8 +236,6 @@ const adddd = () => {
       }
     });
   }
-  console.log("data", tableData.value, 777);
-  console.log("data", changetableData.value, 99965);
 };
 const add = () => {
   let obj = {

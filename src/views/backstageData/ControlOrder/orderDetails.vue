@@ -38,22 +38,17 @@ function getMallSetting() {
   let data: any = {
     id: route.params.id,
   };
-  console.log(data);
   try {
     api
       .get("/api/order/getOrderInfoById", {
         params: data,
       })
       .then((res: any) => {
-        console.log(res);
         if (res.code == 200) {
           content.value = res.body;
-          // console.log(content.value,'订单详情8888888888')
         }
       });
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 }
 
 function formatDate(value: any) {
@@ -73,23 +68,22 @@ function formatDate(value: any) {
 }
 
 function addressData(value: any) {
-  // console.log((value))
   let data: any = value;
   try {
     data = JSON.parse(data);
   } catch (error) {
     // data = JSON.parse(data)
   }
-  let province ='';
-  if(content.value.logisticsType == 4){
-    province=data.address;
-  }else{
-    province= data.province + "" + data.city + "" + data.district + "" + data.address;
+  let province = "";
+  if (content.value.logisticsType == 4) {
+    province = data.address;
+  } else {
+    province =
+      data.province + "" + data.city + "" + data.district + "" + data.address;
   }
   return province;
 }
 function addressData1(value: any) {
-  // console.log((value))
   let data: any = value;
   try {
     data = JSON.parse(data);
@@ -114,7 +108,6 @@ const open = () => {
         pass: 0,
       };
       api.post("/api/order/shopApplyOrderRefund", data).then((res: any) => {
-        console.log(res);
         if (res.code == 200) {
           ElMessage({
             type: "success",
@@ -136,7 +129,6 @@ const open = () => {
         pass: 1,
       };
       http.post("/api/order/shopApplyOrderRefund", data).then((res: any) => {
-        console.log(res);
         if (res.code == 200) {
           getMallSetting();
           ElMessage({
@@ -191,28 +183,24 @@ const open = () => {
               <div
                 style="font-size: 10px; display: flex; align-items: center"
                 v-if="content.orderLogistics.payType == 1"
-
               >
                 微信支付
               </div>
               <div
                 style="font-size: 10px; display: flex; align-items: center"
-                v-else-if="content.orderLogistics
-.payType == 2"
+                v-else-if="content.orderLogistics.payType == 2"
               >
                 支付宝支付
               </div>
               <div
                 style="font-size: 10px; display: flex; align-items: center"
-                v-else-if="content.orderLogistics
-.payType ==3"
+                v-else-if="content.orderLogistics.payType == 3"
               >
                 积分支付
               </div>
               <div
                 style="font-size: 10px; display: flex; align-items: center"
-                v-else-if="content.orderLogistics
-.payType ==5"
+                v-else-if="content.orderLogistics.payType == 5"
               >
                 余额支付
               </div>
@@ -275,23 +263,26 @@ const open = () => {
               </div>
             </div>
             <div style="display: flex; margin: 10px 0">
-              <div v-if="content.logisticsType == 4" >
+              <div v-if="content.logisticsType == 4">
                 <div style="font-weight: bolder; font-size: 12px; width: 80px">
-                自提地址：
+                  自提地址：
                 </div>
-                <div style="font-size: 10px; display: flex; align-items: center">
-                 {{ addressData(content.orderLogistics.receiverMobile) }}
+                <div
+                  style="font-size: 10px; display: flex; align-items: center"
+                >
+                  {{ addressData(content.orderLogistics.receiverMobile) }}
                 </div>
               </div>
-              <div v-else >
+              <div v-else>
                 <div style="font-weight: bolder; font-size: 12px; width: 80px">
-                收货地址：
+                  收货地址：
                 </div>
-                <div style="font-size: 10px; display: flex; align-items: center">
-                 {{ addressData(content.orderLogistics.receiverMobile) }}
+                <div
+                  style="font-size: 10px; display: flex; align-items: center"
+                >
+                  {{ addressData(content.orderLogistics.receiverMobile) }}
                 </div>
               </div>
-             
             </div>
             <!-- <div style="display:flex;margin: 10px 0;">
                 <div style="font-weight:bolder;font-size: 12px;width: 80px;">会员昵称：</div>
@@ -361,7 +352,7 @@ const open = () => {
                 下单时间
               </div>
               <div style="font-size: 10px; display: flex; align-items: center">
-                {{ content.createTime}}
+                {{ content.createTime }}
               </div>
             </div>
 

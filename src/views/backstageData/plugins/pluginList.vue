@@ -238,7 +238,6 @@ const delet: any = ref("");
 const pliginadd: any = ref("");
 
 const buttonauto = () => {
-  // console.log("123",localStorage.getItem('fa_menuList'));
   const btnList = JSON.parse(localStorage.getItem("fa_menuList") || "");
   const adminId = Number(localStorage.getItem("fa_adminId"));
 
@@ -263,8 +262,6 @@ const buttonauto = () => {
                 params: ds,
               })
               .then((res1: any) => {
-                console.log(res1);
-
                 const buttonlt: any = buttonParse.split(",");
                 res1.body.forEach((item: any) => {
                   for (let index = 0; index < buttonlt.length; index++) {
@@ -380,7 +377,6 @@ const handleSelectionChange = (val: any) => {
   idlist.value = multipleSelection.value.map((item: any) => {
     return item.id;
   });
-  console.log();
 };
 
 const delPlugin = () => {
@@ -459,7 +455,6 @@ const viewClick = (item: any) => {
 };
 
 const change = (val: any) => {
-  // console.log(val);
   api
     .get("/api/admin/searchAdminUserById", {
       params: {
@@ -468,13 +463,10 @@ const change = (val: any) => {
     })
     .then((res: any) => {
       if (res.code == 200) {
-        // console.log(plugJson.value, 123);
-
         let arr: any = [];
         arr = JSON.parse(res.body.plugJson);
         arr.push(obj.value);
         plugJson.value = arr;
-        // console.log(plugJson.value);
       }
     });
 };

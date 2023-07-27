@@ -780,8 +780,6 @@ const get_tixian = () => {
       params: data1,
     })
     .then((res: any) => {
-      console.log(res.body.list);
-
       if (res.code == 200) {
         total1.value = res.body.total;
         tableData2.value = res.body.list;
@@ -790,7 +788,6 @@ const get_tixian = () => {
 };
 
 const handleClick1 = (tab: any, event: Event) => {
-  // console.log(tab.props.label);
   if (tab.props.label == "分销统计") {
     get_fenxiao();
   } else if (tab.props.label == "返佣提现") {
@@ -867,8 +864,6 @@ function handleSizeChange1(val: any) {
   get_tixian();
 }
 function handleCurrentChange1(val: any) {
-  console.log(val);
-
   tableobj1.currentPage = val;
   get_tixian();
 }
@@ -983,7 +978,6 @@ const delPlugin2 = () => {
 
 // 删除插件
 const handleClick = (e: any) => {
-  console.log(e);
   let data = {
     ids: e,
   };

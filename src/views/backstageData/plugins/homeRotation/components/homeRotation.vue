@@ -223,7 +223,7 @@ const props = withDefaults(
   }
 );
 const myVisible = ref(props.modelValue);
-// console.log(props, 999);
+//
 
 const title = computed(() => (props.id === "" ? "新增轮播图" : "修改轮播图"));
 
@@ -288,19 +288,7 @@ onMounted(() => {
         form.value = res.body;
         imageUrl.value = res.body.activityImgUrl;
         form.value.businessId = JSONBIG.stringify(form.value.businessId);
-        // JSONBIG.stringify(form.value.businessId)
-        // sleStoreList.value=sleStoreList.value.push( JSONBIG.stringify(res.body.businessId))
         sleStoreList.value = res.body.businessId.split(",");
-        // console.log( sleStoreList.value,'id')
-        // form.value.id = res.body.id;
-        // form.value.plugsDescribe = res.body.plugsDescribe;
-        // form.value.paths = res.body.paths;
-        // form.value.plugsType = res.body.plugsType;
-        // form.value.icon = res.body.icon;
-        // form.value.plugsStatus = res.body.plugsStatus;
-        // imageUrl.value = res.body.icon;
-        // emit("success");
-        // onCancel();
       });
   }
 });
@@ -373,7 +361,7 @@ function onSubmit() {
                   message: "新增成功",
                   center: true,
                 });
-                console.log(res, 787);
+
                 // emit("success");
                 onCancel();
               } else {
@@ -387,8 +375,6 @@ function onSubmit() {
         }
       });
   } else {
-    console.log("xiugai", 999);
-
     formRef.value &&
       formRef.value.validate((valid: any) => {
         if (valid) {
@@ -430,7 +416,6 @@ const handleAvatarSuccess: UploadProps["onSuccess"] = (
   response,
   uploadFile
 ) => {
-  console.log(response, uploadFile);
   imageUrl.value = URL.createObjectURL(uploadFile.raw!);
   form.value.activityImgUrl = response.body;
 };
@@ -445,13 +430,10 @@ const beforeAvatarUpload: UploadProps["beforeUpload"] = (rawFile) => {
   // }
   // return true;
 };
-const handleRemove: UploadProps["onRemove"] = (uploadFile, uploadFiles) => {
-  console.log(uploadFile, uploadFiles);
-};
+const handleRemove: UploadProps["onRemove"] = (uploadFile, uploadFiles) => {};
 
 const fullscreenLoading = ref(false);
 const change = (e: any) => {
-  console.log(e.target.files[0]);
   // 手写的input需要一个对象将本地图片转换为对应的格式来上传
   let formData = new FormData();
   // e.target.files就是选中的文件的一个数组
@@ -459,7 +441,6 @@ const change = (e: any) => {
   formData.append("type", "1");
   fullscreenLoading.value = true;
   api.post("/api/file/uploadImages", formData).then((res: any) => {
-    console.log(res);
     form.value.detailsImgAndPageUrl = res.body;
     fullscreenLoading.value = false;
   });

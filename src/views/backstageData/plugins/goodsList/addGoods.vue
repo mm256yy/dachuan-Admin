@@ -593,7 +593,6 @@ const defaultSetting = ref({
       formData.append("file", blobInfo.blob());
       formData.append("type", "1");
       api.post("/api/file/uploadImages", formData).then((res: any) => {
-        console.log(res);
         const img = res.body;
         resolve(img);
       });
@@ -612,7 +611,6 @@ const deposit: any = ref({
 });
 const goodId = ref(0);
 const handleClick = (tab: any) => {
-  console.log(tab);
   if (tab == "six") {
     goodId.value = form.value.id;
   }
@@ -756,8 +754,6 @@ onMounted(() => {
         },
       })
       .then((res: any) => {
-        console.log(res);
-
         if (res.code == 200) {
           form.value.consumePersonNum = res.body.consumePersonNum;
           form.value.adminId = res.body.adminId;
@@ -778,7 +774,6 @@ onMounted(() => {
           form.value.monthSales = res.body.monthSales;
           form.value.plugsId = res.body.plugsId;
           form.value.businessId = JSONBIG.stringify(res.body.businessId);
-          console.log(form.value.businessId, "店铺id6666");
           form.value.previewUrl = res.body.previewUrl;
           form.value.retirementRule = res.body.retirementRule;
           form.value.rewardIntegral = res.body.rewardIntegral;
@@ -811,7 +806,6 @@ onMounted(() => {
 
           imageUrl1.value = res.body.previewUrl;
           imageUrl2.value = res.body.goodsDetails;
-          console.log(res.body);
 
           if (res.body.extJson) {
             form.value.extJson = JSON.parse(res.body.extJson);
@@ -849,17 +843,13 @@ const getsku = () => {
               show: false,
               children: Object.values(item)[0],
             };
-            console.log(item, 456);
             arr.push(obj1);
           }
           arr.forEach((item) => {
-            console.log(item.children, 7777);
             item.children.forEach((ress: any) => {
-              console.log(ress.attributeValue);
               item.value.push(ress.attributeValue);
             });
           });
-          console.log(arr, 789);
           guige.value = arr;
           let arr1: any = [];
           res.body.plugsGoodsSpecificationList.forEach((item: any) => {
@@ -881,9 +871,7 @@ const getsku = () => {
     });
 };
 const templateList: any = ref([]);
-function changeCate(val: any) {
-  console.log(val, "分类类型");
-}
+function changeCate(val: any) {}
 function change(val: any) {
   api
     .get("/api/platform/getExpressfeeTemplateList", {
@@ -904,17 +892,14 @@ function change(val: any) {
         return item;
       }
     });
-    console.log(a[0], 1);
     form.value.businessName = a[0].businessName;
     form.value.distributionFee = a[0].shopExpressFee.allShopExpressFee;
   }
-  console.log(form.value, "表单信息");
 }
 
 const guige: any = ref([]);
 const skulist: any = ref([]);
 const skudata = (item: any, list: any) => {
-  console.log(item, list, 9988888);
   guige.value = item;
   skulist.value = list;
 };
@@ -963,7 +948,6 @@ function onSubmit() {
                             item.id = ress.body.id;
                           }
                           item.value.forEach((result: any) => {
-                            console.log(result);
                             let datas = {
                               attributeValue: result,
                               attributeKeyId: item.id,
@@ -986,7 +970,6 @@ function onSubmit() {
                   skulist.value.forEach((element: any) => {
                     element.goodsId = item.id;
                   });
-                  console.log(skulist.value, "78979");
                 });
 
                 let arr = [
@@ -1024,7 +1007,7 @@ function onSubmit() {
                   message: "新增成功",
                   center: true,
                 });
-                console.log(res, 787);
+
                 onCancel();
               } else {
                 ElMessage.error({
@@ -1066,7 +1049,6 @@ function onSubmit() {
                                   item.id = ress.body.id;
                                 }
                                 item.value.forEach((result: any) => {
-                                  console.log(result);
                                   let datas = {
                                     attributeValue: result,
                                     attributeKeyId: item.id,
@@ -1109,51 +1091,6 @@ function onSubmit() {
                       if (res.code == 200) {
                       }
                     });
-                  // guige.value.forEach((item: any) => {
-                  //   let data = {
-                  //     attributeName: item.name,
-                  //     goodsId: form.value.id,
-                  //   };
-                  //   api
-                  //     .post("/api/plugs/insertPlugsGoodsAttributeKey", data)
-                  //     .then((ress: any) => {
-                  //       if (ress.code == 200) {
-                  //         if (item.name === ress.body.attributeName) {
-                  //           item.id = ress.body.id;
-                  //         }
-                  //         item.value.forEach((result: any) => {
-                  //           console.log(result);
-                  //           let datas = {
-                  //             attributeValue: result,
-                  //             attributeKeyId: item.id,
-                  //           };
-                  //           api
-                  //             .post(
-                  //               "/api/plugs/insertPlugsGoodsAttributeValue",
-                  //               datas
-                  //             )
-                  //             .then((ressss) => {
-                  //               if (res.ressss == 200) {
-                  //               }
-                  //             });
-                  //         });
-                  //       }
-                  //     });
-                  // });
-                  // skulist.value.forEach((element: any) => {
-                  //   element.goodsId = form.value.id;
-                  // });
-                  // setTimeout(() => {
-                  //   api
-                  //     .post(
-                  //       "/api/plugs/insertPlugsGoodsSpecification",
-                  //       skulist.value
-                  //     )
-                  //     .then((res2: any) => {
-                  //       if (res2.code == 200) {
-                  //       }
-                  //     });
-                  // }, 1000);
                 }
 
                 ElMessage.success({
@@ -1214,8 +1151,6 @@ const upload_file = (item: any) => {
 };
 
 const Return = (data: any) => {
-  console.log(data, 123);
-
   dialogPluginList.value.dialogVisible = false;
   if (types.value == "商品预览图") {
     imageUrl1.value = data[0];

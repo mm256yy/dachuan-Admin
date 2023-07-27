@@ -96,9 +96,13 @@ meta: title:宠物管理列表
               >{{ scope.row.fosterCareExp }}年</el-tag
             >
           </div>
-          <div v-else-if="scope.row.fosterCareExp>=5 " style="display: flex;justify-content: center;align-items: center;">
-
-            <el-tag class="ml-2" type="danger">{{ scope.row.fosterCareExp }}年</el-tag>
+          <div
+            v-else-if="scope.row.fosterCareExp >= 5"
+            style="display: flex; justify-content: center; align-items: center"
+          >
+            <el-tag class="ml-2" type="danger"
+              >{{ scope.row.fosterCareExp }}年</el-tag
+            >
           </div>
         </template>
       </el-table-column>
@@ -134,19 +138,19 @@ meta: title:宠物管理列表
     </el-table>
 
     <div class="example-pagination-block">
-        <div>
-          <el-pagination
-            background
-            @current-change="handleCurrentChange"
-            @size-change="handleSizeChange"
-            :current-page="tableobj.currentPage"
-            :page-size="tableobj.pageSize"
-            layout="prev,pager,next,total"
-            :total="total"
-          >
-          </el-pagination>
-        </div>
+      <div>
+        <el-pagination
+          background
+          @current-change="handleCurrentChange"
+          @size-change="handleSizeChange"
+          :current-page="tableobj.currentPage"
+          :page-size="tableobj.pageSize"
+          layout="prev,pager,next,total"
+          :total="total"
+        >
+        </el-pagination>
       </div>
+    </div>
 
     <el-dialog
       v-model="dialogVisible"
@@ -226,30 +230,30 @@ meta: title:宠物管理列表
               :show-file-list="false"
               :on-success="handleAvatarSuccess2"
             > -->
-              <img
+            <img
               @click="upload_image('imageUrl')"
-                v-if="form.fosterCareHeadUrl"
-                :src="form.fosterCareHeadUrl"
-                style="
-                  width: 64px;
-                  height: 64px;
-                  margin-left: 10px;
-                  border: 1px solid #ccc;
-                  border-radius: 6px;
-                "
-              />
-              <el-icon
+              v-if="form.fosterCareHeadUrl"
+              :src="form.fosterCareHeadUrl"
+              style="
+                width: 64px;
+                height: 64px;
+                margin-left: 10px;
+                border: 1px solid #ccc;
+                border-radius: 6px;
+              "
+            />
+            <el-icon
               @click="upload_image('imageUrl')"
-                v-else
-                style="
-                  width: 64px;
-                  height: 64px;
-                  border: 1px solid #ccc;
-                  border-radius: 6px;
-                "
-              >
-                <Plus />
-              </el-icon>
+              v-else
+              style="
+                width: 64px;
+                height: 64px;
+                border: 1px solid #ccc;
+                border-radius: 6px;
+              "
+            >
+              <Plus />
+            </el-icon>
             <!-- </el-upload> -->
 
             <!-- <el-input v-model="form.headImgUrl" placeholder="头像" style="width:300px"/> -->
@@ -378,17 +382,16 @@ meta: title:宠物管理列表
               <div style="display: flex">
                 <el-icon
                   @click="upload_image('imageUrl1')"
-                    style="
-                      width: 64px;
-                      height: 64px;
-                      border: 1px solid #ccc;
-                      border-radius: 6px;
-                    "
-                  >
-                    <Plus />
-                  </el-icon>
+                  style="
+                    width: 64px;
+                    height: 64px;
+                    border: 1px solid #ccc;
+                    border-radius: 6px;
+                  "
+                >
+                  <Plus />
+                </el-icon>
                 <img
-
                   style="
                     width: 64px;
                     height: 64px;
@@ -428,7 +431,6 @@ meta: title:宠物管理列表
             <div style="display: flex; flex-direction: column">
               <!-- <el-alert title="双击图片进行删除！" style="height: 30px;margin-bottom: 5px;width: 380px;" type="success" show-icon /> -->
               <div style="display: flex">
-
                 <el-icon
                   @click="upload_image('imageUrl2')"
                   style="
@@ -447,7 +449,6 @@ meta: title:宠物管理列表
                     margin-left: 10px;
                     border: 1px solid #ccc;
                     border-radius: 6px;
-
                   "
                   v-if="form.homePetListJson.length"
                   v-for="(item, index) in form.homePetListJson"
@@ -521,17 +522,17 @@ meta: title:宠物管理列表
       </template>
     </el-dialog>
     <dialogWindows
-          v-if="dialogPluginList.dialogVisible"
-          v-model="dialogPluginList.dialogVisible"
-          :title="dialogPluginList.title"
-          :width="dialogPluginList.width"
-          :button_title="dialogPluginList.button_title"
-          :height="dialogPluginList.heigth"
-          :dialogVisible="dialogPluginList.dialogVisible"
-          :close_title="dialogPluginList.close_title"
-          :data="dialogPluginList.data"
-          @success="Return"
-      />
+      v-if="dialogPluginList.dialogVisible"
+      v-model="dialogPluginList.dialogVisible"
+      :title="dialogPluginList.title"
+      :width="dialogPluginList.width"
+      :button_title="dialogPluginList.button_title"
+      :height="dialogPluginList.heigth"
+      :dialogVisible="dialogPluginList.dialogVisible"
+      :close_title="dialogPluginList.close_title"
+      :data="dialogPluginList.data"
+      @success="Return"
+    />
     <!-- 获取地址以及经纬度 -->
   </div>
 </template>
@@ -594,10 +595,6 @@ function openMapPickPop($event: any) {
   })
     .then(() => {
       window.removeEventListener("message", handleMapPickedMessage, false);
-      // console.log(res,'8888888888')
-      console.log("选择了地图", currentPicked.value);
-      // latitude: 0,
-      // longitude: 0,
       form.value.latitude = currentPicked.value.latlng.lat;
       form.value.latitude = currentPicked.value.latlng.lng;
       address.value.city = currentPicked.value.cityname;
@@ -605,7 +602,6 @@ function openMapPickPop($event: any) {
       address.value.longitude = currentPicked.value.latlng.lng;
       address.value.address = currentPicked.value.poiaddress;
       form.value.addressJson = JSON.stringify(address.value);
-      // console.log("选择了地图8888888888", address.value);
     })
     .catch((e) => {
       if (e != "cancel") throw e;
@@ -615,25 +611,15 @@ function openMapPickPop($event: any) {
   window.addEventListener("message", handleMapPickedMessage, false);
 }
 
-
 function handleMapPickedMessage(event: any) {
   /**
    * 接收位置信息，用户选择确认位置点后选点组件会触发该事件，回传用户的位置信息
    */
   let loc = event.data;
-  console.log(event.data, "888888888888888");
   // 防止其他应用也会向该页面post信息，需判断module是否为'locationPicker'
   if (loc && loc.module != "locationPicker") return;
   currentPicked.value = loc;
-  // console.log(" currentPicked.value ", currentPicked.value );
 }
-
-// function address() {
-// 	jsonp('https://apis.map.qq.com/ws/geocoder/v1/?location=39.984154,116.307490&key=OB4BZ-D4W3U-B7VVO-4PJWW-6TKDJ-WPB77&get_poi=1').then((res:any) => {
-// 		console.log(res, '//')
-
-// 	})
-// }
 
 const showInput = () => {
   inputVisible.value = true;
@@ -680,61 +666,21 @@ interface User {
 }
 
 const delimg = (index: any) => {
-  console.log(index);
   form.value.rotationImagesUrl.splice(index, 1);
   // form.value.rotationImagesUrl = JSON.stringify(form.value.rotationImagesUrl);
 };
 
 const delimg1 = (index: any) => {
-  console.log(index);
   form.value.homePetListJson.splice(index, 1);
   // form.value.rotationImagesUrl = JSON.stringify(form.value.rotationImagesUrl);
 };
 
-const handleAvatarSuccess: UploadProps["onSuccess"] = (
-  response,
-  uploadFile
-) => {
-  if (response.body) {
-    form.value.rotationImagesUrl.push(response.body);
-  }
-};
-
-const handleAvatarSuccess1: UploadProps["onSuccess"] = (
-  response,
-  uploadFile
-) => {
-  if (response.body) {
-    form.value.homePetListJson.push({
-      pet_images: response.body,
-    });
-  }
-};
-
 const value = ref("");
-const options = [];
 
 const selectBusi = (val: any) => {
-  console.log(val);
   form.value.businessId = val;
 };
 
-const header: any = reactive({
-  BGDEBUG: 0,
-  testToken: "2gq72h2qrbhx256y0167uf5wd64ls55u",
-  Authorization: userStore.token,
-});
-const baseURL: any = "https://api.daccf.com/api/file/uploadImages";
-
-const handleAvatarSuccess2: UploadProps["onSuccess"] = (
-  response,
-  uploadFile
-) => {
-  // response.body
-  form.value.fosterCareHeadUrl = response.body;
-  console.log(response, uploadFile);
-};
-// const
 const multipleTableRef = ref<InstanceType<typeof ElTable>>();
 const multipleSelection = ref<User[]>([]);
 const businessList: any = ref();
@@ -760,40 +706,34 @@ function handleCurrentChange(val: any) {
 }
 
 const getPet = () => {
+  var data: any = {
+    page: tableData.currentPage,
+    size: tableData.pageSize,
+    adminId: localStorage.getItem("fa_adminId"),
+    userServiceToken: localStorage.getItem("fa_userServiceToken"),
+  };
 
-  var data:any = {
-      page:tableData.currentPage,
-      size:tableData.pageSize,
-      adminId:localStorage.getItem('fa_adminId'),
-      userServiceToken:localStorage.getItem('fa_userServiceToken'),
-
-    }
-
-  if(route.params.admin == 'admin'){
-    data.userServiceToken = -1
+  if (route.params.admin == "admin") {
+    data.userServiceToken = -1;
   }
 
-  api.get("/api/plugs/searchPlugsPetFosterHomeList",{
-    params:data
-  }).then((res: any) => {
-    if (res.code == 200) {
-
-      total.value = res.body.total;
-      tableobj.keyword = "";
-      res.body.list.forEach((item: any, index: any) => {
-
-        item["homePetListJson"] = JSON.parse(item.homePetListJson);
-        dynamicTags.value = JSON.parse(item.labelList);
-        item.rotationImagesUrl = JSON.parse(item.rotationImagesUrl);
-        item.addressJson = JSON.parse(item.addressJson);
-      });
-      tableData.value = res.body.list;
-      // tableData.forEach((item:any)=>{
-      // 	item.addressJson=JSON.parse(item.addressJson)
-      // })
-      // console.log(tableData.value,'777777777777777799999999')
-    }
-  });
+  api
+    .get("/api/plugs/searchPlugsPetFosterHomeList", {
+      params: data,
+    })
+    .then((res: any) => {
+      if (res.code == 200) {
+        total.value = res.body.total;
+        tableobj.keyword = "";
+        res.body.list.forEach((item: any, index: any) => {
+          item["homePetListJson"] = JSON.parse(item.homePetListJson);
+          dynamicTags.value = JSON.parse(item.labelList);
+          item.rotationImagesUrl = JSON.parse(item.rotationImagesUrl);
+          item.addressJson = JSON.parse(item.addressJson);
+        });
+        tableData.value = res.body.list;
+      }
+    });
 };
 const getbusiness = () => {
   let data = {
@@ -808,8 +748,6 @@ const getbusiness = () => {
     .then((res: any) => {
       if (res.code == 200) {
         res.body.list.forEach((item: any, index: any) => {
-          console.log(item);
-
           item["businessId"] = JSON.parse(item.plugsConfigJson).businessId;
           item["pluginName"] = JSON.parse(item.plugsConfigJson).businessName;
         });
@@ -858,7 +796,6 @@ const addPet = () => {
     userId: 0,
     userServiceToken: localStorage.getItem("fa_userServiceToken"),
   };
-  console.log(form.value, "666666555555555555");
   select_type.value = "新增";
   dialogVisible.value = true;
 };
@@ -937,63 +874,50 @@ const find = () => {
       })
       .then((res: any) => {
         tableData.value.push(res.body);
-        console.log(res);
       });
   } else {
     getPet();
   }
 };
 
+// 使用文件管理组件
 
-  // 使用文件管理组件
+const types: any = ref("");
 
-  const types:any = ref('')
+import dialogWindows from "@/components/FileManagement/dialogWindows.vue";
+const dialogPluginList: any = ref({
+  dialogVisible: false,
+  title: "文件管理",
+  data: "",
+  button_title: "确定",
+  width: "1100",
+  heigth: "500",
+  close_title: "取消",
+});
 
-  import dialogWindows from '@/components/FileManagement/dialogWindows.vue'
-  const dialogPluginList:any = ref({
-    dialogVisible:false,
-    title:'文件管理',
-    data:'',
-    button_title:'确定',
-    width:'1100',
-    heigth:'500',
-    close_title:"取消"
+const upload_image = (item: any) => {
+  dialogPluginList.value.dialogVisible = true;
+  types.value = item;
+};
 
-  })
-
-  const upload_image = (item:any)=>{
-
-    dialogPluginList.value.dialogVisible = true
-    types.value = item
-  }
-
-  const Return = (data:any)=>{
-    dialogPluginList.value.dialogVisible = false
-    if(data.type == 'return'){
-      if(types.value == 'imageUrl'){
-        form.value.fosterCareHeadUrl = data.data[0].url
-      }else if(types.value == 'imageUrl2'){
-        data.data.forEach((item:any) => {
-          form.value.homePetListJson.push({
-            pet_images:item.url
-          })
-
+const Return = (data: any) => {
+  dialogPluginList.value.dialogVisible = false;
+  if (data.type == "return") {
+    if (types.value == "imageUrl") {
+      form.value.fosterCareHeadUrl = data.data[0].url;
+    } else if (types.value == "imageUrl2") {
+      data.data.forEach((item: any) => {
+        form.value.homePetListJson.push({
+          pet_images: item.url,
         });
-
-      }else if(types.value == 'imageUrl1'){
-        data.data.forEach((item:any) => {
-          form.value.rotationImagesUrl.push(item.url)
-        });
-
-      }
-
+      });
+    } else if (types.value == "imageUrl1") {
+      data.data.forEach((item: any) => {
+        form.value.rotationImagesUrl.push(item.url);
+      });
     }
-
   }
-
-
-
-
+};
 </script>
 
 <style>
@@ -1002,11 +926,11 @@ html .location-picker-box {
   max-width: none;
 }
 .example-pagination-block {
-    margin-bottom: 16px;
-    width: 100%;
-    margin-top: 16px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+  margin-bottom: 16px;
+  width: 100%;
+  margin-top: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 </style>

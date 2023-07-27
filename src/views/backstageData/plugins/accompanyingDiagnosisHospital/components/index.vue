@@ -152,7 +152,6 @@
                 />
               </el-form-item>
             </el-scrollbar>
-             
           </el-tab-pane>
           <el-tab-pane label="医院服务" name="second">
             <el-scrollbar height="64vh">
@@ -334,7 +333,7 @@ const props = withDefaults(
   }
 );
 const myVisible = ref(props.modelValue);
-console.log(props, 999);
+
 const activeName = ref("first");
 const title = computed(() => (props.id === "" ? "新增" : "修改"));
 const pcasName: any = ref([]);
@@ -441,7 +440,6 @@ onMounted(() => {
     }
   });
   if (props.id !== "") {
-    console.log("我用了你");
     api
       .get("/api/plugs/searchPlugsHospitalInfoById", {
         params: {
@@ -458,12 +456,10 @@ onMounted(() => {
           serverListJson.value = JSON.parse(form.value.serverListJson);
           departmentJson.value = JSON.parse(form.value.departmentJson);
           addressJson.value = JSON.parse(form.value.addressJson);
-          console.log(hospitalLableJson.value, form.value.departmentJson);
 
           pcasName.value[0] = addressJson.value.province;
           pcasName.value[1] = addressJson.value.city;
           pcasName.value[2] = addressJson.value.district;
-          console.log(pcasName.value);
           imageUrl.value = form.value.hospitalImages;
         }
       });
@@ -471,7 +467,6 @@ onMounted(() => {
 });
 
 function onSubmit() {
-  console.log(JSON.stringify(pcasName.value));
   if (JSON.stringify(pcasName.value) == "[]") {
     ElMessage.error({
       message: "地区不能为空",
@@ -487,11 +482,7 @@ function onSubmit() {
   form.value.hospitalLableJson = JSON.stringify(hospitalLableJson.value);
   form.value.serverListJson = JSON.stringify(serverListJson.value);
   form.value.departmentJson = JSON.stringify(departmentJson.value);
-  console.log(form.value.serverListJson);
-  console.log(form.value.departmentJson);
   if (form.value.id === "") {
-    console.log(form.value.id, 999);
-
     formRef.value &&
       formRef.value.validate((valid: any) => {
         if (valid) {
@@ -502,15 +493,12 @@ function onSubmit() {
                 message: "新增成功",
                 center: true,
               });
-              console.log(res, 787);
               // emit("success");
               onCancel();
             });
         }
       });
   } else {
-    console.log("xiugai", 999);
-
     formRef.value &&
       formRef.value.validate((valid: any) => {
         if (valid) {
@@ -551,15 +539,12 @@ const handleAvatarSuccess: UploadProps["onSuccess"] = (
   response,
   uploadFile
 ) => {
-  console.log(response, uploadFile);
   imageUrl.value = URL.createObjectURL(uploadFile.raw!);
   form.value.hospitalImages = response.body;
 };
 
 const beforeAvatarUpload: UploadProps["beforeUpload"] = (rawFile) => {};
-const handleRemove: UploadProps["onRemove"] = (uploadFile, uploadFiles) => {
-  console.log(uploadFile, uploadFiles);
-};
+const handleRemove: UploadProps["onRemove"] = (uploadFile, uploadFiles) => {};
 // 添加医院服务
 const addServer = () => {
   let obj = {
@@ -578,20 +563,16 @@ const delServer = (index: any) => {
 // 添加服务图片
 const inx: any = ref(0);
 const upload = (index: any) => {
-  console.log(index);
-  inx.value = index;
   // form.value.serverListJson.splice(index, 1);
 };
 
 const change = (e: any) => {
-  console.log(e.target.files[0]);
   // 手写的input需要一个对象将本地图片转换为对应的格式来上传
   let formData = new FormData();
   // e.target.files就是选中的文件的一个数组
   formData.append("file", e.target.files[0]);
   formData.append("type", "1");
   api.post("/api/file/uploadImages", formData).then((res: any) => {
-    console.log(res);
     serverListJson.value[inx.value].serviceImage = res.body;
   });
 };
@@ -617,8 +598,6 @@ const inputVisible1 = ref(false);
 const InputRef1 = ref<InstanceType<typeof ElInput>>();
 
 const handleClose1 = (tag: any, index: any) => {
-  console.log(tag, index);
-  console.log(departmentJson.value[index].child);
   departmentJson.value[index].child.splice(tag, 1);
 };
 
@@ -631,7 +610,6 @@ const showInput1 = (index: any) => {
 
 const handleInputConfirm1 = (index: any) => {
   if (inputValue1.value) {
-    console.log(inputValue1.value);
     departmentJson.value[index].child.push(inputValue1.value);
   }
   departmentJson.value[index].show = false;

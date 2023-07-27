@@ -267,7 +267,6 @@ const defaultSetting = ref({
       formData.append("file", blobInfo.blob());
       formData.append("type", "1");
       api.post("/api/file/uploadImages", formData).then((res: any) => {
-        console.log(res);
         const img = res.body;
         resolve(img);
       });
@@ -419,7 +418,6 @@ const changeType = (index: any) => {
       },
     ];
   }
-  console.log(form.value.questionStemExtJson.testQuestionOptions);
 };
 
 const changeTypeOne = (index: any) => {
@@ -427,7 +425,6 @@ const changeTypeOne = (index: any) => {
     item.answerStatus = 0;
   });
   typeOne.value[index].answerStatus = 1;
-  console.log(typeOne.value);
 };
 
 const changeTypeTwo = (index: any) => {
@@ -435,7 +432,6 @@ const changeTypeTwo = (index: any) => {
     item.answerStatus = 0;
   });
   typeTwo.value[index].answerStatus = 1;
-  console.log(typeTwo.value);
 };
 const randomAbc: any = ref([]);
 const setDesc = () => {
@@ -444,7 +440,6 @@ const setDesc = () => {
   for (let i = 65; i < 91; i++) {
     letterArr[i] = String.fromCharCode(i);
   }
-  console.log(letterArr);
 
   randomAbc.value = letterArr.splice(65);
 };
@@ -464,9 +459,7 @@ const changeTypeTwoDel = (index: any) => {
   });
 };
 
-const changeTypeThree = (index: any) => {
-  console.log(index, typeThree.value);
-};
+const changeTypeThree = (index: any) => {};
 
 const changeTypeThreeAdd = () => {
   let obj = {
@@ -510,7 +503,6 @@ onMounted(() => {
   // 获取题库
   getquestionBankList();
   if (form.value.id != 0) {
-    console.log("我用了你");
     api
       .get("/api/plugs/searchPlugsPracticeTestQuestionsManageById", {
         params: {
@@ -554,7 +546,6 @@ function onSubmit() {
   } else if (form.value.questionType == 2) {
     form.value.questionStemExtJson.testQuestionOptions = typeThree.value;
   }
-  console.log(form.value.questionStemExtJson);
 
   if (form.value.id == 0) {
     formRef.value &&
@@ -574,7 +565,6 @@ function onSubmit() {
                   message: "新增成功",
                   center: true,
                 });
-                console.log(res, 787);
                 onCancel();
               } else {
                 ElMessage.error({
@@ -627,7 +617,6 @@ function onCancel() {
   });
 }
 function changesub(value: any) {
-  console.log(value);
   dataId.value = value;
   getquestionBankList();
 }

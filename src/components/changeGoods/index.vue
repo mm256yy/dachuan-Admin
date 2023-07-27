@@ -9,47 +9,47 @@
     destroy-on-close
   >
     <div class="header-right" style="display: flex; justify-content: end">
-      <div class="lang" style="display: flex;" >
+      <div class="lang" style="display: flex">
         <div>
           <el-select
-                v-if="props.id==-1"
-                size="large"
-                style="width:180px ;"
-                v-model="props.id"
-                filterable
-                placeholder="选择店铺"
-                @change="changeStore(businessId)"
-              >
-                <el-option   key="-1" label="全部" value="-1" />
-                <el-option
-                  v-for="item in businessList"
-                  :key="item.businessId"
-                  :label="item.businessName"
-                  :value="item.businessId"
-                />
-            </el-select>
+            v-if="props.id == -1"
+            size="large"
+            style="width: 180px"
+            v-model="props.id"
+            filterable
+            placeholder="选择店铺"
+            @change="changeStore(businessId)"
+          >
+            <el-option key="-1" label="全部" value="-1" />
+            <el-option
+              v-for="item in businessList"
+              :key="item.businessId"
+              :label="item.businessName"
+              :value="item.businessId"
+            />
+          </el-select>
           <el-select
-                v-else
-                size="large"
-                style="width:180px ;"
-                v-model="props.id"
-                filterable
-                placeholder="选择店铺"
-                disabled
-                @change="changeStore(businessId)"
-              >
-                <el-option   key="-1" label="全部" value="-1" />
-                <el-option
-                  v-for="item in businessList"
-                  :key="item.businessId"
-                  :label="item.businessName"
-                  :value="item.businessId"
-                />
-            </el-select>
+            v-else
+            size="large"
+            style="width: 180px"
+            v-model="props.id"
+            filterable
+            placeholder="选择店铺"
+            disabled
+            @change="changeStore(businessId)"
+          >
+            <el-option key="-1" label="全部" value="-1" />
+            <el-option
+              v-for="item in businessList"
+              :key="item.businessId"
+              :label="item.businessName"
+              :value="item.businessId"
+            />
+          </el-select>
         </div>
-            
+
         <el-input
-          style="width: 150px; height: 40px;margin-left: 10px;"
+          style="width: 150px; height: 40px; margin-left: 10px"
           v-model="tableobj.keyword"
           placeholder="搜索商品"
           @keyup.enter.native="getlist"
@@ -99,18 +99,23 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column prop="goodsType
-" label="商品类型" align="center">
+        <el-table-column
+          prop="goodsType
+"
+          label="商品类型"
+          align="center"
+        >
           <template #default="scope">
-            <div v-if="scope.row.goodsType==0" >
-              普通商品
-            </div>
-            <div v-else >
-              积分商品
-            </div>
+            <div v-if="scope.row.goodsType == 0">普通商品</div>
+            <div v-else>积分商品</div>
           </template>
         </el-table-column>
-        <el-table-column prop="goodsName" show-overflow-tooltip label="商品名称" align="center" />
+        <el-table-column
+          prop="goodsName"
+          show-overflow-tooltip
+          label="商品名称"
+          align="center"
+        />
         <el-table-column
           prop="categoryName"
           label="商品分类"
@@ -162,7 +167,6 @@ const props = withDefaults(
 );
 const tableData: any = ref([]);
 const categoryList: any = ref([]);
-console.log(props,'携带信息');
 
 const myVisible: any = ref(props.modelValue);
 onMounted(() => {
@@ -177,13 +181,12 @@ const tableobj = reactive({
   categoryId: -1,
   keyword: "",
 });
-const businessId:any=ref('-1');
-function changeStore(val:any){
-  businessId.value=val;
+const businessId: any = ref("-1");
+function changeStore(val: any) {
+  businessId.value = val;
   getlist();
-    // console.log(val,'选择店铺8888888')
 }
-function getStoreList(){
+function getStoreList() {
   let data = {
     adminId: storage.local.get("adminId"),
     userServiceToken: storage.local.get("userServiceToken"),
@@ -195,7 +198,6 @@ function getStoreList(){
       res.body.forEach((item: any) => {
         item.jsonViewData.businessId = item.jsonViewData.businessId.toString();
         businessList.value.push(item.jsonViewData);
-        // console.log( businessList.value,'店铺列表')
       });
     }
   });
@@ -207,7 +209,7 @@ function getlist() {
     keyword: tableobj.keyword,
     adminId: storage.local.get("adminId"),
     userServiceToken: storage.local.get("userServiceToken"),
-    businessId:props.id !="" ? props.id: -1
+    businessId: props.id != "" ? props.id : -1,
     // businessId: businessId.value != "" ? businessId.value : -1,
   };
   api
@@ -258,7 +260,6 @@ const handleSelectionChange = (val: any) => {
   idlist.value = multipleSelection.value.map((item: any) => {
     return item.id;
   });
-  console.log(idlist.value);
 };
 function handleSizeChange(val: any) {
   tableobj.pageSize = val;

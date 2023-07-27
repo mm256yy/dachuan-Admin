@@ -9,82 +9,129 @@
     append-to-body
     destroy-on-close
   >
-    <div class="content" >
-        <!-- <div style="display: flex;align-items: center;" >
+    <div class="content">
+      <!-- <div style="display: flex;align-items: center;" >
           <div style="margin-right:6px ;" >发票抬头</div>
           <div>{{ form2.jsonData.invoiceHeader }}</div>
         </div> -->
-        <div style="display: flex; margin: 10px 20px">
-              <div style="font-weight: bolder; font-size: 14px; width: 100px;text-align: right;">
-                用户昵称：
-              </div>
-              <div style="font-size: 13px; display: flex; align-items: center">
-                <div>{{ form2.userName}}</div>
-              </div>
+      <div style="display: flex; margin: 10px 20px">
+        <div
+          style="
+            font-weight: bolder;
+            font-size: 14px;
+            width: 100px;
+            text-align: right;
+          "
+        >
+          用户昵称：
         </div>
-        <div style="display: flex; margin: 10px 20px">
-              <div style="font-weight: bolder; font-size: 14px; width: 100px;text-align: right;">
-               消费金额：
-              </div>
-              <div style="font-size: 13px; display: flex; align-items: center">
-                <div>{{ form2.consumptionMoney}}</div>
-              </div>
+        <div style="font-size: 13px; display: flex; align-items: center">
+          <div>{{ form2.userName }}</div>
         </div>
-        <div style="display: flex; margin: 10px 20px">
-              <div style="font-weight: bolder; font-size: 14px; width: 100px;text-align: right;">
-               支付方式：
-              </div>
-              <div style="font-size: 13px; display: flex; align-items: center">
-                <div v-if="form2.payWay==0" >支付宝</div>
-                <div v-else-if="form2.payWay==1" >微信</div>
-                <div v-else-if="form2.payWay==2" >余额</div>
-                <div v-else-if="form2.payWay==3" >微信加余额</div>
-                <div v-else-if="form2.payWay==5" >优惠买单</div>
-              </div>
+      </div>
+      <div style="display: flex; margin: 10px 20px">
+        <div
+          style="
+            font-weight: bolder;
+            font-size: 14px;
+            width: 100px;
+            text-align: right;
+          "
+        >
+          消费金额：
         </div>
-        <div style="display: flex; margin: 10px 20px">
-              <div style="font-weight: bolder; font-size: 14px; width: 100px;text-align: right;">
-               支付状态：
-              </div>
-              <div style="font-size: 13px; display: flex; align-items: center">
-                <div v-if="form2.payRecordStatus==0" >待支付</div>
-                <div v-else-if="form2.payRecordStatus==1" >支付中</div>
-                <div v-else-if="form2.payRecordStatus==2" >支付成功</div>
-                <div v-else-if="form2.payRecordStatus==3" >支付失败</div>
-              </div>
+        <div style="font-size: 13px; display: flex; align-items: center">
+          <div>{{ form2.consumptionMoney }}</div>
         </div>
-        <div style="display: flex; margin: 10px 20px">
-              <div style="font-weight: bolder; font-size: 14px; width: 100px;text-align: right;">
-               所属店铺：
-              </div>
-              <div style="font-size: 13px; display: flex; align-items: center">
-                <div v-for="item in businessList" :key="item.businessId" >
-                  <div v-if="form2.businessId==item.businessId" >
-                    {{ item.businessName }}
-                  </div>
-                </div>
-              </div>
+      </div>
+      <div style="display: flex; margin: 10px 20px">
+        <div
+          style="
+            font-weight: bolder;
+            font-size: 14px;
+            width: 100px;
+            text-align: right;
+          "
+        >
+          支付方式：
         </div>
-       
-        <div style="display: flex; margin: 10px 20px">
-              <div style="font-weight: bolder; font-size: 14px; width: 100px;text-align: right;">
-                交易流水号：
-              </div>
-              <div style="font-size: 13px; display: flex; align-items: center">
-                <div>{{ form2.outTradeNo}}</div>
-              </div>
+        <div style="font-size: 13px; display: flex; align-items: center">
+          <div v-if="form2.payWay == 0">支付宝</div>
+          <div v-else-if="form2.payWay == 1">微信</div>
+          <div v-else-if="form2.payWay == 2">余额</div>
+          <div v-else-if="form2.payWay == 3">微信加余额</div>
+          <div v-else-if="form2.payWay == 5">优惠买单</div>
         </div>
-       
-        <div style="display: flex; margin: 10px 20px">
-              <div style="font-weight: bolder; font-size: 14px; width: 100px;text-align: right;">
-               支付时间：
-              </div>
-              <div style="font-size: 13px; display: flex; align-items: center">
-                <div>{{ form2.payTime
-}}</div>
-              </div>
+      </div>
+      <div style="display: flex; margin: 10px 20px">
+        <div
+          style="
+            font-weight: bolder;
+            font-size: 14px;
+            width: 100px;
+            text-align: right;
+          "
+        >
+          支付状态：
         </div>
-       
+        <div style="font-size: 13px; display: flex; align-items: center">
+          <div v-if="form2.payRecordStatus == 0">待支付</div>
+          <div v-else-if="form2.payRecordStatus == 1">支付中</div>
+          <div v-else-if="form2.payRecordStatus == 2">支付成功</div>
+          <div v-else-if="form2.payRecordStatus == 3">支付失败</div>
+        </div>
+      </div>
+      <div style="display: flex; margin: 10px 20px">
+        <div
+          style="
+            font-weight: bolder;
+            font-size: 14px;
+            width: 100px;
+            text-align: right;
+          "
+        >
+          所属店铺：
+        </div>
+        <div style="font-size: 13px; display: flex; align-items: center">
+          <div v-for="item in businessList" :key="item.businessId">
+            <div v-if="form2.businessId == item.businessId">
+              {{ item.businessName }}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="display: flex; margin: 10px 20px">
+        <div
+          style="
+            font-weight: bolder;
+            font-size: 14px;
+            width: 100px;
+            text-align: right;
+          "
+        >
+          交易流水号：
+        </div>
+        <div style="font-size: 13px; display: flex; align-items: center">
+          <div>{{ form2.outTradeNo }}</div>
+        </div>
+      </div>
+
+      <div style="display: flex; margin: 10px 20px">
+        <div
+          style="
+            font-weight: bolder;
+            font-size: 14px;
+            width: 100px;
+            text-align: right;
+          "
+        >
+          支付时间：
+        </div>
+        <div style="font-size: 13px; display: flex; align-items: center">
+          <div>{{ form2.payTime }}</div>
+        </div>
+      </div>
     </div>
     <template #footer>
       <el-button size="large" @click="onCancel"> 取消 </el-button>
@@ -115,33 +162,26 @@ const props = withDefaults(
   }
 );
 const myVisible = ref(props.modelValue);
-console.log(props, 999);
 
 const title = computed(() => (props.id === "" ? "买单信息" : "买单信息"));
-const businessList:any=ref([])
+const businessList: any = ref([]);
 
-const form2:any=ref({
-  
-})
+const form2: any = ref({});
 
 onMounted(() => {
-    api
-      .get("/api/user/searchConsumptionRecordById", {
-        params: {
-          id:  props.id,
-        },
-      })
-      .then((res: any) => {
-        form2.value=res.body;
-        console.log(res,'订单信息')
-        // form2.value = res.body;
-        // form2.value.jsonData=JSON.parse(form2.value.jsonData)
-        // console.log(form2.value,'form.valueform.valueform.valueform.value')
-        getStoreList()
-      });
-  
+  api
+    .get("/api/user/searchConsumptionRecordById", {
+      params: {
+        id: props.id,
+      },
+    })
+    .then((res: any) => {
+      form2.value = res.body;
+
+      getStoreList();
+    });
 });
-function getStoreList(){
+function getStoreList() {
   let data = {
     adminId: storage.local.get("adminId"),
     userServiceToken: storage.local.get("userServiceToken"),
@@ -153,7 +193,6 @@ function getStoreList(){
       res.body.forEach((item: any) => {
         item.jsonViewData.businessId = item.jsonViewData.businessId.toString();
         businessList.value.push(item.jsonViewData);
-        // console.log( businessList.value,'店铺列表')
       });
     }
   });
@@ -177,11 +216,6 @@ const header: any = reactive({
 // const baseURL: any = "http://192.168.31.47:7001/api/file/uploadImages";
 
 const baseURL: any = "https://api.daccf.com/api/file/uploadImages";
-
-
-
-
-
 </script>
 
 <style scoped>

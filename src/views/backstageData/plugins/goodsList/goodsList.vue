@@ -234,8 +234,6 @@ const data = ref({
 // 下拉信息
 const businessId: any = ref("");
 onMounted(() => {
-  // console.log(route.params, 666);
-
   getDianpu();
 
   getlist();
@@ -285,7 +283,6 @@ function getlist() {
     .then((res: any) => {
       if (res.code == 200) {
         tableData.value = res.body.list;
-        console.log(tableData.value, 456);
 
         // 获取分类
         api
@@ -314,7 +311,6 @@ function getlist() {
 }
 // 上下架
 const changeGoodsStatus = (val: any) => {
-  console.log(val);
   http.post("/api/plugs/updatePlugsGoods", val).then((res: any) => {
     if (res.code == 200) {
       ElMessage.success({
@@ -361,7 +357,6 @@ const handleSelectionChange = (val: any) => {
   idlist.value = multipleSelection.value.map((item: any) => {
     return item.id;
   });
-  console.log();
 };
 
 const delPlugin = () => {

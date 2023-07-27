@@ -1,6 +1,6 @@
 <script lang="ts" setup name="Logo">
-import useSettingsStore from '@/store/modules/settings'
-import imgLogo from '@/assets/images/logo2.png'
+import useSettingsStore from "@/store/modules/settings";
+import imgLogo from "@/assets/images/logo2.png";
 
 defineProps({
   showLogo: {
@@ -11,30 +11,58 @@ defineProps({
     type: Boolean,
     default: true,
   },
-})
+});
 
-const settingsStore = useSettingsStore()
+const settingsStore = useSettingsStore();
 
-const title = ref(import.meta.env.VITE_APP_TITLE)
-const logo = ref(imgLogo)
+const title = ref(import.meta.env.VITE_APP_TITLE);
+const logo = ref(imgLogo);
 
 const to = computed(() => {
   const rtn: {
-    name?: string
-  } = {}
+    name?: string;
+  } = {};
   if (settingsStore.settings.home.enable) {
-    rtn.name = 'home'
+    rtn.name = "home";
   }
-  return rtn
-})
+  return rtn;
+});
 </script>
 
 <template>
-  <router-link :to="to" class="title" :class="{ 'is-link': settingsStore.settings.home.enable }" :title="title">
-    <img v-if="showLogo" :src="logo" class="logo">
-    <div style="display: flex;z-index: 0;width: 160px;">
-      <span v-if="showTitle" style="color:#F6CA9D;">{{ title }}</span>
-      <div style="position:absolute;background: red;padding:1px 2px;border-radius: 3px;color: white;display: flex;justify-content: center;align-items: center;font-size: 5px;left:75%;z-index: 1;">1.0.2</div>
+  <router-link
+    :to="to"
+    class="title"
+    :class="{ 'is-link': settingsStore.settings.home.enable }"
+    :title="title"
+  >
+    <img
+      style="width: 30px; height: 30px"
+      v-if="showLogo"
+      :src="logo"
+      class="logo"
+    />
+    <div style="display: flex; z-index: 0; width: 160px">
+      <span v-if="showTitle" style="color: #f6ca9d; font-size: 20px">{{
+        title
+      }}</span>
+      <div
+        style="
+          position: absolute;
+          background: red;
+          padding: 1px 2px;
+          border-radius: 3px;
+          color: white;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          font-size: 5px;
+          left: 60%;
+          z-index: 1;
+        "
+      >
+        1.0.3
+      </div>
     </div>
   </router-link>
 </template>
