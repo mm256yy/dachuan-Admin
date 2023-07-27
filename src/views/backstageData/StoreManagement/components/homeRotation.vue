@@ -277,7 +277,9 @@ function getlist() {
 }
 function onSubmit() {
   if (props.id == "") {
-    form.value.mobile = Totalaccount.value + ":" + form.value.mobile;
+    if (form.value.mobile !== "") {
+      form.value.mobile = Totalaccount.value + ":" + form.value.mobile;
+    }
     formRef.value &&
       formRef.value.validate((valid: any) => {
         if (valid) {

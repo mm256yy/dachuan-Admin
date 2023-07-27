@@ -118,10 +118,12 @@ watch(
 );
 
 onMounted(() => {
+  if (localStorage.getItem("iconifyl1") == "20") {
+    console.log(123);
+    localStorage.clear();
+  } else if (localStorage.getItem("iconifyl1") == "21") {
+    console.log(456);
 
-  if(localStorage.getItem('iconifyl1') == '20'){
-    localStorage.clear()
-  }else if(localStorage.getItem('iconifyl1') == '21'){
     settingsStore.setMode(document.documentElement.clientWidth);
     window.onresize = () => {
       settingsStore.setMode(document.documentElement.clientWidth);
@@ -130,11 +132,11 @@ onMounted(() => {
       eventBus.emit("global-system-info-toggle");
     });
     getUserInfo();
-  }
-  else{
-    localStorage.setItem('i'+'con'+'ifyl12','1')
-  }
+  } else {
+    console.log(789);
 
+    localStorage.setItem("i" + "con" + "ifyl12", "1");
+  }
 });
 
 const getUserInfo = () => {

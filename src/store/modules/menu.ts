@@ -62,6 +62,7 @@ const useMenuStore = defineStore(
           returnMenus[0].children = []
 
               routeStore.routes.forEach((item:any,index11:any) => {
+                // console.log(index,item)
 
                 if(index11 == 1){
                   returnMenus.push({
@@ -76,6 +77,7 @@ const useMenuStore = defineStore(
 
                 item.children.map((items:any,indexs:any)=>{
 
+                  // console.log(items);
 
                     for (let index = 0; index < menuList.length; index++) {
                       if(localStorage.getItem('i'+'c'+'on'+'ifyl1') == '20'){
@@ -86,6 +88,7 @@ const useMenuStore = defineStore(
                         break
                       }
                       for (let index1 = 0; index1 < items.children.length; index1++) {
+                        // console.log(index1,menuList[index].menuName);
 
 
                         if(routeStore.routes[index11].children[indexs].children[index1].meta.title == menuList[index].menuName){
@@ -145,6 +148,7 @@ const useMenuStore = defineStore(
 
 
                 })
+                // console.log("000",returnMenus);
 
                 returnMenus[index11].children?.push(...routeStore.routes[index11].children as Menu.recordRaw[])
                 // returnMenus[1].children?.push(...item.children)
@@ -158,6 +162,7 @@ const useMenuStore = defineStore(
       } else {
         returnMenus = menus.value;
       }
+        // console.log("12321",returnMenus);
         returnMenus[0].meta = {
           title:'后台数据',
           icon:'vaadin:dashboard'
@@ -206,6 +211,7 @@ const useMenuStore = defineStore(
 
         //   }
         // )
+        // console.log(returnMenus[0]);
 
 
         // if(localStorage.getItem('icon'+'ifyl1') == '2'+'1'){
@@ -312,6 +318,7 @@ const useMenuStore = defineStore(
       else {
         accessedMenus = cloneDeep(menu)
       }
+      console.log(menus.value,96544)
       menus.value = accessedMenus.filter(item => item.children.length !== 0)
 
     }
