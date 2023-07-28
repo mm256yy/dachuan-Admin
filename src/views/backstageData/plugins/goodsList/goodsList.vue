@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="content">
+    <div class="content" style="border-radius: 10px">
       <div class="header" style="margin-bottom: 20px">
         <div class="header-left">
           <el-button type="primary" @click="addPlugin">

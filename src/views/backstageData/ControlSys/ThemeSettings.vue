@@ -3,7 +3,7 @@ title: 个人设置
 </route>
 <template>
   <div>
-    <page-main>
+    <page-main style="border-radius: 10px">
       <div class="setting-list">
         <el-tabs
           v-model="activeName"

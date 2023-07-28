@@ -6,11 +6,11 @@ defineProps({
   },
   content: {
     type: String,
-    default: '',
+    default: "",
   },
-})
+});
 
-const slots = useSlots()
+const slots = useSlots();
 </script>
 
 <template>
@@ -19,7 +19,7 @@ const slots = useSlots()
       <div class="title">
         {{ title }}
       </div>
-      <div class="content">
+      <div class="content" style="border-radius: 10px">
         <slot name="content">
           {{ content }}
         </slot>

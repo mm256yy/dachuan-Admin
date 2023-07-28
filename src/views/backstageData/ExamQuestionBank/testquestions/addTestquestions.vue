@@ -128,7 +128,7 @@ meta:
               @change="changeTypeTwo(index)"
             >
             </el-checkbox>
-            <div class="content">
+            <div class="content" style="border-radius: 10px">
               <el-input
                 v-model="item.centent"
                 :rows="2"
@@ -161,7 +161,7 @@ meta:
               @change="changeTypeThree(index)"
             >
             </el-checkbox>
-            <div class="content">
+            <div class="content" style="border-radius: 10px">
               <el-input
                 v-model="item.centent"
                 :rows="2"

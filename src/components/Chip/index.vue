@@ -1,25 +1,21 @@
 <script lang="ts" setup name="Chip">
 defineProps({
   type: {
-    type: String as () => 'primary' | 'success' | 'info' | 'warning' | 'danger',
-    default: '',
+    type: String as () => "primary" | "success" | "info" | "warning" | "danger",
+    default: "",
   },
   closable: {
     type: Boolean,
     default: false,
   },
-})
+});
 
-const emit = defineEmits(['close'])
+const emit = defineEmits(["close"]);
 </script>
 
 <template>
-  <div
-    class="chip" :class="[
-      type ? `chip--${type}` : '',
-    ]"
-  >
-    <div class="content">
+  <div class="chip" :class="[type ? `chip--${type}` : '']">
+    <div class="content" style="border-radius: 10px">
       <slot />
       <span v-if="closable" class="closable" @click="emit('close')">
         <el-icon>

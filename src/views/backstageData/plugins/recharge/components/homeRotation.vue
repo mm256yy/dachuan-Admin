@@ -8,7 +8,7 @@
     append-to-body
     destroy-on-close
   >
-    <div class="content">
+    <div class="content" style="border-radius: 10px">
       <el-form
         ref="formRef"
         :model="recharge"

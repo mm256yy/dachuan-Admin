@@ -192,10 +192,10 @@ function showorders3() {
 
 <template>
   <div>
-    <page-main>
+    <page-main style="border-radius: 10px">
       <div style="margin: 10px 0">
-        <div style="margin-top: 10px; display: flex; flex-direction: column">
-          <div style="margin: 20px 0">
+        <div style="display: flex; flex-direction: column">
+          <div style="margin: 0px 0 20px 0">
             <el-radio-group v-model="size" label="size control">
               <el-radio-button label="jt">今天</el-radio-button>
               <el-radio-button label="zt">昨天</el-radio-button>
@@ -348,7 +348,6 @@ function showorders3() {
 .content {
   color: #464646;
   border: 1px solid #f2f2f2;
-  border-radius: 5px;
   width: 10%;
   padding: 10px 20px;
   margin: 20px;

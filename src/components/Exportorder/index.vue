@@ -8,7 +8,7 @@
     append-to-body
     destroy-on-close
   >
-    <div class="content">
+    <div class="content" style="border-radius: 10px">
       <el-form :model="form" label-width="100px" style="padding: 0">
         <el-form-item label="订单状态">
           <el-select

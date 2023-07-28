@@ -162,7 +162,7 @@ const open = () => {
           <el-step title="已完成" />
         </el-steps>
       </div>
-      <div class="content">
+      <div class="content" style="border-radius: 10px">
         <div class="cotent_lb">
           <div class="content_text">
             <div style="display: flex; margin: 10px 0">

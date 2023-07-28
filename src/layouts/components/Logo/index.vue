@@ -37,15 +37,15 @@ const to = computed(() => {
     :title="title"
   >
     <img
-      style="width: 30px; height: 30px"
+      style="width: 30px; height: 30px; margin-top: 3px"
       v-if="showLogo"
       :src="logo"
       class="logo"
     />
-    <div style="display: flex; z-index: 0; width: 160px">
+    <div style="display: flex; align-items: center; z-index: 0; width: 160px">
       <span
         v-if="showTitle"
-        style="color: #f6ca9d; font-size: 22px; margin-left: 5px"
+        style="color: #f6ca9d; font-size: 24px; margin-left: 5px"
         >{{ title }}</span
       >
       <div
@@ -58,12 +58,14 @@ const to = computed(() => {
           display: flex;
           justify-content: center;
           align-items: center;
-          font-size: 5px;
-          left: 68%;
+          font-size: 12px;
+          transform: scale(0.75);
+          left: 69%;
+          top: 20px;
           z-index: 1;
         "
       >
-        1.0.3
+        1.2.01
       </div>
     </div>
   </router-link>
@@ -92,7 +94,7 @@ const to = computed(() => {
     width: 30px;
     height: 30px;
     object-fit: contain;
-
+    vertical-align: bottom;
     & + span {
       margin-left: 10px;
     }

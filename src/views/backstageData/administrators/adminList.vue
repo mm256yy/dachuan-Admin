@@ -4,7 +4,7 @@ meta: title:员工管理
 
 <template>
   <div class="container">
-    <div class="content">
+    <div class="content" style="border-radius: 10px">
       <div class="header" style="margin-bottom: 20px">
         <div class="header-left">
           <el-button
@@ -63,26 +63,30 @@ meta: title:员工管理
           style="width: 100%"
           @selection-change="handleSelectionChange"
           :header-cell-style="{
-            background: '#f3f6fd',
-            color: '#555',
+            background: '#f9f9f9',
+            color: '#666',
             textAlign: 'center',
+            height: '55px',
           }"
         >
           <el-table-column type="selection" />
 
           <el-table-column prop="id" label="ID" align="center" width="60" />
-          <el-table-column prop="headImg" label="用户" align="center">
+          <el-table-column prop="headImg" label="用户头像" align="center">
             <template #default="scope">
-              <div style="display: flex">
-                <div>
-                  <img
-                    style="width: 40px; height: 40px"
-                    :src="scope.row.headImg"
-                    alt=""
-                  />
-                </div>
-                <div style="margin: 10px">{{ scope.row.userName }}</div>
+              <div>
+                <img
+                  v-if="scope.row.headImg"
+                  style="width: 40px; height: 40px"
+                  :src="scope.row.headImg"
+                  alt=""
+                />
               </div>
+            </template>
+          </el-table-column>
+          <el-table-column prop="headImg" label="用户名" align="center">
+            <template #default="scope">
+              <div style="margin: 10px">{{ scope.row.userName }}</div>
             </template>
           </el-table-column>
 

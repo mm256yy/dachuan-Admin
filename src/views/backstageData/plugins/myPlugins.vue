@@ -1,33 +1,32 @@
 <template>
-  <div class="content">
-    
-    <div class="contentBox" >
-      <el-alert  title="如对插件有使用问题或需要定制插件功能请联系您的业务经理" type="success" />
+  <div class="content" style="border-radius: 10px">
+    <div class="contentBox">
+      <el-alert
+        title="如对插件有使用问题或需要定制插件功能请联系您的业务经理"
+        type="success"
+      />
       <div class="bigbox">
-      <div
-        class="box"
-        v-for="item in pluginList"
-        :key="item.id"
-        style="
-          position: relative;
-        "
-        @click="gopath1(item)"
-      >
-        <div class="box-left">
-          <img style="border-radius: 5px" :src="item.icon" alt="" />
-        </div>
-        <div class="box-right">
-          <div class="box-title">{{ item.title }}</div>
-          <div class="box-content">{{ item.plugsDescribe }}</div>
-        </div>
-        <!-- <el-icon><Tools /></el-icon> -->
-        <!-- <div style="position: absolute; right: 5px; top: 5px">
+        <div
+          class="box"
+          v-for="item in pluginList"
+          :key="item.id"
+          style="position: relative"
+          @click="gopath1(item)"
+        >
+          <div class="box-left">
+            <img style="border-radius: 5px" :src="item.icon" alt="" />
+          </div>
+          <div class="box-right">
+            <div class="box-title">{{ item.title }}</div>
+            <div class="box-content">{{ item.plugsDescribe }}</div>
+          </div>
+          <!-- <el-icon><Tools /></el-icon> -->
+          <!-- <div style="position: absolute; right: 5px; top: 5px">
           <el-button :icon="Tools" />
         </div> -->
+        </div>
       </div>
     </div>
-    </div>
-    
   </div>
 </template>
 
@@ -38,12 +37,11 @@ const router = useRouter();
 const pluginList: any = ref([]);
 
 const gopath1 = (item: any) => {
-
   router.push({
     name: item.paths,
     params: {
       id: item.id,
-      admin:'user'
+      admin: "user",
     },
   });
 };
@@ -82,7 +80,7 @@ onMounted(() => {
   padding: 20px;
   // background-color: #fff;
 }
-.contentBox{
+.contentBox {
   background-color: #fff;
   padding: 16px;
   border-radius: 6px;
@@ -97,17 +95,16 @@ onMounted(() => {
   flex-wrap: wrap;
   align-items: center;
   background-color: #fff;
-  // justify-content: space-between;
-  
+
   // padding: 16px;
   .box:hover {
     /* 盒子向上移动 */
-    box-shadow: 0 26px 40px -24px rgb(0 36 100 / 50%);
-    transform: translateY(-8px);
-    transition: all .2s;
+    box-shadow: 0 26px 20px -24px rgb(0 36 100 / 50%);
+    transform: translateY(-2px);
+    transition: all 0.2s;
   }
   .box {
-    width: 252px;
+    width: 15%;
     padding: 10px;
     margin: 10px 9px;
     // background-color: rgb(45 140 240 / 6%);

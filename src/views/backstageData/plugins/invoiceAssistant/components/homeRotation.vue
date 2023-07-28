@@ -9,7 +9,7 @@
     append-to-body
     destroy-on-close
   >
-    <div class="content">
+    <div class="content" style="border-radius: 10px">
       <!-- <div style="display: flex;align-items: center;" >
           <div style="margin-right:6px ;" >发票抬头</div>
           <div>{{ form2.jsonData.invoiceHeader }}</div>

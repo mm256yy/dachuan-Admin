@@ -31,9 +31,10 @@ meta:
           :data="jsonDatas"
           style="width: 100%"
           :header-cell-style="{
-            background: '#f3f6fd',
-            color: '#555',
+            background: '#f9f9f9',
+            color: '#666',
             textAlign: 'center',
+            height: '55px',
           }"
         >
           <el-table-column type="selection" />

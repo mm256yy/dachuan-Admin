@@ -4,7 +4,7 @@ meta: title:商品采集
 
 <template>
   <div class="container">
-    <div class="content">
+    <div class="content" style="border-radius: 10px">
       <div class="header" style="margin-bottom: 20px">
         <div class="header-left">
           <el-button type="primary" @click="addPlugin">
@@ -57,9 +57,10 @@ meta: title:商品采集
           style="width: 100%"
           @selection-change="handleSelectionChange"
           :header-cell-style="{
-            background: '#f3f6fd',
-            color: '#555',
+            background: '#f9f9f9',
+            color: '#666',
             textAlign: 'center',
+            height: '55px',
           }"
         >
           <el-table-column type="selection" />

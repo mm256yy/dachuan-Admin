@@ -273,7 +273,7 @@ const Return = (data: any) => {
 </script>
 <template>
   <div>
-    <page-main>
+    <page-main style="border-radius: 10px">
       <div class="header" style="margin-bottom: 20px">
         <div class="header-left">
           <el-button
@@ -318,9 +318,10 @@ const Return = (data: any) => {
           style="width: 100%"
           stripe
           :header-cell-style="{
-            background: '#f3f6fd',
-            color: '#555',
+            background: '#f9f9f9',
+            color: '#666',
             textAlign: 'center',
+            height: '55px',
           }"
           @selection-change="handleSelectionChange"
         >
@@ -330,13 +331,11 @@ const Return = (data: any) => {
 
           <el-table-column label="用户头像" align="center">
             <template #default="scope">
-              <div style="display: flex">
-                <div>
-                  <img
-                    :src="scope.row.headImg"
-                    style="width: 64px; height: 64px"
-                  />
-                </div>
+              <div>
+                <img
+                  :src="scope.row.headImg"
+                  style="width: 64px; height: 64px"
+                />
               </div>
             </template>
           </el-table-column>

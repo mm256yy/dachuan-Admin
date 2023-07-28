@@ -4,33 +4,43 @@ meta: title:菜单列表
 
 <template>
   <div class="container" style="padding: 20px">
-    <div
-      style="
-        background: white;
-        padding: 10px;
-        display: flex;
-        justify-content: space-between;
-      "
-    >
-      <div></div>
-      <div style="display: flex">
-        <el-button
-          type="primary"
-          v-if="roleadd.buttonsName && roleadd.id"
-          style="margin-right: 20px"
-          @click="addMenu"
-          >添加角色</el-button
-        >
+    <div style="background: white; padding: 10px; border-radius: 10px">
+      <div
+        style="
+          background: white;
+          padding: 10px;
+          display: flex;
+          justify-content: space-between;
+        "
+      >
+        <div></div>
+        <div style="display: flex">
+          <el-button
+            type="primary"
+            v-if="roleadd.buttonsName && roleadd.id"
+            style="margin-right: 20px"
+            @click="addMenu"
+            >添加角色</el-button
+          >
 
-        <div style="display: flex; height: 30px">
-          <el-input v-model="keyword" placeholder="查询菜单" />
-          <el-button style="height: 30px">搜索</el-button>
+          <div style="display: flex; height: 30px">
+            <el-input v-model="keyword" placeholder="查询菜单" />
+            <el-button style="height: 30px">搜索</el-button>
+          </div>
         </div>
       </div>
-    </div>
 
-    <div>
-      <el-table :data="tableData" :border="parentBorder" style="width: 100%">
+      <el-table
+        :data="tableData"
+        :border="parentBorder"
+        style="width: 100%"
+        :header-cell-style="{
+          background: '#f9f9f9',
+          color: '#666',
+          textAlign: 'center',
+          height: '55px',
+        }"
+      >
         <el-table-column label="ID" width="60">
           <template #default="scope">
             <div>{{ scope.row.id }}</div>

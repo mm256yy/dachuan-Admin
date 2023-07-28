@@ -4,32 +4,41 @@ meta: title:菜单列表
 
 <template>
   <div class="container">
-    <div
-      style="
-        background: white;
-        padding: 20px;
-        display: flex;
-        justify-content: space-between;
-        box-sizing: border-box;
-      "
-    >
-      <div></div>
-      <div style="display: flex">
-        <el-button
-          type="primary"
-          style="margin-right: 20px"
-          @click="addMenu"
-          v-if="menuadd.buttonsName && menuadd.id"
-          >添加菜单</el-button
-        >
-        <div style="display: flex; height: 30px">
-          <el-input v-model="keyword" placeholder="查询菜单" />
-          <el-button style="height: 30px">搜索</el-button>
+    <div style="border-radius: 10px; background: white; padding: 20px">
+      <div
+        style="
+          display: flex;
+          justify-content: space-between;
+          box-sizing: border-box;
+        "
+      >
+        <div></div>
+        <div style="display: flex">
+          <el-button
+            type="primary"
+            style="margin-right: 20px"
+            @click="addMenu"
+            v-if="menuadd.buttonsName && menuadd.id"
+            >添加菜单</el-button
+          >
+          <div style="display: flex; height: 30px">
+            <el-input v-model="keyword" placeholder="查询菜单" />
+            <el-button style="height: 30px">搜索</el-button>
+          </div>
         </div>
       </div>
-    </div>
-    <div>
-      <el-table :data="tableData" :border="parentBorder" style="width: 100%">
+
+      <el-table
+        :data="tableData"
+        :border="parentBorder"
+        style="width: 100%"
+        :header-cell-style="{
+          background: '#f9f9f9',
+          color: '#666',
+          textAlign: 'center',
+          height: '55px',
+        }"
+      >
         <el-table-column type="expand">
           <template #default="props">
             <div m="4">
@@ -56,8 +65,6 @@ meta: title:菜单列表
                   <template #default="scope">
                     <div
                       style="
-                        background: orange;
-                        color: white;
                         border-radius: 8px;
                         padding: 2px 3px;
                         display: flex;
@@ -157,8 +164,6 @@ meta: title:菜单列表
           <template #default="scope">
             <div
               style="
-                background: red;
-                color: white;
                 border-radius: 8px;
                 padding: 2px 3px;
                 display: flex;
@@ -742,7 +747,7 @@ const erji = (item: any) => {
   align-items: center;
 }
 .container {
-  margin: 20px;
+  margin: 10px;
 }
 .title-icon {
   font-size: 20px;

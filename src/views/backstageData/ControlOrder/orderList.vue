@@ -427,7 +427,7 @@ const changeClick = () => {
 <template>
   <div>
     <div>
-      <page-main>
+      <page-main style="border-radius: 10px">
         <el-tabs
           v-model="activeName"
           class="demo-tabs"
@@ -514,7 +514,7 @@ const changeClick = () => {
                   placement="top-start"
                 >
                   <div style="display: flex; align-items: center">
-                    <p style="font-size: 15px">列表格式:</p>
+                    <p style="font-size: 15px; margin-right: 10px">列表格式:</p>
                     <el-switch
                       v-model="listvalue"
                       class="ml-2"
@@ -578,9 +578,10 @@ const changeClick = () => {
               element-loading-text="加载中..."
               style="width: 100%"
               :header-cell-style="{
-                background: '#f3f6fd',
-                color: '#555',
+                background: '#f9f9f9',
+                color: '#666',
                 textAlign: 'left',
+                height: '55px',
               }"
               @selection-change="handleSelectionChange"
             >

@@ -30,7 +30,7 @@ export default function useWatermark() {
     init({
       // text: `大川长风 页面水印 ${userStore.account}`,
       text: ` ID:${storage.local.get('adminId')}${userStore.account}`,
-      width: 150,
+      width: 200,
       rows:2,
       x: 0,
       y: 0,

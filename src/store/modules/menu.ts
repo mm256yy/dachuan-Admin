@@ -8,6 +8,7 @@ import menu from '@/menu'
 import type { Menu } from '#/global'
 import apis from "./index"
 import { ElInput,ElMessageBox,ElMessage ,UploadUserFile,UploadProps } from "element-plus";
+import { tr } from 'element-plus/es/locale'
 const useMenuStore = defineStore(
   // 唯一ID
   'menu',
@@ -62,7 +63,7 @@ const useMenuStore = defineStore(
           returnMenus[0].children = []
 
               routeStore.routes.forEach((item:any,index11:any) => {
-                // console.log(index,item)
+
 
                 if(index11 == 1){
                   returnMenus.push({
@@ -76,6 +77,7 @@ const useMenuStore = defineStore(
                 }
 
                 item.children.map((items:any,indexs:any)=>{
+
 
                   // console.log(items);
 
@@ -168,55 +170,31 @@ const useMenuStore = defineStore(
           icon:'vaadin:dashboard'
         }
 
+        var dd:any = 0
+        try{
 
 
-        // returnMenus[0].children.push(
-        //   {
-        //     path: '/backstageData/Index',
-        //     component:() => import('@/layouts/index.vue'),
-        //     redirect: '/backstageData/Index/homes',
-        //     name: 'Index',
-        //     meta: {
-        //       title: '首页',
-        //       i18n: 'route.multimenu.root',
-        //       icon: 'ep:box',
-        //       sidebar:true
-        //     },
-        //     children: [
-        //       {
-        //         path: 'homes',
-        //         name: 'homes',
-        //         component: () => import('@/views/index.vue'),
-        //         meta: {
-        //           title: '首页11',
-        //           sidebar:true
-        //         },
-        //       },
+          returnMenus[1].children.forEach((element:any) => {
+            if(element.meta.sidebar){
 
-        //     ],
-        //   }
-        // )
+            }else{
+              dd = 11
+            }
+
+          });
+
+        }catch{
+
+        }
 
 
-        // returnMenus[0].children[2].children.push(
-        //   {
-        //     name:"shopManagement",
-        //     path:"shopManagement",
-        //     component: () => import("/src/views/backstageData/ControlSys/shopManagement.vue"),
-        //     meta:{
-        //       icon: "vaadin:dashboard",
-        //       sidebar: true,
-        //       title: "店铺设置"
-        //     }
-
-        //   }
-        // )
-        // console.log(returnMenus[0]);
+        if(dd == 11){
+          returnMenus = returnMenus.splice(0,1)
+        }
 
 
-        // if(localStorage.getItem('icon'+'ifyl1') == '2'+'1'){
           return returnMenus
-        // }
+
 
     })
     // 次导航数据

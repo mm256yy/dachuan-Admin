@@ -2,7 +2,7 @@
   <el-dialog
     v-model="myVisible"
     :title="title"
-    width="280px"
+    width="400px"
     :close-on-click-modal="false"
     :show-close="false"
     append-to-body

@@ -1,6 +1,11 @@
 <template>
   <div class="container">
-    <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick1">
+    <el-tabs
+      v-model="activeName"
+      class="demo-tabs"
+      @tab-click="handleClick1"
+      style="background-color: #fff; border-radius: 10px; padding: 20px"
+    >
       <el-tab-pane label="分销记录" name="first">
         <el-scrollbar height="64vh">
           <div class="content">

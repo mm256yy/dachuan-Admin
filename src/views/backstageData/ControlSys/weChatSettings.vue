@@ -233,6 +233,7 @@ function configJson() {
     })
     .then((res: any) => {
       info.value = res.body.configJson;
+      console.log(JSON.parse(info.value));
 
       getMallSetting();
     });
@@ -389,15 +390,10 @@ const handleAvatarSuccess: UploadProps["onSuccess"] = (
   response,
   uploadFile
 ) => {
-  // imageUrl.value = URL.createObjectURL(uploadFile.raw!);
-  // form.value.rotationImgsJson = response.body[0];
-};
 
-const handleAvatarSuccess1: UploadProps["onSuccess"] = (
-  response,
-  uploadFile
-) => {
-  wx_form.value.dianpu[1].data = response.body;
+  // imageUrl.value = URL.createObjectURL(uploadFile.raw!);
+
+  // wx_form.value.familyMember[5].mobile = response.body;
   var b: any = {
     userServiceToken: storage.local.get("userServiceToken"),
     id: Number(storage.local.get("adminId")),
@@ -410,6 +406,62 @@ const handleAvatarSuccess1: UploadProps["onSuccess"] = (
                 "mchid":"${wx_form.value.familyMember[2].mobile || 0}",
                 "pay_key":"${wx_form.value.familyMember[3].mobile || 0}",
                 "pay_cert":"${wx_form.value.familyMember[4].mobile || 0}",
+                "pay_cert_key":"${response.body || 0}",
+                "g_appid":"${wx_form.value.familyMember[6].mobile || 0}",
+                "g_secret":"${wx_form.value.familyMember[7].mobile || 0}",
+                "g_token":"${wx_form.value.familyMember[8].mobile || 0}",
+                "g_encodingAESKey":"${
+                  wx_form.value.familyMember[9].mobile || 0
+                }"
+              },
+              "shopLogo":"${wx_form.value.dianpu[1].data || 0}",
+              "shopMobile":"${wx_form.value.dianpu[2].data || 0}",
+              "shareImages":"${wx_form.value.dianpu[4].data || 0}",
+              "qiniuYunConfig":{
+                "bucket":"${wx_form.value.cunchu[2].data || 0}",
+                "secretKey":"${wx_form.value.cunchu[1].data || 0}",
+                "accessKey":"${wx_form.value.cunchu[0].data || 0}",
+                "zone":"${wx_form.value.cunchu[3].data || 0}",
+                "domainOfBucket":"${wx_form.value.cunchu[4].data || 0}",
+                "expireSeconds":"${wx_form.value.cunchu[5].data || 0}",
+                "url":"${wx_form.value.cunchu[6].data || 0}"
+              }
+            }`,
+  };
+
+  api.post("/api/admin/updateAdminUser", b).then((res: any) => {
+    if (res.code == 200) {
+      ElMessage({
+        message: "保存成功!",
+        type: "success",
+      });
+    } else {
+      ElMessage({
+        message: res.msg,
+        type: "error",
+      });
+    }
+  });
+  getUserList();
+};
+
+const handleAvatarSuccess1: UploadProps["onSuccess"] = (
+  response,
+  uploadFile
+) => {
+  // wx_form.value.familyMember[4].mobile = response.body;
+  var b: any = {
+    userServiceToken: storage.local.get("userServiceToken"),
+    id: Number(storage.local.get("adminId")),
+    configJson: `{
+              "smallRoutine":"${wx_form.value.dianpu[0].data || 0}",
+              "shareTitle":"${wx_form.value.dianpu[3].data || 0}",
+              "weiXinConfig":{
+                "x_appid":"${wx_form.value.familyMember[0].mobile || 0}",
+                "x_secret":"${wx_form.value.familyMember[1].mobile || 0}",
+                "mchid":"${wx_form.value.familyMember[2].mobile || 0}",
+                "pay_key":"${wx_form.value.familyMember[3].mobile || 0}",
+                "pay_cert":"${response.body || 0}",
                 "pay_cert_key":"${wx_form.value.familyMember[5].mobile || 0}",
                 "g_appid":"${wx_form.value.familyMember[6].mobile || 0}",
                 "g_secret":"${wx_form.value.familyMember[7].mobile || 0}",
@@ -633,7 +685,7 @@ function Return(data: any) {
                           编辑
                         </el-button> -->
 
-                  <div
+                  <!-- <div
                     v-if="
                       scope.row.name == '微信支付证书(cert)' ||
                       scope.row.name == '微信支付证书(key)'
@@ -658,11 +710,35 @@ function Return(data: any) {
                     >
                       上传
                     </el-button>
-                  </div>
+                  </div> -->
 
-                  <!-- <el-upload
+                  <el-upload
                      v-if="
-                          scope.row.name == '微信支付证书(cert)' ||
+                          scope.row.name == '微信支付证书(cert)'
+                        "
+                        class="upload-demo"
+                        :action="baseURL"
+                        name="file"
+                        :on-preview="handlePreview"
+                        :on-remove="handleRemove"
+                        :on-success="handleAvatarSuccess1"
+                        :data="{ type: 1 }"
+                        :headers="header"
+
+                      >
+                        <el-button type="primary" plain size="small" v-if="wx_form.familyMember[5].mobile">
+                          重新上传
+                        </el-button>
+                        <el-button type="primary" plain size="small" v-else>
+                          上传
+                        </el-button>
+                        <template #tip>
+                          <div class="el-upload__tip"></div>
+                        </template>
+                      </el-upload>
+
+                      <el-upload
+                     v-else-if="
                           scope.row.name == '微信支付证书(key)'
                         "
                         class="upload-demo"
@@ -675,13 +751,16 @@ function Return(data: any) {
                         :headers="header"
                         list-type="picture"
                       >
-                        <el-button type="primary" plain size="small">
+                      <el-button type="primary" plain size="small" v-if="wx_form.familyMember[6].mobile">
+                          重新上传
+                        </el-button>
+                        <el-button type="primary" plain size="small" v-else>
                           上传
                         </el-button>
                         <template #tip>
                           <div class="el-upload__tip"></div>
                         </template>
-                      </el-upload> -->
+                      </el-upload>
 
                   <el-button
                     v-else
