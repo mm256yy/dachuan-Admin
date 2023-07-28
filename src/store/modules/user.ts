@@ -52,6 +52,7 @@ const useUserStore = defineStore(
         storage.local.set('configJson', res.body.configJson)
         storage.local.set('failure_time', '1978183687000')
         storage.local.set('plugJson', res.body.plugJson)
+        storage.local.set('mobile', res.body.mobile)
         account.value = res.body.userName
         token.value = res.body.accessToken
         failure_time.value = '1978183687000'

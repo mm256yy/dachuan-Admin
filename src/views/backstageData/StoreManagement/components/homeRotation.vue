@@ -129,7 +129,7 @@ import JSONBIG from "json-bigint";
 import { JSONStringify } from "lib/tool";
 const route = useRoute();
 const userStore = useUserStore();
-const Totalaccount: any = ref(storage.local.get("account"));
+const Totalaccount: any = ref(storage.local.get("mobile"));
 const props = withDefaults(
   defineProps<{
     modelValue: boolean;

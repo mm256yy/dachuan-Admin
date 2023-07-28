@@ -62,6 +62,26 @@ const routes: RouteRecordRaw = {
 
       },
     },
+    {
+      path: 'dataCloning',
+      name: 'dataCloning',
+      component: () => import('@/views/backstageData/ControlSys/dataCloning/dataCloning.vue'),
+      meta: {
+        title: '数据克隆',
+        sidebar: false,
+
+      },
+    },
+    {
+      path: 'subscribe',
+      name: 'subscribe',
+      component: () => import('@/views/backstageData/ControlSys/subscribe/subscribe.vue'),
+      meta: {
+        title: '订阅通知',
+        sidebar: false,
+
+      },
+    },
 
   ],
 }

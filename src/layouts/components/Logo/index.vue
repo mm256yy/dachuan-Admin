@@ -43,9 +43,11 @@ const to = computed(() => {
       class="logo"
     />
     <div style="display: flex; z-index: 0; width: 160px">
-      <span v-if="showTitle" style="color: #f6ca9d; font-size: 20px">{{
-        title
-      }}</span>
+      <span
+        v-if="showTitle"
+        style="color: #f6ca9d; font-size: 22px; margin-left: 5px"
+        >{{ title }}</span
+      >
       <div
         style="
           position: absolute;
@@ -57,7 +59,7 @@ const to = computed(() => {
           justify-content: center;
           align-items: center;
           font-size: 5px;
-          left: 60%;
+          left: 68%;
           z-index: 1;
         "
       >

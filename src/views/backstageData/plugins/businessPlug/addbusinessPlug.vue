@@ -735,7 +735,7 @@ onMounted(() => {
         },
       })
       .then((res: any) => {
-        info.value = JSONBIG.parse(res.body.jsonData);
+        info.value = res.body.jsonViewData;
         if (info.value.payJson) {
           payjson.value = info.value.payJson;
         }

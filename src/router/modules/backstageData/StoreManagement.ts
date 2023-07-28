@@ -17,7 +17,7 @@ const routes: RouteRecordRaw = {
       name: 'businessPlug',
       component: () => import('@/views/backstageData/plugins/businessPlug/businessPlug.vue'),
       meta: {
-        title: '店铺列表',
+        title: '门店列表',
         sidebar:false,
       },
   },
@@ -26,7 +26,7 @@ const routes: RouteRecordRaw = {
       name: 'subaccount',
       component: () => import('@/views/backstageData/StoreManagement/subaccount.vue'),
       meta: {
-        title: '店铺账号',
+        title: '员工账号',
         sidebar:false,
       },
     },

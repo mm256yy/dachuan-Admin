@@ -3,7 +3,7 @@ meta: title:菜单列表
 </route>
 
 <template>
-  <div class="container">
+  <div class="container" style="padding: 20px">
     <div
       style="
         background: white;
