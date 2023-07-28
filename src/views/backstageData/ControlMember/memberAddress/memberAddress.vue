@@ -3,15 +3,15 @@
     <div class="content">
       <div class="header" style="margin-bottom: 20px">
         <div class="header-left">
-          <el-button type="primary" @click="addPlugin">
+          <!-- <el-button type="primary" @click="addPlugin">
             <template #icon>
               <el-icon>
-                <svg-icon name="i-ep:plus" />
+                <svg-icon name="i-ep:circle-plus" />
               </el-icon>
             </template>
-            新增公共订阅通知
+            新增班级
           </el-button>
-          <!-- <el-button
+          <el-button
             type="danger"
             @click="delPlugin"
             :disabled="!multipleSelection.length"
@@ -59,10 +59,10 @@
           }"
         >
           <el-table-column type="selection" />
-          <!-- <el-table-column prop="id" label="ID" align="center" width="60" /> -->
-          <el-table-column prop="className" label="时效" align="center" />
+          <el-table-column prop="id" label="ID" align="center" width="60" />
+          <el-table-column prop="className" label="会员昵称" align="center" />
 
-          <el-table-column prop="gradeId" label="创建者" align="center">
+          <el-table-column prop="gradeId" label="联系人" align="center">
             <template #default="scope">
               <div v-if="scope.row.practiceGrade">
                 {{ scope.row.practiceGrade.gradeName }}
@@ -72,17 +72,17 @@
 
           <el-table-column
             prop="categoryDesc"
-            label="通知类型"
+            label="详细地址"
             align="center"
           />
-          <el-table-column prop="categoryDesc" label="备注" align="center" />
+          <el-table-column prop="categoryDesc" label="默认" align="center" />
           <el-table-column
             prop="createTime"
             label="添加/更新时间"
             align="center"
           />
 
-          <el-table-column prop="status" label="状态" align="center">
+          <el-table-column prop="status" label="班级状态" align="center">
             <template #default="scope">
               <el-switch
                 v-model="scope.row.status"
@@ -96,7 +96,7 @@
             </template>
           </el-table-column>
 
-          <!-- <el-table-column fixed="right" label="操作" width="120">
+          <el-table-column fixed="right" label="操作" width="120">
             <template #default="scope">
               <el-button
                 link
@@ -113,7 +113,7 @@
                 >编辑</el-button
               >
             </template>
-          </el-table-column> -->
+          </el-table-column>
         </el-table>
       </div>
       <div class="example-pagination-block">

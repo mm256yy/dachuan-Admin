@@ -53,9 +53,10 @@
           style="width: 100%"
           @selection-change="handleSelectionChange"
           :header-cell-style="{
-            background: '#f3f6fd',
-            color: '#555',
+            background: '#f8f8f8',
+            color: '#777',
             textAlign: 'center',
+            height: '55px',
           }"
         >
           <el-table-column type="selection" />

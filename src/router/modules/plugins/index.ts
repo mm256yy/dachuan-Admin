@@ -34,16 +34,16 @@ const routes: RouteRecordRaw = {
         sidebar: false,
       },
     },
-    {
-      path: 'businessPlug/:id/:admin',
-      name: 'businessPlug',
-      component: () => import('@/views/backstageData/plugins/businessPlug/businessPlug.vue'),
-      meta: {
-        title: '店铺插件',
-        sidebar: false,
-        branch:true
-      },
-    },
+    // {
+    //   path: 'businessPlug/:id/:admin',
+    //   name: 'businessPlug',
+    //   component: () => import('@/views/backstageData/plugins/businessPlug/businessPlug.vue'),
+    //   meta: {
+    //     title: '店铺插件',
+    //     sidebar: false,
+    //     branch:true
+    //   },
+    // },
     {
       path: 'addbusinessPlug/:plugsId',
       name: 'addbusinessPlug',

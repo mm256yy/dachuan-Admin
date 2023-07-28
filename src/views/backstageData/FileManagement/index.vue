@@ -6,7 +6,7 @@ meta:
 </route>
 <template>
   <div class="container">
-    <div class="content">
+    <div class="content" style="border-radius: 10px">
       <div class="header">
         <div class="header-left">
           <el-button type="primary" @click="dialogVisible = true">
@@ -22,13 +22,13 @@ meta:
           <div>
             <el-icon
               style="margin-right: 20px"
-              :size="36"
+              :size="26"
               :color="checked ? '#409eff' : '#999'"
               @click="changeChecked"
               ><CircleCheck
             /></el-icon>
             <el-icon
-              :size="36"
+              :size="26"
               color="#999"
               v-if="dellist.length > 0"
               @click="del"
@@ -56,28 +56,30 @@ meta:
       </div>
       <div class="content-con">
         <div class="content-con-left">
-          <div
-            v-for="(item, index) in FileList"
-            class="FileList"
-            :class="num == index ? 'active' : ''"
-          >
+          <el-scrollbar height="440" style="height: 500px">
             <div
-              style="
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-              "
+              v-for="(item, index) in FileList"
+              class="FileList"
+              :class="num == index ? 'active' : ''"
             >
-              <div style="width: 140px" @click="change(item, index)">
-                {{ item.filegroupname }}
-              </div>
-              <div v-if="index !== 0">
-                <el-icon color="red" @click="delFile(item, index)"
-                  ><Delete
-                /></el-icon>
+              <div
+                style="
+                  display: flex;
+                  align-items: center;
+                  justify-content: space-between;
+                "
+              >
+                <div style="width: 140px" @click="change(item, index)">
+                  {{ item.filegroupname }}
+                </div>
+                <div v-if="index !== 0">
+                  <el-icon color="red" @click="delFile(item, index)"
+                    ><Delete
+                  /></el-icon>
+                </div>
               </div>
             </div>
-          </div>
+          </el-scrollbar>
         </div>
         <div class="content-con-right">
           <div class="sort">
@@ -467,7 +469,9 @@ const delFile = (item: any, index: any) => {
           /*background: #f2f2f2;*/
 
           .img {
-            max-width: 100%;
+            max-width: 110px;
+            max-height: 110px;
+            padding: 5px;
           }
           .shohow {
             width: 110px;

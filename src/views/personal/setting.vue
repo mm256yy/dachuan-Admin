@@ -59,23 +59,6 @@ const subimt = () => {
 };
 // 图片上传
 const imageUrl = ref("");
-const header: any = reactive({
-  BGDEBUG: 0,
-  testToken: "2gq72h2qrbhx256y0167uf5wd64ls55u",
-  Authorization: userStore.token,
-});
-const baseURL: any = "https://api.daccf.com/api/file/uploadImages";
-const handleAvatarSuccess: UploadProps["onSuccess"] = (
-  response,
-  uploadFile
-) => {
-  imageUrl.value = URL.createObjectURL(uploadFile.raw!);
-  form.value.headImg = response.body;
-};
-
-const beforeAvatarUpload: UploadProps["beforeUpload"] = (rawFile) => {
-  return true;
-};
 
 const enableWatermark = computed({
   get() {
@@ -92,22 +75,16 @@ const enableWatermark = computed({
 import dialogWindows from "@/components/FileManagement/dialogWindows.vue";
 const dialogPluginList: any = ref({
   dialogVisible: false,
-  title: "文件管理",
-  data: "",
-  button_title: "确定",
-  width: "1100",
-  heigth: "500",
-  close_title: "取消",
+  source: 1,
 });
-const upload_image = () => {
-  dialogPluginList.value.dialogVisible = true;
-};
 
+const upload_image = (item: any) => {
+  dialogPluginList.value.dialogVisible = true;
+  dialogPluginList.value.source = 1;
+};
 const Return = (data: any) => {
   dialogPluginList.value.dialogVisible = false;
-  if (data.type == "return") {
-    form.value.headImg = data.data[0].url;
-  }
+  form.value.headImg = data[0];
 };
 </script>
 
@@ -116,13 +93,8 @@ const Return = (data: any) => {
     <dialogWindows
       v-if="dialogPluginList.dialogVisible"
       v-model="dialogPluginList.dialogVisible"
-      :title="dialogPluginList.title"
-      :width="dialogPluginList.width"
-      :button_title="dialogPluginList.button_title"
-      :height="dialogPluginList.heigth"
       :dialogVisible="dialogPluginList.dialogVisible"
-      :close_title="dialogPluginList.close_title"
-      :data="dialogPluginList.data"
+      :source="dialogPluginList.source"
       @success="Return"
     />
     <page-main>

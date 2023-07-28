@@ -65,9 +65,10 @@
           :data="tableData"
           style="width: 100%"
           :header-cell-style="{
-            background: '#f3f6fd',
-            color: '#555',
+            background: '#f9f9f9',
+            color: '#666',
             textAlign: 'left',
+            height: '55px',
           }"
           @selection-change="handleSelectionChange"
         >

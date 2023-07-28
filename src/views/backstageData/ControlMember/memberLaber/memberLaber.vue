@@ -6,12 +6,12 @@
           <el-button type="primary" @click="addPlugin">
             <template #icon>
               <el-icon>
-                <svg-icon name="i-ep:plus" />
+                <svg-icon name="i-ep:circle-plus" />
               </el-icon>
             </template>
-            新增公共订阅通知
+            添加标签
           </el-button>
-          <!-- <el-button
+          <el-button
             type="danger"
             @click="delPlugin"
             :disabled="!multipleSelection.length"
@@ -22,14 +22,14 @@
               </el-icon>
             </template>
             批量删除
-          </el-button> -->
+          </el-button>
         </div>
-        <div style="display: flex">
+        <!-- <div style="display: flex">
           <div class="lang">
             <el-input
               style="width: 150px"
               v-model="tableobj.keyword"
-              placeholder="请输入"
+              placeholder="班级名称"
               @keyup.enter.native="getlist"
             />
           </div>
@@ -45,9 +45,15 @@
             </template>
             搜索
           </el-button>
-        </div>
+        </div> -->
       </div>
       <div class="main">
+        <div style="margin-bottom: 10px">
+          <el-alert
+            title="说明：标签功能有利于管理客户资料，请根据自身业务需求建立合适的会员标签。"
+            type="warning"
+          />
+        </div>
         <el-table
           :data="tableData"
           style="width: 100%"
@@ -59,10 +65,10 @@
           }"
         >
           <el-table-column type="selection" />
-          <!-- <el-table-column prop="id" label="ID" align="center" width="60" /> -->
-          <el-table-column prop="className" label="时效" align="center" />
+          <el-table-column prop="id" label="ID" align="center" width="60" />
+          <el-table-column prop="className" label="标签名称" align="center" />
 
-          <el-table-column prop="gradeId" label="创建者" align="center">
+          <el-table-column prop="gradeId" label="标签颜色" align="center">
             <template #default="scope">
               <div v-if="scope.row.practiceGrade">
                 {{ scope.row.practiceGrade.gradeName }}
@@ -72,31 +78,17 @@
 
           <el-table-column
             prop="categoryDesc"
-            label="通知类型"
+            label="标签描述"
             align="center"
           />
-          <el-table-column prop="categoryDesc" label="备注" align="center" />
+
           <el-table-column
             prop="createTime"
             label="添加/更新时间"
             align="center"
           />
 
-          <el-table-column prop="status" label="状态" align="center">
-            <template #default="scope">
-              <el-switch
-                v-model="scope.row.status"
-                inline-prompt
-                :inactive-value="0"
-                inactive-text="禁用"
-                :active-value="1"
-                active-text="启用"
-                size="large"
-              />
-            </template>
-          </el-table-column>
-
-          <!-- <el-table-column fixed="right" label="操作" width="120">
+          <el-table-column fixed="right" label="操作" width="120">
             <template #default="scope">
               <el-button
                 link
@@ -113,7 +105,7 @@
                 >编辑</el-button
               >
             </template>
-          </el-table-column> -->
+          </el-table-column>
         </el-table>
       </div>
       <div class="example-pagination-block">

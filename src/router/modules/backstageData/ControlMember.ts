@@ -53,7 +53,7 @@ const routes: RouteRecordRaw = {
     {
       path: 'memberLaber',
       name: 'memberLaber',
-      component: () => import('@/views/backstageData/ControlMember/memberLaber.vue'),
+      component: () => import('@/views/backstageData/ControlMember/memberLaber/memberLaber.vue'),
       meta: {
         title: '会员标签',
         sidebar: false,
@@ -62,7 +62,7 @@ const routes: RouteRecordRaw = {
     {
       path: 'memberAddress',
       name: 'memberAddress',
-      component: () => import('@/views/backstageData/ControlMember/memberAddress.vue'),
+      component: () => import('@/views/backstageData/ControlMember/memberAddress/memberAddress.vue'),
       meta: {
         title: '收货地址',
         sidebar: false,

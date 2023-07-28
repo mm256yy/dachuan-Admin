@@ -117,15 +117,14 @@ const asyncRoutes: Route.recordMainRaw[] = [
     },
     children: [
       Index,
-
+      ControlSys,
+      FileManagement,
+      StoreManagement,
       ShopManagement,
       ControlOrder,
-      ControlMember,
       MyPlugins,
-      FileManagement,
-      ControlSys,
+      ControlMember,
       ExamQuestionBank,
-      StoreManagement,
       Administrators,
 
     ],
