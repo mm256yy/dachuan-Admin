@@ -206,9 +206,10 @@ async function sendMsg() {
         alt=""
       />
       <div class="title">
-        大川长风<span style="font-size: 14px; margin-left: 8px; opacity: 0.6"
+        大川长风
+        <!-- <span style="font-size: 14px; margin-left: 8px; opacity: 0.6"
           >1.0.0</span
-        >
+        > -->
       </div>
     </div>
     <div class="footer">
@@ -640,7 +641,7 @@ async function sendMsg() {
 
 .introText {
   position: absolute;
-  left: 20%;
+  left: 16%;
   top: 45%;
   width: 420px;
   height: 140px;
@@ -654,7 +655,7 @@ async function sendMsg() {
   justify-content: space-between;
   position: absolute;
   top: 50%;
-  left: 68%;
+  left: 70%;
   transform: translateX(-50%) translateY(-50%);
   background-color: var(--g-app-bg);
   border-radius: 10px;
@@ -786,13 +787,13 @@ async function sendMsg() {
     display: flex;
     align-items: center;
     margin-bottom: 30px;
-    width: 58%;
+    width: 62%;
     border-radius: 8px;
 
     .label {
       font-size: 14px;
       color: #243042;
-      padding: 5px 10px;
+      padding: 5px 12px;
       margin: 6px;
       opacity: 0.7;
       cursor: pointer;

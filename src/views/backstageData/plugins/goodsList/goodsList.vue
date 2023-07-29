@@ -30,8 +30,8 @@
             <el-select
               v-model="businessId"
               filterable
-              placeholder="选择店铺
-            "
+              placeholder="选择店铺"
+              style="width: 150px"
             >
               <el-option :key="0" label="全部" :value="-1" />
               <el-option
@@ -467,3 +467,4 @@ function update() {
   }
 }
 </style>
+<style></style>

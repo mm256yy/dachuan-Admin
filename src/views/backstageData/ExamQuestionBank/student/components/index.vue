@@ -60,6 +60,7 @@
           filterable
           placeholder="请选择年级"
           clearable
+          style="width: 580px"
         >
           <el-option
             v-for="item in gradeList"
@@ -75,6 +76,7 @@
           filterable
           placeholder="请选择班级"
           clearable
+          style="width: 580px"
         >
           <el-option
             v-for="item in classList"
@@ -91,6 +93,7 @@
           multiple
           placeholder="请选择科目"
           clearable
+          style="width: 580px"
         >
           <el-option
             v-for="item in subjectList"
@@ -294,9 +297,5 @@ function onCancel() {
 }
 .el-date-editor {
   --el-date-editor-width: 240px;
-}
-.el-select .el-input__wrapper {
-  cursor: pointer;
-  width: 580px;
 }
 </style>

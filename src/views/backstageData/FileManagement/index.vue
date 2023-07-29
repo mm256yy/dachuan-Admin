@@ -7,139 +7,148 @@ meta:
 <template>
   <div class="container">
     <div class="content" style="border-radius: 10px">
-      <div class="header">
-        <div class="header-left">
-          <el-button type="primary" @click="dialogVisible = true">
-            <template #icon>
-              <el-icon>
-                <svg-icon name="i-ep:plus" />
-              </el-icon>
-            </template>
-            新建分组
-          </el-button>
-        </div>
-        <div class="header-right">
-          <div>
-            <el-icon
-              style="margin-right: 20px"
-              :size="26"
-              :color="checked ? '#409eff' : '#999'"
-              @click="changeChecked"
-              ><CircleCheck
-            /></el-icon>
-            <el-icon
-              :size="26"
-              color="#999"
-              v-if="dellist.length > 0"
-              @click="del"
-              ><Delete
-            /></el-icon>
-          </div>
-          <div>
-            <el-button
-              type="primary"
-              plain
-              class="file"
-              v-loading.fullscreen.lock="fullscreenLoading"
-              element-loading-text="上传中"
-            >
+      <div
+        style="
+          border: 1px solid #f9f9f9;
+          padding: 10px;
+          border-radius: 5px;
+          width: 95%;
+        "
+      >
+        <div class="header">
+          <div class="header-left">
+            <el-button type="primary" @click="dialogVisible = true">
               <template #icon>
                 <el-icon>
-                  <svg-icon name="i-ep:upload" />
+                  <svg-icon name="i-ep:plus" />
                 </el-icon>
               </template>
-              <input type="file" @change="addUpload" />
-              点击上传
+              新建分组
             </el-button>
           </div>
-        </div>
-      </div>
-      <div class="content-con">
-        <div class="content-con-left">
-          <el-scrollbar height="440" style="height: 500px">
-            <div
-              v-for="(item, index) in FileList"
-              class="FileList"
-              :class="num == index ? 'active' : ''"
-            >
-              <div
-                style="
-                  display: flex;
-                  align-items: center;
-                  justify-content: space-between;
-                "
+          <div class="header-right">
+            <div>
+              <el-icon
+                style="margin-right: 20px"
+                :size="26"
+                :color="checked ? '#409eff' : '#999'"
+                @click="changeChecked"
+                ><CircleCheck
+              /></el-icon>
+              <el-icon
+                :size="26"
+                color="#999"
+                v-if="dellist.length > 0"
+                @click="del"
+                ><Delete
+              /></el-icon>
+            </div>
+            <div>
+              <el-button
+                type="primary"
+                plain
+                class="file"
+                v-loading.fullscreen.lock="fullscreenLoading"
+                element-loading-text="上传中"
               >
-                <div style="width: 140px" @click="change(item, index)">
-                  {{ item.filegroupname }}
-                </div>
-                <div v-if="index !== 0">
-                  <el-icon color="red" @click="delFile(item, index)"
-                    ><Delete
-                  /></el-icon>
-                </div>
-              </div>
+                <template #icon>
+                  <el-icon>
+                    <svg-icon name="i-ep:upload" />
+                  </el-icon>
+                </template>
+                <input type="file" @change="addUpload" />
+                点击上传
+              </el-button>
             </div>
-          </el-scrollbar>
-        </div>
-        <div class="content-con-right">
-          <div class="sort">
-            <div class="sort-left">
-              <div class="sort-left-one">
-                <div class="one">
-                  <div class="one1">
-                    <el-icon color="#999"><CaretTop /></el-icon>
-                  </div>
-                  <div class="one2">
-                    <el-icon color="#999"><CaretBottom /></el-icon>
-                  </div>
-                </div>
-                按时间排序
-              </div>
-              <div class="sort-left-one">
-                <div class="one">
-                  <div class="one1">
-                    <el-icon color="#999"><CaretTop /></el-icon>
-                  </div>
-                  <div class="one2">
-                    <el-icon color="#999"><CaretBottom /></el-icon>
-                  </div>
-                </div>
-                按名称排序
-              </div>
-              <!-- <div>按名称排序</div> -->
-            </div>
-            <div class="sort-right">点击文件名称可复制图片链接</div>
           </div>
-
-          <el-scrollbar height="440" style="height: 500px">
-            <div class="imageList">
-              <div v-for="item in dataImageList" class="imageBox">
-                <div class="image" @click="btnchange(item)">
-                  <img :src="item.url" alt="" class="img" />
-                  <div class="shohow" v-if="item.extJson == 1">
-                    <el-icon color="#FFF" size="36"><Check /></el-icon>
+        </div>
+        <div class="content-con">
+          <div class="content-con-left">
+            <el-scrollbar height="440" style="height: 500px">
+              <div
+                v-for="(item, index) in FileList"
+                class="FileList"
+                :class="num == index ? 'active' : ''"
+              >
+                <div
+                  style="
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                  "
+                >
+                  <div style="width: 140px" @click="change(item, index)">
+                    {{ item.filegroupname }}
+                  </div>
+                  <div v-if="index !== 0">
+                    <el-icon color="red" @click="delFile(item, index)"
+                      ><Delete
+                    /></el-icon>
                   </div>
                 </div>
-                <div class="imageName" @click="coppy(item.url)">
-                  {{ item.fileName }}
+              </div>
+            </el-scrollbar>
+          </div>
+          <div class="content-con-right">
+            <div class="sort">
+              <div class="sort-left">
+                <div class="sort-left-one">
+                  <div class="one">
+                    <div class="one1">
+                      <el-icon color="#999" :size="12"><CaretTop /></el-icon>
+                    </div>
+                    <div class="one2">
+                      <el-icon color="#999" :size="12"><CaretBottom /></el-icon>
+                    </div>
+                  </div>
+                  按时间排序
+                </div>
+                <div class="sort-left-one">
+                  <div class="one">
+                    <div class="one1">
+                      <el-icon color="#999" :size="12"><CaretTop /></el-icon>
+                    </div>
+                    <div class="one2">
+                      <el-icon color="#999" :size="12"><CaretBottom /></el-icon>
+                    </div>
+                  </div>
+                  按名称排序
+                </div>
+                <!-- <div>按名称排序</div> -->
+              </div>
+              <div class="sort-right">点击文件名称可复制图片链接</div>
+            </div>
+
+            <el-scrollbar height="440" style="height: 500px">
+              <div class="imageList">
+                <div v-for="item in dataImageList" class="imageBox">
+                  <div class="image" @click="btnchange(item)">
+                    <img :src="item.url" alt="" class="img" />
+                    <div class="shohow" v-if="item.extJson == 1">
+                      <el-icon color="#FFF" size="36"><Check /></el-icon>
+                    </div>
+                  </div>
+                  <div class="imageName" @click="coppy(item.url)">
+                    {{ item.fileName }}
+                  </div>
                 </div>
               </div>
+              <div v-if="dataImageList.length == 0">
+                <el-empty description="暂无图片数据" />
+              </div>
+            </el-scrollbar>
+            <div style="display: flex; justify-content: center">
+              <el-pagination
+                background
+                @current-change="handleCurrentChange"
+                @size-change="handleSizeChange"
+                :current-page="tableobj.currentPage"
+                :page-size="tableobj.pageSize"
+                layout="prev,pager,next,total"
+                :total="total"
+              >
+              </el-pagination>
             </div>
-            <div v-if="dataImageList.length == 0">
-              <el-empty description="暂无图片数据" />
-            </div>
-          </el-scrollbar>
-          <div style="display: flex; justify-content: center">
-            <el-pagination
-              background
-              @current-change="handleCurrentChange"
-              @size-change="handleSizeChange"
-              :current-page="tableobj.currentPage"
-              :page-size="tableobj.pageSize"
-              layout="prev,pager,next,total"
-              :total="total"
-            >
-            </el-pagination>
           </div>
         </div>
       </div>
@@ -418,7 +427,7 @@ const delFile = (item: any, index: any) => {
     }
   }
   .content-con-right {
-    width: 850px;
+    // width: 1250px;
 
     .sort {
       display: flex;
@@ -434,8 +443,9 @@ const delFile = (item: any, index: any) => {
           display: flex;
           align-items: center;
           margin-right: 20px;
+          font-size: 14px;
           .one {
-            width: 20px;
+            width: 15px;
 
             .one1 {
               height: 10px;
@@ -446,6 +456,7 @@ const delFile = (item: any, index: any) => {
         }
       }
       .sort-right {
+        font-size: 14px;
       }
     }
     .imageList {

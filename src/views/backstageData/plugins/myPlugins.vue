@@ -20,11 +20,19 @@
             <div class="box-title">{{ item.title }}</div>
             <div class="box-content">{{ item.plugsDescribe }}</div>
           </div>
+
           <!-- <el-icon><Tools /></el-icon> -->
           <!-- <div style="position: absolute; right: 5px; top: 5px">
           <el-button :icon="Tools" />
         </div> -->
         </div>
+        <div class="box" style="opacity: 0"></div>
+        <div class="box" style="opacity: 0"></div>
+        <div class="box" style="opacity: 0"></div>
+        <div class="box" style="opacity: 0"></div>
+        <div class="box" style="opacity: 0"></div>
+        <div class="box" style="opacity: 0"></div>
+        <div class="box" style="opacity: 0"></div>
       </div>
     </div>
   </div>
@@ -95,6 +103,7 @@ onMounted(() => {
   flex-wrap: wrap;
   align-items: center;
   background-color: #fff;
+  justify-content: space-between;
 
   // padding: 16px;
   .box:hover {
@@ -103,8 +112,9 @@ onMounted(() => {
     transform: translateY(-2px);
     transition: all 0.2s;
   }
+
   .box {
-    width: 15%;
+    width: 250px;
     padding: 10px;
     margin: 10px 9px;
     // background-color: rgb(45 140 240 / 6%);
@@ -142,4 +152,8 @@ onMounted(() => {
     }
   }
 }
+// .bigbox:after {
+//   content: "";
+//   flex: auto;
+// }
 </style>

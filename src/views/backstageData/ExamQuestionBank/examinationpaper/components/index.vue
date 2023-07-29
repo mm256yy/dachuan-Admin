@@ -20,6 +20,7 @@
               filterable
               placeholder="请选择科目"
               clearable
+              style="width: 240px"
             >
               <el-option
                 v-for="item in subjectList"
@@ -77,6 +78,7 @@
               filterable
               placeholder="请选择科目"
               clearable
+              style="width: 240px"
             >
               <el-option key="1" label="默认排序" :value="1" />
               <el-option key="2" label="随机排序" :value="2" />
@@ -294,9 +296,5 @@ function onCancel() {
 }
 .el-date-editor {
   --el-date-editor-width: 240px;
-}
-.el-select .el-input__wrapper {
-  cursor: pointer;
-  width: 240px;
 }
 </style>

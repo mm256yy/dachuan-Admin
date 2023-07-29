@@ -18,6 +18,7 @@
           filterable
           placeholder="请选择年级"
           clearable
+          style="width: 390px"
         >
           <el-option
             v-for="item in gradeList"
@@ -194,9 +195,5 @@ function onCancel() {
   width: 60px;
   height: 60px;
   text-align: center;
-}
-.el-select .el-input__wrapper {
-  cursor: pointer;
-  width: 390px;
 }
 </style>

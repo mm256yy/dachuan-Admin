@@ -428,27 +428,6 @@ const changeClick = () => {
   <div>
     <div>
       <page-main style="border-radius: 10px">
-        <el-tabs
-          v-model="activeName"
-          class="demo-tabs"
-          @tab-change="changeClick"
-        >
-          <el-tab-pane label="全部" name="-1"></el-tab-pane>
-          <el-tab-pane label="待付款" name="0"></el-tab-pane>
-          <el-tab-pane label="待接单" name="1"></el-tab-pane>
-          <el-tab-pane label="待发货/待服务/待取货" name="2"></el-tab-pane>
-          <el-tab-pane label="待收货/待确认" name="3"></el-tab-pane>
-          <el-tab-pane label="待使用" name="4"></el-tab-pane>
-          <el-tab-pane label="已完成" name="5"></el-tab-pane>
-          <el-tab-pane label="已取消" name="6"></el-tab-pane>
-          <el-tab-pane label="已失效" name="7"></el-tab-pane>
-          <el-tab-pane label="退款中" name="8"></el-tab-pane>
-          <el-tab-pane label="退款成功" name="9"></el-tab-pane>
-          <el-tab-pane label="退款失败" name="10"></el-tab-pane>
-          <el-tab-pane label="待结算" name="11"></el-tab-pane>
-          <el-tab-pane label="已结算" name="12"></el-tab-pane>
-          <el-tab-pane label="结算失败" name="13"></el-tab-pane>
-        </el-tabs>
         <div style="margin-bottom: 20px">
           <div
             style="
@@ -570,6 +549,27 @@ const changeClick = () => {
               >
             </div>
           </div>
+          <el-tabs
+            v-model="activeName"
+            class="demo-tabs"
+            @tab-change="changeClick"
+          >
+            <el-tab-pane label="全部" name="-1"></el-tab-pane>
+            <el-tab-pane label="待付款" name="0"></el-tab-pane>
+            <el-tab-pane label="待接单" name="1"></el-tab-pane>
+            <el-tab-pane label="待发货/待服务/待取货" name="2"></el-tab-pane>
+            <el-tab-pane label="待收货/待确认" name="3"></el-tab-pane>
+            <el-tab-pane label="待使用" name="4"></el-tab-pane>
+            <el-tab-pane label="已完成" name="5"></el-tab-pane>
+            <el-tab-pane label="已取消" name="6"></el-tab-pane>
+            <el-tab-pane label="已失效" name="7"></el-tab-pane>
+            <el-tab-pane label="退款中" name="8"></el-tab-pane>
+            <el-tab-pane label="退款成功" name="9"></el-tab-pane>
+            <el-tab-pane label="退款失败" name="10"></el-tab-pane>
+            <el-tab-pane label="待结算" name="11"></el-tab-pane>
+            <el-tab-pane label="已结算" name="12"></el-tab-pane>
+            <el-tab-pane label="结算失败" name="13"></el-tab-pane>
+          </el-tabs>
           <div>
             <el-table
               :data="tableData"

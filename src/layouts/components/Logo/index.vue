@@ -45,7 +45,7 @@ const to = computed(() => {
     <div style="display: flex; align-items: center; z-index: 0; width: 160px">
       <span
         v-if="showTitle"
-        style="color: #f6ca9d; font-size: 24px; margin-left: 5px"
+        style="color: #f6ca9d; font-size: 20px; margin-left: 3px"
         >{{ title }}</span
       >
       <div
@@ -60,7 +60,7 @@ const to = computed(() => {
           align-items: center;
           font-size: 12px;
           transform: scale(0.75);
-          left: 69%;
+          left: 60%;
           top: 20px;
           z-index: 1;
         "

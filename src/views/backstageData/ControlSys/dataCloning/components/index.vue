@@ -73,7 +73,7 @@ const props = withDefaults(
 const myVisible = ref(props.modelValue);
 
 const title = computed(() => "数据克隆");
-const form = ref({
+const form: any = ref({
   adminId: storage.local.get("adminId"),
   userServiceToken: storage.local.get("userServiceToken"),
   id: props.id,
@@ -193,9 +193,5 @@ function onCancel() {
   width: 60px;
   height: 60px;
   text-align: center;
-}
-.el-select .el-input__wrapper {
-  cursor: pointer;
-  width: 390px;
 }
 </style>

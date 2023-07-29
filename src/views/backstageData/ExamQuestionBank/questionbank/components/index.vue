@@ -22,6 +22,7 @@
           filterable
           placeholder="请选择科目"
           clearable
+          style="width: 390px"
         >
           <el-option
             v-for="item in subjectList"
