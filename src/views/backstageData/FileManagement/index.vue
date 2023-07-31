@@ -9,7 +9,7 @@ meta:
     <div class="content" style="border-radius: 10px">
       <div
         style="
-          border: 1px solid #f9f9f9;
+          border: 1px solid #e8e8e8;
           padding: 10px;
           border-radius: 5px;
           width: 95%;
@@ -397,15 +397,15 @@ const delFile = (item: any, index: any) => {
   padding: 0 0 20px 0;
   border-bottom: 1px solid #f5f5f5;
   .header-left {
-    width: 200px;
+    width: 180px;
     text-align: center;
-    border-right: 1px solid #f5f5f5;
+    // border-right: 1px solid #f5f5f5;
     margin-right: 20px;
   }
   .header-right {
     display: flex;
     align-items: center;
-    width: 800px;
+    width: 83%;
     justify-content: space-between;
   }
 }
@@ -428,6 +428,7 @@ const delFile = (item: any, index: any) => {
   }
   .content-con-right {
     // width: 1250px;
+    width: 95%;
 
     .sort {
       display: flex;

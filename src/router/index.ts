@@ -17,7 +17,7 @@ import useIframeStore from '@/store/modules/iframe'
 const { isLoading } = useNProgress()
 
 const router = createRouter({
-  history: createWebHashHistory(),
+  history: createWebHistory(),
   routes: useSettingsStore(pinia).settings.app.routeBaseOn === 'filesystem' ? constantRoutesByFilesystem : constantRoutes as RouteRecordRaw[],
 })
 

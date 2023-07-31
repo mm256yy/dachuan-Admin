@@ -1,9 +1,9 @@
 <script lang="ts" setup name="SidebarItem">
 // import SidebarItem from './sub.vue'
-import { resolveRoutePath } from '@/utils'
-import { InjectionI18nTitle } from '@/utils/injectionKeys'
-import useSettingsStore from '@/store/modules/settings'
-import type { Menu } from '#/global'
+import { resolveRoutePath } from "@/utils";
+import { InjectionI18nTitle } from "@/utils/injectionKeys";
+import useSettingsStore from "@/store/modules/settings";
+import type { Menu } from "#/global";
 
 const props = defineProps({
   item: {
@@ -12,105 +12,165 @@ const props = defineProps({
   },
   basePath: {
     type: String,
-    default: '',
+    default: "",
   },
-})
+});
 
-const settingsStore = useSettingsStore()
+const settingsStore = useSettingsStore();
 
-const generateI18nTitle = inject(InjectionI18nTitle) as Function
+const generateI18nTitle = inject(InjectionI18nTitle) as Function;
 
 const hasChildren = computed(() => {
-  let flag = true
+  let flag = true;
   if (props.item.children) {
-    if (props.item.children.every(item => item.meta?.sidebar === false)) {
-      flag = false
+    if (props.item.children.every((item) => item.meta?.sidebar === false)) {
+      flag = false;
     }
+  } else {
+    flag = false;
   }
-  else {
-    flag = false
-  }
-  return flag
-})
+  return flag;
+});
 
 function iconName(isActive: boolean, icon?: string, activeIcon?: string) {
-  let name
+  let name;
   if ((!isActive && icon) || (isActive && !activeIcon)) {
-    name = icon
+    name = icon;
+  } else if (isActive && activeIcon) {
+    name = activeIcon;
   }
-  else if (isActive && activeIcon) {
-    name = activeIcon
-  }
-  return name
+  return name;
 }
 function badge(badge?: string | number | boolean | Function) {
   const res = {
-    type: '', // text or dot
-    value: '',
+    type: "", // text or dot
+    value: "",
     visible: false,
-  }
+  };
   if (badge) {
-    res.visible = true
-    res.value = typeof badge === 'function' ? badge() : badge
-    if (typeof res.value === 'boolean') {
-      res.type = 'dot'
+    res.visible = true;
+    res.value = typeof badge === "function" ? badge() : badge;
+    if (typeof res.value === "boolean") {
+      res.type = "dot";
       if (!res.value) {
-        res.visible = false
+        res.visible = false;
       }
-    }
-    else if (typeof res.value === 'number') {
-      res.type = 'text'
+    } else if (typeof res.value === "number") {
+      res.type = "text";
       if (res.value <= 0) {
-        res.visible = false
+        res.visible = false;
       }
-    }
-    else {
-      res.type = 'text'
+    } else {
+      res.type = "text";
       if (!res.value) {
-        res.visible = false
+        res.visible = false;
       }
     }
   }
-  return res
+  return res;
 }
 </script>
 
 <template>
   <div class="sidebar-item">
-    <router-link v-if="!hasChildren" v-slot="{ href, navigate, isActive, isExactActive }" custom :to="resolveRoutePath(basePath, item.path)">
-      <a :href="item.meta?.link ? item.meta.link : href" :class="[isActive && 'router-link-active', isExactActive && 'router-link-exact-active']" :target="item.meta?.link ? '_blank' : '_self'" @click="navigate">
-        <el-menu-item :title="generateI18nTitle(item.meta?.i18n, item.meta?.title)" :index="resolveRoutePath(basePath, item.path)">
-          <el-icon v-if="iconName(isActive || isExactActive, item.meta?.icon, item.meta?.activeIcon)" class="title-icon">
-            <svg-icon :name="iconName(isActive || isExactActive, item.meta?.icon, item.meta?.activeIcon) as string" />
+    <router-link
+      v-if="!hasChildren"
+      v-slot="{ href, navigate, isActive, isExactActive }"
+      custom
+      :to="resolveRoutePath(basePath, item.path)"
+    >
+      <a
+        :href="item.meta?.link ? item.meta.link : href"
+        :class="[
+          isActive && 'router-link-active',
+          isExactActive && 'router-link-exact-active',
+        ]"
+        :target="item.meta?.link ? '_blank' : '_self'"
+        @click="navigate"
+      >
+        <el-menu-item
+          :title="generateI18nTitle(item.meta?.i18n, item.meta?.title)"
+          :index="resolveRoutePath(basePath, item.path)"
+        >
+          <el-icon
+            v-if="
+              iconName(
+                isActive || isExactActive,
+                item.meta?.icon,
+                item.meta?.activeIcon
+              )
+            "
+            class="title-icon"
+          >
+            <svg-icon
+              :name="iconName(isActive || isExactActive, item.meta?.icon, item.meta?.activeIcon) as string"
+            />
           </el-icon>
-          <span class="title">{{ generateI18nTitle(item.meta?.i18n, item.meta?.title) }}</span>
+          <span class="title">{{
+            generateI18nTitle(item.meta?.i18n, item.meta?.title)
+          }}</span>
           <span
-            v-if="badge(item.meta?.badge).visible" class="badge" :class="{
+            v-if="badge(item.meta?.badge).visible"
+            class="badge"
+            :class="{
               'badge-dot': badge(item.meta?.badge).type === 'dot',
               'badge-text': badge(item.meta?.badge).type === 'text',
             }"
-          >{{ badge(item.meta?.badge).type === 'text' ? badge(item.meta?.badge).value : '' }}</span>
+            >{{
+              badge(item.meta?.badge).type === "text"
+                ? badge(item.meta?.badge).value
+                : ""
+            }}</span
+          >
         </el-menu-item>
       </a>
     </router-link>
-    <el-sub-menu v-else :title="generateI18nTitle(item.meta?.i18n, item.meta?.title)" :index="settingsStore.settings.app.routeBaseOn !== 'filesystem' ? resolveRoutePath(basePath, item.path) : JSON.stringify(item)" popper-class="fa-popup-menu">
+    <el-sub-menu
+      v-else
+      :title="generateI18nTitle(item.meta?.i18n, item.meta?.title)"
+      :index="
+        settingsStore.settings.app.routeBaseOn !== 'filesystem'
+          ? resolveRoutePath(basePath, item.path)
+          : JSON.stringify(item)
+      "
+      popper-class="fa-popup-menu"
+    >
       <template #title>
         <el-icon v-if="item.meta?.icon" class="title-icon unactive">
           <svg-icon :name="item.meta.icon" />
         </el-icon>
-        <el-icon v-if="item.meta?.activeIcon || item.meta?.icon" class="title-icon active">
-          <svg-icon :name="(item.meta.activeIcon || item.meta.icon) as string" />
+        <el-icon
+          v-if="item.meta?.activeIcon || item.meta?.icon"
+          class="title-icon active"
+        >
+          <svg-icon
+            :name="(item.meta.activeIcon || item.meta.icon) as string"
+          />
         </el-icon>
-        <span class="title">{{ generateI18nTitle(item.meta?.i18n, item.meta?.title) }}</span>
+        <span class="title">{{
+          generateI18nTitle(item.meta?.i18n, item.meta?.title)
+        }}</span>
         <span
-          v-if="badge(item.meta?.badge).visible" class="badge" :class="{
+          v-if="badge(item.meta?.badge).visible"
+          class="badge"
+          :class="{
             'badge-dot': badge(item.meta?.badge).type === 'dot',
             'badge-text': badge(item.meta?.badge).type === 'text',
           }"
-        >{{ badge(item.meta?.badge).type === 'text' ? badge(item.meta?.badge).value : '' }}</span>
+          >{{
+            badge(item.meta?.badge).type === "text"
+              ? badge(item.meta?.badge).value
+              : ""
+          }}</span
+        >
       </template>
       <template v-for="route in item.children">
-        <SidebarItem v-if="route.meta?.sidebar !== false" :key="route.path" :item="route" :base-path="resolveRoutePath(basePath, item.path)" />
+        <SidebarItem
+          v-if="route.meta?.sidebar !== false"
+          :key="route.path"
+          :item="route"
+          :base-path="resolveRoutePath(basePath, item.path)"
+        />
       </template>
     </el-sub-menu>
   </div>

@@ -6,7 +6,7 @@
 
   .el-menu--inline {
     background-color: var(--g-sub-sidebar-menu-bg) !important;
-
+    border-radius: 4px !important;
     .el-menu-item,
     .el-sub-menu > .el-sub-menu__title {
       color: var(--g-sub-sidebar-menu-color) !important;
@@ -16,6 +16,7 @@
       &:hover {
         color: var(--g-sub-sidebar-menu-hover-color) !important;
         background-color: var(--g-sub-sidebar-menu-hover-bg) !important;
+        border-radius: 4px !important;
       }
     }
   }
@@ -29,10 +30,13 @@
     background: transparent !important;
     transition: background-color 0.3s, var(--el-transition-color);
     min-width: auto;
+    border-radius: 4px !important;
 
     &:hover {
       color: var(--g-sub-sidebar-menu-hover-color) !important;
       background-color: var(--g-sub-sidebar-menu-hover-bg) !important;
+    border-radius: 4px !important;
+
     }
 
     i,
@@ -49,6 +53,7 @@
     color: var(--g-sub-sidebar-menu-active-color) !important;
     background-color: var(--g-sub-sidebar-menu-active-bg) !important;
     transition: background-color 0.3s, var(--el-transition-color);
+    border-radius: 4px !important;
 
     i,
     .icon,
