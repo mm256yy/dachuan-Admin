@@ -65,7 +65,7 @@ const to = computed(() => {
           z-index: 1;
         "
       >
-        1.2.01
+        1.2.02
       </div>
     </div>
   </router-link>

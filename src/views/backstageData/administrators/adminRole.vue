@@ -13,20 +13,20 @@ meta: title:菜单列表
           justify-content: space-between;
         "
       >
-        <div></div>
-        <div style="display: flex">
+
+        <div style="display: flex;align-items: center;">
+          <!-- <el-button :icon="Warning" circle /> -->
+          <el-icon size="20" @click="open2"><Warning /></el-icon>
+
           <el-button
+          :icon="User"
             type="primary"
             v-if="roleadd.buttonsName && roleadd.id"
-            style="margin-right: 20px"
+            style="margin-left: 10px"
             @click="addMenu"
             >添加角色</el-button
           >
 
-          <div style="display: flex; height: 30px">
-            <el-input v-model="keyword" placeholder="查询菜单" />
-            <el-button style="height: 30px">搜索</el-button>
-          </div>
         </div>
       </div>
 
@@ -34,44 +34,51 @@ meta: title:菜单列表
         :data="tableData"
         :border="parentBorder"
         style="width: 100%"
-        :header-cell-style="{
-          background: '#f9f9f9',
-          color: '#666',
-          textAlign: 'center',
-          height: '55px',
-        }"
+          :header-cell-style="{
+            background: '#f9f9f9',
+            color: '#666',
+            textAlign: 'left',
+            height: '55px',
+          }"
       >
-        <el-table-column label="ID" width="60">
+        <el-table-column label="ID" width="80" >
           <template #default="scope">
             <div>{{ scope.row.id }}</div>
           </template>
         </el-table-column>
 
-        <el-table-column label="角色名称" width="110">
+        <el-table-column label="角色名称" >
           <template #default="scope">
             <div>{{ scope.row.roleName }}</div>
           </template>
         </el-table-column>
-        <el-table-column label="菜单权限" width="110">
+
+        <el-table-column label="菜单权限" align="center" width="120">
           <template #default="scope">
-            <div style="display: flex">
+            <div style="display: flex;margin-left: 25px;">
               {{ scope.row.roleMenu.split(",").length }}
             </div>
           </template>
         </el-table-column>
+
         <el-table-column label="按钮权限">
           <template #default="scope">
-            <div>{{ scope.row.roleBotton.split(",").length }}</div>
+            <div style="margin-left: 25px;display: flex;">{{ scope.row.roleBotton.split(",").length }}</div>
           </template>
         </el-table-column>
 
-        <el-table-column label="操作" align="center" v-if="buttonList.length">
+        <el-table-column label="">
+          <template #default="scope">
+
+          </template>
+        </el-table-column>
+
+        <el-table-column label="操作" v-if="buttonList.length" width="320" align="left">
           <template #default="scope">
             <div
               style="
                 display: flex;
-                justify-content: center;
-                align-items: center;
+
               "
             >
               <!-- <el-button  type="danger" style="height: 30px;">删除</el-button> -->
@@ -210,8 +217,8 @@ meta: title:菜单列表
 <script lang="ts" setup>
 import api from "@/api";
 import http from "@/api/plugin";
-import { ElMessage, ElMessageBox, UploadProps } from "element-plus";
-
+import { ElMessage, ElMessageBox, UploadProps,ElNotification } from "element-plus";
+import { DocumentAdd, Upload, Download, Check,User,Warning } from "@element-plus/icons-vue";
 import FormMode from "./components/DetailForm/index.vue";
 import storage from "@/utils/storage";
 import { ref } from "vue";
@@ -251,6 +258,15 @@ const citiesAll: any = ref([]);
 const checkAll1: any = ref(false);
 const isIndeterminate1: any = ref(true);
 const cities1: any = ref([]);
+
+const open2 = () => {
+  ElNotification({
+    title: '角色列表说明',
+    message: '添加好的角色可以按需要的菜单权限分配(列:新增管理员角色,我给他分配了全部菜单权限,这时管理员可以角色可以看见整个pc后台的菜单)。权限控制,最大的黑色文字是一级菜单,小的黑色文字是二级菜单,蓝色文字是按钮权限。按钮权限控制菜单路由里面的按钮(列:角色列表菜单里面有添加角色、编辑、权限控制、删除按钮),一共两种权限,页面和按钮。',
+    duration: 5000,
+    position: 'top-left',
+  })
+}
 
 const handleCheckAllChange = (val: any) => {
   if (val) {
@@ -365,7 +381,7 @@ const addMenu = (item: any) => {
 };
 
 const handleClose = (done: () => void) => {
-  ElMessageBox.confirm("Are you sure to close this dialog?")
+  ElMessageBox.confirm("是否关闭?")
     .then(() => {
       done();
     })

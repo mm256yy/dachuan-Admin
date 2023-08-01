@@ -12,19 +12,20 @@ meta: title:菜单列表
           box-sizing: border-box;
         "
       >
-        <div></div>
+
         <div style="display: flex">
           <el-button
+            icon="menu"
             type="primary"
-            style="margin-right: 20px"
+            style="margin:0 0 20px 0;"
             @click="addMenu"
             v-if="menuadd.buttonsName && menuadd.id"
             >添加菜单</el-button
           >
-          <div style="display: flex; height: 30px">
+          <!-- <div style="display: flex; height: 30px">
             <el-input v-model="keyword" placeholder="查询菜单" />
             <el-button style="height: 30px">搜索</el-button>
-          </div>
+          </div> -->
         </div>
       </div>
 
@@ -333,12 +334,31 @@ meta: title:菜单列表
                 {{ data.menuList.menuIcon }}
               </div>
             </page-main>
-            <!-- <el-button @click="select_icon" type="primary" size="small">选择icon</el-button> -->
+
           </div>
-          <!-- <el-input style="width: 260px;" v-model="" placeholder="菜单图标" /> -->
+
         </div>
 
-        <div
+
+        <div style="display: flex; align-items: center; margin: 10px">
+            <div style="width: 100px">
+              <span style="color: red">*</span> 图标:
+            </div>
+
+            <div>
+              <el-input
+                style="width: 260px"
+                v-model="data.menuList.menuIcon"
+                placeholder="菜单名称"
+                v-if="userinfo.id == 31"
+              />
+            </div>
+
+        </div>
+
+
+
+        <!-- <div
           style="display: flex; align-items: center; margin: 10px"
           v-if="userinfo.id == 31"
         >
@@ -350,9 +370,9 @@ meta: title:菜单列表
             v-model="data.menuList.menuOrders"
             placeholder="排序"
           />
-        </div>
+        </div> -->
 
-        <div
+        <!-- <div
           style="display: flex; align-items: center; margin: 10px"
           v-if="userinfo.id == 31"
         >
@@ -364,9 +384,9 @@ meta: title:菜单列表
             v-model="data.menuList.menuPath"
             placeholder="菜单路径"
           />
-        </div>
+        </div> -->
 
-        <div
+        <!-- <div
           style="display: flex; align-items: center; margin: 10px"
           v-if="userinfo.id == 31"
         >
@@ -378,9 +398,9 @@ meta: title:菜单列表
             v-model="data.menuList.routeName"
             placeholder="路由名"
           />
-        </div>
+        </div> -->
 
-        <div
+        <!-- <div
           style="display: flex; align-items: center; margin: 10px"
           v-if="userinfo.id == 31"
         >
@@ -392,7 +412,7 @@ meta: title:菜单列表
             v-model="data.menuList.menuParms"
             placeholder="路由参数"
           />
-        </div>
+        </div> -->
 
         <div style="display: flex; align-items: center; margin: 10px">
           <div style="width: 100px">
@@ -671,6 +691,7 @@ const switchs = (i: any) => {
 
 const shot = (item: any) => {
   data.value.menuShow = false;
+  data.value.menuList.menuOrders = 1
   if (data.value.menuTitle == "确定") {
     http
       .post("/api/admin/insertPowerMenus", data.value.menuList)

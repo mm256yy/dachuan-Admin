@@ -49,7 +49,7 @@ api.interceptors.request.use(
       if (userStore.isLogin) {
         request.headers.Authorization = userStore.token
         request.headers.USER_SERVICE_TOKEN = storage.local.get('userServiceToken')
-        request.headers.adminId = storage.local.get('adminId')
+        request.headers.ADMIN_ID = storage.local.get('adminId')
 
       }
     }
